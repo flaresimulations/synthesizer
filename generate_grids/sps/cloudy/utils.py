@@ -105,13 +105,11 @@ def apollo_submission_script(n, grid_data_dir, cloudy_path, cloudy_version):
 ######################################################################
 
 # increment array task ID so not zero indexed
-let index=$SGE_TASK_ID
+id=$SGE_TASK_ID-1
 
 # set cloudy data path
 export CLOUDY_DATA_PATH={cloudy_data_path}
 
-# access line at index from input_names file
-id=$(sed "${{index}}q;d" input_names.txt)
 {cloudy} -r $id
 """
 
