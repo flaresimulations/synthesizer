@@ -104,13 +104,10 @@ def apollo_submission_script(n, grid_data_dir, cloudy_path, cloudy_version):
 # needs to be copied, and then execute the program
 ######################################################################
 
-# increment array task ID so not zero indexed
-id=$SGE_TASK_ID-1
-
 # set cloudy data path
 export CLOUDY_DATA_PATH={cloudy_data_path}
 
-{cloudy} -r $id
+{cloudy} -r $SGE_TASK_ID
 """
 
     open(f'{grid_data_dir}/run_grid.job', 'w').write(apollo_job_script)

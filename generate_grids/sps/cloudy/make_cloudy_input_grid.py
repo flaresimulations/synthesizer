@@ -178,10 +178,10 @@ if __name__ == "__main__":
         lnu = sps_grid.spectra['stellar'][sps_grid_point]
 
         # this returns the relevant shape commands, in this case for a tabulated SED
-        shape_commands = ShapeCommands.table_sed(str(i), lam, lnu,  output_dir=output_dir)
+        shape_commands = ShapeCommands.table_sed(str(i+1), lam, lnu,  output_dir=output_dir)
 
         # create cloudy input file
-        create_cloudy_input(str(i), shape_commands, abundances, output_dir = output_dir, **params_)
+        create_cloudy_input(str(i+1), shape_commands, abundances, output_dir = output_dir, **params_)
 
     # create submission script
     if args.machine == 'apollo':
