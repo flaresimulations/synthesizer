@@ -270,10 +270,14 @@ def create_cloudy_input(model_name, shape_commands, abundances,
     # cinput.append(f'covering factor {params["covering_factor"]} linear\n')
 
     # --- Processing commands
-    cinput.append('iterate to convergence\n')
-    cinput.append(f'set temperature floor {params["T_floor"]} linear\n')
-    cinput.append(f'stop temperature {params["stop_T"]}K\n')
-    cinput.append(f'stop efrac {params["stop_efrac"]}\n')
+    if params["iterate_to_convergence"]:
+        cinput.append('iterate to convergence\n')
+    if params["T_floor"]:
+        cinput.append(f'set temperature floor {params["T_floor"]} linear\n')
+    if params["stop_T"]:
+        cinput.append(f'stop temperature {params["stop_T"]}K\n')
+    if params["stop_efrac"]:
+        cinput.append(f'stop efrac {params["stop_efrac"]}\n')
 
     # --- output commands
     # cinput.append(f'print line vacuum\n')  # output vacuum wavelengths
