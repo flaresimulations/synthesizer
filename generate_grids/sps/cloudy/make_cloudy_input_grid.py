@@ -73,7 +73,7 @@ if __name__ == "__main__":
     sps_grid = Grid(args.sps_grid, grid_dir=f'{args.synthesizer_data_dir}/grids')
 
     # define output directories 
-    output_dir = f'{synthesizer_data_dir}/sps/cloudy/{args.sps_grid}_cloudy-{args.cloudy_grid}'
+    output_dir = f'{args.synthesizer_data_dir}/sps/cloudy/{args.sps_grid}_cloudy-{args.cloudy_grid}'
 
     # make output directories 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
@@ -94,93 +94,95 @@ if __name__ == "__main__":
         print(k,v)
 
     # get the indices of the reference grid point (this is used by the reference model)
-    sps_ref_grid_point = sps_grid.get_grid_point([cloudy_params[k+'_ref'] for k in sps_grid.axes])
+    sps_ref_grid_point = sps_grid.get_grid_point([fixed_params[k+'_ref'] for k in sps_grid.axes])
 
     # add these to the parameter file
     for k, i in zip(sps_grid.axes, sps_ref_grid_point):
-        cloudy_params[k+'_ref'] = i
+        fixed_params[k+'_ref_index'] = i
 
+    # combine all parameters
+    params = fixed_params | grid_params
 
     # save all parameters
-    yaml.dump(cloudy_params, open(f'{output_dir}/params.yaml', 'w'))
+    yaml.dump(params, open(f'{output_dir}/params.yaml', 'w'))
 
     # get properties of the grid
     axes, n_axes, shape, n_models, mesh, model_list, index_list = get_grid_properties(grid_params, verbose = True)
 
     # loop over all models
-    for i, (grid_params_, grid_index_) in enumerate(zip(model_list, index_list)):
+    for i, (grid_params_tuple, grid_index_tuple) in enumerate(zip(model_list, index_list)):
     
         # get a dictionary of all parameters
-        grid_params = dict(zip(axes, grid_params_))
+        grid_params_ = dict(zip(axes, grid_params_tuple))
 
         # get a dictionary of the parameter grid point
-        grid_index = dict(zip(axes, grid_index_))
+        grid_index_ = dict(zip(axes, grid_index_tuple))
 
         # get a dictionary of just the SPS parameters
-        sps_params = {k:grid_params[k] for k in sps_grid.axes}
+        sps_params_ = {k:grid_params_[k] for k in sps_grid.axes}
 
         # get a dictionary of the SPS parameter grid point
-        sps_index = {k:grid_index[k] for k in sps_grid.axes}
+        sps_index_ = {k:grid_index_[k] for k in sps_grid.axes}
 
         # get a tuple of the SPS grid point
-        sps_grid_point = tuple(grid_index[k] for k in sps_grid.axes)
+        sps_grid_point = tuple(grid_index_[k] for k in sps_grid.axes)
 
-        # join the fixed and grid parameters 
-        cloudy_params = fixed_params | grid_params
+        # join the fixed and current iteration of the grid parameters 
+        params_ = fixed_params | grid_params_
 
         # set cloudy metallicity parameter to the stellar metallicity
         if 'metallicities' in sps_grid.axes:
-            cloudy_params['Z'] = sps_params['metallicities']
+            params_['Z'] = sps_params_['metallicities']
         elif 'log10metallicities' in sps_grid.axes:
-            cloudy_params['Z'] = 10**sps_params['log10metallicities']
+            params_['Z'] = 10**sps_params_['log10metallicities']
         
         # create abundances object
-        abundances = Abundances(cloudy_params['Z'], d2m=cloudy_params['d2m'], alpha=cloudy_params['alpha'], N=cloudy_params['N'], C=cloudy_params['C'])
+        abundances = Abundances(params_['Z'], d2m=params_['d2m'], alpha=params_['alpha'], N=params_['N'], C=params_['C'])
 
         # if reference U model is used
-        if cloudy_params['U_model'] == 'ref':
+        if params_['U_model'] == 'ref':
 
             # calculate the difference between the reference log10Q (LyC continuum luminosity) and the current grid point
             delta_log10Q = sps_grid.log10Q['HI'][sps_grid_point] - sps_grid.log10Q['HI'][sps_ref_grid_point]
 
             # for spherical geometry the effective log10U is this
-            if cloudy_params['geometry'] == 'spherical':
+            if params_['geometry'] == 'spherical':
 
-                log10U = cloudy_params['log10U_ref'] + (1/3) * delta_log10Q
+                log10U = params_['log10U_ref'] + (1/3) * delta_log10Q
 
             # for plane-parallel geometry the effective just scales with log10Q
-            elif cloudy_params['geometry'] == 'planeparallel':
+            elif params_['geometry'] == 'planeparallel':
 
-                log10U = cloudy_params['log10U_ref'] + delta_log10Q
+                log10U = params_['log10U_ref'] + delta_log10Q
 
             else:
 
-                print(f"ERROR: do not understand geometry choice: {cloudy_params['geometry']}")
+                print(f"ERROR: do not understand geometry choice: {params_['geometry']}")
 
         # if fixed U model is used
-        elif cloudy_params['U_model'] == 'fixed':
+        elif params_['U_model'] == 'fixed':
 
-            log10U = cloudy_params['log10U_ref']
+            log10U = params_['log10U_ref']
 
         else:
 
-            print(f"ERROR: do not understand U model choice: {cloudy_params['U_model']}")
+            print(f"ERROR: do not understand U model choice: {params_['U_model']}")
 
         # set log10U to provide cloudy
-        cloudy_params['log10U'] = float(log10U)
+        params_['log10U'] = float(log10U)
 
         # get wavelength
         lam = sps_grid.lam # AA
 
         # get luminosity 
-        lnu = grid.spectra['stellar'][sps_grid_point]
+        lnu = sps_grid.spectra['stellar'][sps_grid_point]
 
         # this returns the relevant shape commands, in this case for a tabulated SED
         shape_commands = ShapeCommands.table_sed(str(i), lam, lnu,  output_dir=output_dir)
 
         # create cloudy input file
-        create_cloudy_input(str(i), shape_commands, abundances, output_dir = output_dir, **cloudy_params)
+        create_cloudy_input(str(i), shape_commands, abundances, output_dir = output_dir, **params_)
 
     # create submission script
     if args.machine == 'apollo':
-        apollo_submission_script(n_models, output_dir, args.cloudy_path, cloudy_params['cloudy_version'])
+        apollo_submission_script(n_models, output_dir, args.cloudy_path, params_['cloudy_version'])
