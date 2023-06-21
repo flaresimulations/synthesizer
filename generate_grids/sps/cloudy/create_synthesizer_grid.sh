@@ -1,5 +1,5 @@
 
-GRID="bpass-2.2.1-bin_chabrier03-0.1,300.0_cloudy-c17.03"
+GRID="bpass-2.2.1-bin_chabrier03-0.1,300.0_cloudy-c17.03-fixedU-log10U"
 SYNTHESIZER_DATA_DIR="/research/astrodata/highz/synthesizer/"
 INCLUDE_SPECTRA=True
 

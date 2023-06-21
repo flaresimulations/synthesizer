@@ -166,7 +166,7 @@ def add_spectra(grid_name, synthesizer_data_dir):
             # save normalisation for later use (rescaling lines)
             spectra['normalisation'][indices] = 10**normalisation
 
-            print(i, normalisation, np.log10(Q), np.sum(spec_dict['incident']), np.sum(spec_dict['transmitted']))
+            # print(i, normalisation, np.log10(Q), np.sum(spec_dict['incident']), np.sum(spec_dict['transmitted']))
 
             # save the normalised spectrum to the correct grid point 
             for spec_name in spec_names:
@@ -215,7 +215,7 @@ def add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', lines_to_
         if line_type == 'linelist':
             infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/1"
             lines_to_include, _, _ = read_linelist(infile)
-            print(lines_to_include)
+            # print(lines_to_include)
 
 
         # set up output arrays

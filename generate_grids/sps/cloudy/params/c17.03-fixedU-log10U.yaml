@@ -18,6 +18,6 @@ z: 0.0  # redshift
 geometry: spherical
 grains: true # include grains
 resolution: 1.0 # energy resolution relative to the default
-output_cont: true
+output_cont: false
 output_linelist: linelist.dat
 iterate_to_convergence: false
