@@ -21,55 +21,14 @@ from utils import get_grid_properties
 
 
 
-def create_new_grid(grid, synthesizer_data_dir):
-
-    """
-    Create a new grid file to hold the cloudy runs keeping the original SPS grid separate.
-    """
-
-
-    path_to_grids = f'{synthesizer_data_dir}/grids'
-    path_to_cloudy_files = f'{synthesizer_data_dir}/cloudy'
-
-    # parse the grid to get the sps model
-    sps_grid = grid.split('_cloudy')[0]
-
-    # open the new grid
-    with h5py.File(f'{path_to_grids}/{grid}.hdf5', 'w') as hf:
-
-        # open the original SPS model grid
-        with h5py.File(f'{path_to_grids}/{sps_grid}.hdf5', 'r') as hf_sps:
-
-            # copy top-level attributes
-            for k, v in hf_sps.attrs.items():
-                print(k, v)
-                hf.attrs[k] = v
-
-
-        # add attribute with the grid axes for future when using >2D grid or AGN grids
-        # hf.attrs['grid_axes'] = ['log10ages', 'metallicities']
-
-        # open cloudy parameter file and add it
-        # with open(f'{path_to_cloudy_files}/{grid_name}/params.yaml', "r") as stream:
-        #     cloudy_params = yaml.safe_load(stream)
-        #     for k, v in cloudy_params.items():
-        #         # print(k, v)
-        #         if v is None:
-        #             v = 'null'
-        #         hf.attrs[k] = v
-
-        #     del hf.attrs['log10U']
-
-
-
 def get_grid_properties_hf(hf, verbose=True):
 
     """
     A wrapper over get_grid_properties to get the grid properties for a HDF5 grid.
     """
     
-    axes = hf.attrs['grid_axes'] # list of axes
-    axes_values = {axis: hf[axis][:] for axis in axes} # dictionary of axis grid points
+    axes = hf.attrs['axes'] # list of axes in the correct order
+    axes_values = {axis: hf[f'axes/{axis}'][:] for axis in axes} # dictionary of axis grid points
     
     # Get the properties of the grid including the dimensions etc.
     return get_grid_properties(axes, axes_values, verbose=verbose)
@@ -198,15 +157,19 @@ def add_spectra(grid_name, synthesizer_data_dir):
             # read the continuum file containing the spectra 
             spec_dict = read_continuum(infile, return_dict=True)
 
-            # for an arbitrary grid, we should normalise by the bolometric luminosity of the incident spectra
-            norm = np.trapz(spec_dict['incident'][::-1], x=nu[::-1])
+            # calculate Q for the output spectra and use this to calculate the normalisation
+            Q = calculate_Q(lam, spectra['incident'][indices, :],
+                        ionisation_energy=13.6 * eV)
+            
+            # calcualte normalisation
+            normalisation = hf['log10Q/HI'][indices] - np.log10(Q)
 
             # save normalisation for later use (rescaling lines)
-            spectra['normalisation'][indices] = norm
+            spectra['normalisation'][indices] = normalisation
 
             # save the normalised spectrum to the correct grid point 
             for spec_name in spec_names:
-                spectra[spec_name][indices] = spec_dict[spec_name] / norm
+                spectra[spec_name][indices] = spec_dict[spec_name] / normalisation
 
 
 
@@ -343,13 +306,8 @@ if __name__ == "__main__":
     grid_name = args.grid_name
     include_spectra = args.include_spectra
 
- 
-    # create new grid that the cloudy runs will be added to 
-    create_new_grid(grid_name, synthesizer_data_dir)
-
     # check cloudy runs
     failed_list = check_cloudy_runs(grid_name, synthesizer_data_dir, replace = args.replace)
-
 
     print(failed_list)
 
