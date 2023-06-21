@@ -61,20 +61,17 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
         for i, grid_params_ in enumerate(model_list):
 
             infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/{i+1}"
-            print(infile)
             failed = False
 
             # check if files exist
             for ext in files_to_check:
-                if not os.path.isfile(infile+'.'+ext):  # attempt to open run.
-                    print(ext)
+                if not os.path.isfile(infile+'.'+ext):  
                     failed = True   
             
             # if they exist also check they have size >0
             if not failed:
                 for ext in files_to_check:
                     if os.path.getsize(infile+'.'+ext) < 1000:
-                        print(ext)
                         failed = True
 
             if failed:
@@ -297,7 +294,7 @@ if __name__ == "__main__":
 
     parser.add_argument("-synthesizer_data_dir", type=str, required=True) # path to synthesizer_data_dir
     parser.add_argument("-grid_name", "--grid_name", type=str, required=True)
-    parser.add_argument("-include_spectra", "--include_spectra", type=bool, default=False, required=False)
+    parser.add_argument("-include_spectra", "--include_spectra", type=bool, default=True, required=False)
     parser.add_argument("-replace", "--replace", type=bool, default=False, required=False)
     parser.add_argument("-line_calc_method", "--line_calc_method", type=str, default='lines', required=False)
 
@@ -313,29 +310,27 @@ if __name__ == "__main__":
 
     print(failed_list)
 
-    # # if failed prompt to re-run
-    # if len(failed_list)>0:
+    # if failed prompt to re-run
+    if len(failed_list)>0:
 
-    #     print(f'ERROR: {len(failed_list)} cloudy runs have failed. You should re-run these with command:')
-    #     print(f'  qsub -t 1:{len(failed_list)}  run_grid.job')
+        print(f'ERROR: {len(failed_list)} cloudy runs have failed. You should re-run these with command:')
+        print(f'  qsub -t 1:{len(failed_list)}  run_grid.job')
 
-    #     # replace input_names with list of failed runs
-    #     with open(f"{synthesizer_data_dir}/cloudy/{grid_name}/input_names.txt", "w") as myfile:
-    #         myfile.write('\n'.join(map(str, failed_list)))
+        # replace input_names with list of failed runs
+        with open(f"{synthesizer_data_dir}/cloudy/{grid_name}/input_names.txt", "w") as myfile:
+            myfile.write('\n'.join(map(str, failed_list)))
 
-    # #if not failed, go ahead and add spectra and lines
-    # else:
+    #if not failed, go ahead and add spectra and lines
+    else:
         
-    #     print('- passed checks')
+        print('- passed checks')
 
-    #     # add spectra
+        # add spectra
 
-    #     if include_spectra:
-    #         add_spectra(grid_name, synthesizer_data_dir)
-    #         print('- spectra added')
+        if include_spectra:
+            add_spectra(grid_name, synthesizer_data_dir)
+            print('- spectra added')
 
-    #     if args.line_calc_method == 'lines':
-
-    #         # add lines
-    #         add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', include_spectra = include_spectra)
-            
+        # add lines
+        add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', include_spectra = include_spectra)
+        
