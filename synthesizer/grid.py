@@ -165,14 +165,14 @@ class Grid:
 
             self.parameters = {k: v for k, v in hf.attrs.items()}
 
-            # list of axes
-            self.axes_list = self.parameters['axes']
+            # get list of axes
+            self.axes = list(hf.attrs['axes'])
 
-            # dictionary containing the axes points
-            self.axes = {axis: hf[f'axes/{axis}'][:] for axis in self.axes_list}
+            for axis in self.axes:
+                setattr(self, axis, hf['axes'][axis][:])
 
             # number of axes
-            self.naxes = len(self.axes_list)
+            self.naxes = len(self.axes)
 
             if 'log10Q' in hf.keys():
                 self.log10Q = {}
@@ -316,7 +316,7 @@ class Grid:
              The index of the closet point in the grid (array)
         """
 
-        return tuple([self.get_nearest_index(value, self.bin_centres[axis]) for axis, value in zip(self.axes, values)])
+        return tuple([self.get_nearest_index(value, getattr(self, axis)) for axis, value in zip(self.axes, values)])
 
     def get_nearest(self, value, array):
         """
