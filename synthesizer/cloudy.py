@@ -413,7 +413,7 @@ def read_lines(filename, extension = 'lines'):
     blends = np.ones(len(wavelengths), dtype=bool)
     blends[lenid == 3] = False
 
-    return line_ids, blends, wavelengths, intrinsic, emergent
+    return line_ids, blends, wavelengths, 10**intrinsic, 10**emergent
 
 
 def convert_cloudy_wavelength(x):
