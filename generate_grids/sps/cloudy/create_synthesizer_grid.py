@@ -345,7 +345,7 @@ if __name__ == "__main__":
 
  
     # create new grid that the cloudy runs will be added to 
-    create_new_grid(grid, synthesizer_data_dir)
+    create_new_grid(grid_name, synthesizer_data_dir)
 
     # check cloudy runs
     failed_list = check_cloudy_runs(grid_name, synthesizer_data_dir, replace = args.replace, include_spectra = include_spectra)
