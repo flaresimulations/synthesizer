@@ -2,13 +2,11 @@
 import numpy as np
 
 
-def get_grid_properties(axes_values, verbose = True):
+def get_grid_properties(axes, axes_values, verbose = True):
 
     """ 
     Get the properties of the grid including the dimensions etc.
     """
-
-    axes = list(axes_values.keys())
 
     # the grid axes   
     if verbose: print(f'axes: {axes}')
@@ -43,7 +41,7 @@ def get_grid_properties(axes_values, verbose = True):
         print('index list:')
         print(index_list)
 
-    return axes, n_axes, shape, n_models, mesh, model_list, index_list
+    return n_axes, shape, n_models, mesh, model_list, index_list
 
 
 
