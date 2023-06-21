@@ -210,6 +210,12 @@ def add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', lines_to_
         lines = hf.create_group('lines')
         # lines.attrs['lines'] = list(lines_to_include)  # save list of spectra as attribute
 
+        if line_type == 'linelist':
+            infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/1"
+            lines_to_include, _, _ = read_linelist(infile)
+            print(lines_to_include)
+
+
         # set up output arrays
         for line_id in lines_to_include:
             lines[f'{line_id}/luminosity'] = np.zeros(shape)
