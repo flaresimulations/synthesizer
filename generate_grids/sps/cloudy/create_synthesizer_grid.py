@@ -170,7 +170,7 @@ def add_spectra(grid_name, synthesizer_data_dir):
 
             # save the normalised spectrum to the correct grid point 
             for spec_name in spec_names:
-                spectra[spec_name][indices] = spec_dict[spec_name] / normalisation
+                spectra[spec_name][indices] = spec_dict[spec_name] * normalisation
 
 
 
@@ -272,7 +272,7 @@ def add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', lines_to_
                     norm = 1.
 
                 # calculate line luminosity and save it. Uses normalisation from spectra.
-                line['luminosity'][indices] = luminosity_/norm  # erg s^-1
+                line['luminosity'][indices] = luminosity_*norm  # erg s^-1
                 
                 
                 if include_spectra:
