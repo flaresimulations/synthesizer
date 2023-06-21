@@ -60,7 +60,7 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
 
         for i, grid_params_ in enumerate(model_list):
 
-            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
+            infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/{i+1}"
 
             failed = False
 
@@ -77,8 +77,8 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
 
             if failed:
 
-                print(i, model_list[i])    
-                failed_list.append(i)
+                print(i+1, model_list[i])    
+                failed_list.append(i+1)
 
                 """
                 If replace is specified, instead replace the grid point with the previous one.
@@ -86,7 +86,7 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
                 """
                 if replace:
                     for ext in files_to_check:
-                        shutil.copyfile(f"{synthesizer_data_dir}/cloudy/{grid_name}/{i-1}.{ext}", infile+'.lines')
+                        shutil.copyfile(f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}.{ext}", infile+'.lines')
                     
         # if the files have been replace set the failed list to empty so the rest of the code can run     
         if replace:
