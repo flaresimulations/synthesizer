@@ -76,7 +76,7 @@ def get_grid_properties_hf(hf, verbose=True):
 
 
 
-def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_check = ['cont', 'elines']):
+def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_check = ['cont', 'eline']):
     """
     Check that all the cloudy runs have run properly
 
@@ -348,10 +348,10 @@ if __name__ == "__main__":
     create_new_grid(grid_name, synthesizer_data_dir)
 
     # check cloudy runs
-    failed_list = check_cloudy_runs(grid_name, synthesizer_data_dir, replace = args.replace, include_spectra = include_spectra)
+    failed_list = check_cloudy_runs(grid_name, synthesizer_data_dir, replace = args.replace)
 
 
-    # print(failed_list)
+    print(failed_list)
 
     # # if failed prompt to re-run
     # if len(failed_list)>0:
