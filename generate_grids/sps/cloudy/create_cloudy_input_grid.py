@@ -221,7 +221,7 @@ if __name__ == "__main__":
         # if fixed U model is used
         elif params_['U_model'] == 'fixed':
 
-            log10U = params_['log10U_ref']
+            log10U = params_['log10U']
 
         else:
 
