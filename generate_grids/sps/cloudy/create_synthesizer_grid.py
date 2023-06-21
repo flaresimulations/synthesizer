@@ -163,7 +163,7 @@ def add_spectra(grid_name, synthesizer_data_dir):
             # calcualte normalisation
             normalisation = hf['log10Q/HI'][indices] - np.log10(Q)
 
-            print(i, normalisation)
+            print(i, normalisation, len(spectra['incident'][indices]))
 
             # save normalisation for later use (rescaling lines)
             spectra['normalisation'][indices] = normalisation
