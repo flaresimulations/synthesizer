@@ -157,7 +157,7 @@ def add_spectra(grid_name, synthesizer_data_dir):
             spec_dict = read_continuum(infile, return_dict=True)
 
             # calculate Q for the output spectra and use this to calculate the normalisation
-            Q = calculate_Q(lam, spectra['incident'][indices, :],
+            Q = calculate_Q(lam, spectra['incident'][indices],
                         ionisation_energy=13.6 * eV)
             
             # calcualte normalisation
