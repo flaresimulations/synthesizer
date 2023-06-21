@@ -67,12 +67,14 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
             # check if files exist
             for ext in files_to_check:
                 if not os.path.isfile(infile+'.'+ext):  # attempt to open run.
+                    print(ext)
                     failed = True   
             
             # if they exist also check they have size >0
             if not failed:
                 for ext in files_to_check:
                     if os.path.getsize(infile+'.'+ext) < 1000:
+                        print(ext)
                         failed = True
 
             if failed:
