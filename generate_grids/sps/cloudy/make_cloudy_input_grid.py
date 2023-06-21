@@ -6,14 +6,18 @@ import numpy as np
 import argparse
 from pathlib import Path
 import yaml
+import h5py
+from copy import deepcopy
 
+# synthesiser modules
 from synthesizer.abundances import Abundances
 from synthesizer.grid import Grid
 from synthesizer.cloudy import create_cloudy_input, ShapeCommands
 
+# local modules
 from utils import apollo_submission_script, get_grid_properties
 
-from copy import deepcopy
+
 
 
 def load_grid_params(param_file='c17.03', dir = 'params'):
