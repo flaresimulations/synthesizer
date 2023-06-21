@@ -159,19 +159,25 @@ def make_grid(original_model_name, bin):
     write_attribute(out_filename, 'spectra/stellar', 'Units',
                     'erg/s/Hz')
 
+
+    # write out axes
+    write_attribute(out_filename, '/', 'axes', ('log10age', 'metallicity'))
+
     # write out log10ages
-    write_data_h5py(out_filename, 'log10ages', data=log10ages,
+    write_data_h5py(out_filename, 'axes/log10age', data=log10ages,
                     overwrite=True)
-    write_attribute(out_filename, 'log10ages', 'Description',
+    write_attribute(out_filename, 'axes/log10age', 'Description',
                     'Stellar population ages in log10 years')
-    write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+    write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
 
     # write out metallicities
-    write_data_h5py(out_filename, 'metallicities', data=Zs, overwrite=True)
-    write_attribute(out_filename, 'metallicities', 'Description',
+    write_data_h5py(out_filename, 'axes/metallicities', data=Zs, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicities', 'Description',
                     'raw abundances')
-    write_attribute(out_filename, 'metallicities', 'Units',
+    write_attribute(out_filename, 'axes/metallicities', 'Units',
                     'dimensionless [log10(Z)]')
+
+
 
     # write out wavelength grid
     write_data_h5py(out_filename, 'spectra/wavelength', data=wavelengths,
@@ -197,13 +203,13 @@ if __name__ == "__main__":
 
     original_model_names = [
         # 'bpass_v2.2.1_imf_chab100',
-        # 'bpass_v2.2.1_imf_chab300',
-        'bpass_v2.2.1_imf100_300',
-        'bpass_v2.2.1_imf135_300',
-        'bpass_v2.2.1_imf170_300',
-        'bpass_v2.2.1_imf100_100',
-        'bpass_v2.2.1_imf135_100',
-        'bpass_v2.2.1_imf170_100',
+        'bpass_v2.2.1_imf_chab300',
+        # 'bpass_v2.2.1_imf100_300',
+        # 'bpass_v2.2.1_imf135_300',
+        # 'bpass_v2.2.1_imf170_300',
+        # 'bpass_v2.2.1_imf100_100',
+        # 'bpass_v2.2.1_imf135_100',
+        # 'bpass_v2.2.1_imf170_100',
     ]
 
     for original_model_name in original_model_names:
