@@ -1,24 +1,32 @@
+"""
+This reads in a cloudy grid of models
 
 """
-This reads in a cloudy grid of models and creates a new SPS grid including the various outputs
-
-"""
-
-
+from astropy.io import ascii
 from scipy import integrate
 import os
 import shutil
-from synthesizer.utils import read_params
-from synthesizer.cloudy import read_wavelength, read_continuum, read_lines
-from synthesizer.sed import calculate_Q
 from unyt import eV
 import argparse
 import numpy as np
 import h5py
 import yaml
 
+from synthesizer.utils import read_params
+from synthesizer.cloudy import read_wavelength, read_continuum, read_lines, read_linelist
+from synthesizer.sed import calculate_Q
+
+from utils import get_grid_properties
+
+
+
 
 def create_new_grid(grid, synthesizer_data_dir):
+
+    """
+    Create a new grid file to hold the cloudy runs keeping the original SPS grid separate.
+    """
+
 
     path_to_grids = f'{synthesizer_data_dir}/grids'
     path_to_cloudy_files = f'{synthesizer_data_dir}/cloudy'
@@ -34,29 +42,41 @@ def create_new_grid(grid, synthesizer_data_dir):
 
             # copy top-level attributes
             for k, v in hf_sps.attrs.items():
-                # print(k, v)
+                print(k, v)
                 hf.attrs[k] = v
 
-            # copy various quantities (all excluding the spectra) from the original sps grid
-            for ds in ['metallicities', 'log10ages', 'log10Q']:
-                hf_sps.copy(hf_sps[ds], hf['/'], ds)
 
         # add attribute with the grid axes for future when using >2D grid or AGN grids
-        hf.attrs['grid_axes'] = ['log10ages', 'metallicities']
+        # hf.attrs['grid_axes'] = ['log10ages', 'metallicities']
 
         # open cloudy parameter file and add it
-        with open(f'{path_to_cloudy_files}/{grid_name}/params.yaml', "r") as stream:
-            cloudy_params = yaml.safe_load(stream)
-            for k, v in cloudy_params.items():
-                # print(k, v)
-                if v is None:
-                    v = 'null'
-                hf.attrs[k] = v
+        # with open(f'{path_to_cloudy_files}/{grid_name}/params.yaml', "r") as stream:
+        #     cloudy_params = yaml.safe_load(stream)
+        #     for k, v in cloudy_params.items():
+        #         # print(k, v)
+        #         if v is None:
+        #             v = 'null'
+        #         hf.attrs[k] = v
 
-            del hf.attrs['log10U']
+        #     del hf.attrs['log10U']
 
 
-def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False):
+
+def get_grid_properties_hf(hf, verbose=True):
+
+    """
+    A wrapper over get_grid_properties to get the grid properties for a HDF5 grid.
+    """
+    
+    axes = hf.attrs['grid_axes'] # list of axes
+    axes_values = {axis: hf[axis][:] for axis in axes} # dictionary of axis grid points
+    
+    # Get the properties of the grid including the dimensions etc.
+    return get_grid_properties(axes, axes_values, verbose=verbose)
+
+
+
+def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_check = ['cont', 'elines']):
     """
     Check that all the cloudy runs have run properly
 
@@ -73,73 +93,55 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False):
     # open the new grid
     with h5py.File(f'{synthesizer_data_dir}/grids/{grid_name}.hdf5', 'r') as hf:
 
-        # --- short hand for later
-        nZ = len(hf['metallicities'][:])  # number of metallicity grid points
-        na = len(hf['log10ages'][:])  # number of age grid points
+        # Get the properties of the grid including the dimensions etc.
+        axes, n_axes, shape, n_models, mesh, model_list, index_list = get_grid_properties_hf(hf)
 
-        failed = False
+        # list of failed models
         failed_list = []
 
-        for ia in range(na):
-            for iZ in range(nZ):
+        for i, grid_params_ in enumerate(model_list):
 
-                infile = f'{synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}'
+            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
 
-                if not os.path.isfile(infile+'.cont'):  # attempt to open run.
-                    failed = True
-                    failed_list.append((ia, iZ))
-                    # print(f'{ia}_{iZ}.cont missing')
-                if not os.path.isfile(infile+'.lines'):  # attempt to open run.
-                    failed = True
-                    # print(f'{ia}_{iZ}.lines missing')
+            failed = False
 
-        if failed:
-            print('FAILED')
-            print(f'missing files: {failed_list}')
+            # check if files exist
+            for ext in files_to_check:
+                if not os.path.isfile(infile+'.'+ext):  # attempt to open run.
+                    failed = True   
+            
+            # if they exist also check they have size >0
+            if not failed:
+                for ext in files_to_check:
+                    if os.path.getsize(infile+'.'+ext) < 1000:
+                        failed = True
 
-        return failed
+            if failed:
+
+                print(i, model_list[i])    
+                failed_list.append(i)
+
+                """
+                If replace is specified, instead replace the grid point with the previous one.
+                NOTE: this should be a last resort if the cloudy runs of a small number of grid points are consistently failing.
+                """
+                if replace:
+                    for ext in files_to_check:
+                        shutil.copyfile(f"{synthesizer_data_dir}/cloudy/{grid_name}/{i-1}.{ext}", infile+'.lines')
+                    
+        # if the files have been replace set the failed list to empty so the rest of the code can run     
+        if replace:
+            failed_list = []
 
 
-def fix_cloudy_runs(grid_name, synthesizer_data_dir, replace=False):
-    """
-    If a cloudy run has failed replace it with the previous metallicity grid point
-    """
+        return failed_list
 
-    with h5py.File(f'{synthesizer_data_dir}/grids/{grid_name}.hdf5', 'r') as hf:
 
-        # --- short hand for later
-        nZ = len(hf['metallicities'][:])  # number of metallicity grid points
-        na = len(hf['log10ages'][:])  # number of age grid points
 
-        failed = False
-        failed_list = []
 
-        for ia in range(na):
-            for iZ in range(nZ):
 
-                infile = f'{synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}'
 
-                try:
-                    read_continuum(infile, return_dict=True)
-                except:
 
-                    if iZ > 0:
-                        nf = f'{ia}_{iZ-1}'
-                    else:
-                        nf = f'{ia-1}_{iZ}'
-
-                    os.system(
-                        f'cp {synthesizer_data_dir}/cloudy/{grid_name}/{nf}.cont {synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}.cont')
-                    os.system(
-                        f'cp {synthesizer_data_dir}/cloudy/{grid_name}/{nf}.lines {synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}.lines')
-                    failed = True
-                    failed_list.append((ia, iZ))
-
-        if failed:
-            print('FAILED')
-            print(f'missing files: {failed_list}')
-
-        return failed
 
 
 def add_spectra(grid_name, synthesizer_data_dir):
@@ -161,121 +163,55 @@ def add_spectra(grid_name, synthesizer_data_dir):
     # open the new grid
     with h5py.File(f'{synthesizer_data_dir}/grids/{grid_name}.hdf5', 'a') as hf:
 
-        # --- short hand for later
-        metallicities = hf['metallicities']
-        log10ages = hf['log10ages']
+       
+        # Get the properties of the grid including the dimensions etc.
+        axes, n_axes, shape, n_models, mesh, model_list, index_list = get_grid_properties_hf(hf)
 
-        nZ = len(metallicities)  # number of metallicity grid points
-        na = len(log10ages)  # number of age grid points
+        # read first spectra from the first grid point to get length and wavelength grid
+        lam = read_wavelength(f"{synthesizer_data_dir}/cloudy/{grid_name}/0")
 
-        # --- read first spectra from the first grid point to get length and wavelength grid
-        lam = read_wavelength(f'{synthesizer_data_dir}/cloudy/{grid_name}/0_0')
+        if 'spectra' in hf:
+            del hf['spectra']
 
         spectra = hf.create_group('spectra')  # create a group holding the spectra in the grid file
         spectra.attrs['spec_names'] = spec_names  # save list of spectra as attribute
 
         spectra['wavelength'] = lam  # save the wavelength
+        nu = 3E8 / (lam*1E-10)
 
         nlam = len(lam)  # number of wavelength points
 
-        # --- make spectral grids and set them to zero
+        # make spectral grids and set them to zero
         for spec_name in spec_names:
-            spectra[spec_name] = np.zeros((na, nZ, nlam))
+            spectra[spec_name] = np.zeros((*shape, nlam))
 
-        # --- now loop over meallicity and ages
+        # array for holding the normalisation which is calculated below and used by lines
+        spectra['normalisation'] = np.zeros(shape)
 
-        dlog10Q = np.zeros((na, nZ))
+        for i, indices in enumerate(index_list):
 
-        for iZ, Z in enumerate(metallicities):
+            indices = tuple(indices)
 
-            # print(f'{iZ+1}/{len(metallicities)}')
+            # define the infile
+            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
 
-            for ia, log10age in enumerate(log10ages):
+            # read the continuum file containing the spectra 
+            spec_dict = read_continuum(infile, return_dict=True)
 
-                infile = f'{synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}'
+            # for an arbitrary grid, we should normalise by the bolometric luminosity of the incident spectra
+            norm = np.trapz(spec_dict['incident'][::-1], x=nu[::-1])
 
-                spec_dict = read_continuum(infile, return_dict=True)
-                for spec_name in spec_names:
-                    spectra[spec_name][ia, iZ] = spec_dict[spec_name]
+            # save normalisation for later use (rescaling lines)
+            spectra['normalisation'][indices] = norm
 
-                # --- we need to rescale the cloudy spectra to the original SPS spectra. This is done here using the ionising photon luminosity, though could in principle by done at a fixed wavelength.
-
-                # calculate log10Q_HI
-
-                Q = calculate_Q(lam, spectra['incident'][ia, iZ, :],
-                                ionisation_energy=13.6 * eV)
-
-                dlog10Q[ia, iZ] = hf['log10Q/HI'][ia, iZ] - np.log10(Q)
-
-                # renormalise each spectra
-                for spec_name in spec_names:
-                    spectra[spec_name][ia, iZ] *= 10**dlog10Q[ia, iZ]
-
-        return dlog10Q
+            # save the normalised spectrum to the correct grid point 
+            for spec_name in spec_names:
+                spectra[spec_name][indices] = spec_dict[spec_name] / norm
 
 
-def get_default_line_list(interesting=True):
-
-    with open('default_lines.dat') as f:
-        line_list = f.read().splitlines()
-
-    if interesting:
-
-        with open('interesting_lines.dat') as f:
-            line_list += f.read().splitlines()
-
-    return line_list
 
 
-def get_line_list(grid_name, synthesizer_data_dir, threshold_line='H 1 4862.69A', relative_threshold=2.0):
-    """
-    Get a list of lines meeting some threshold at the reference age and metallicity
-
-    NOTE: the updated base grid HDF5 file must have been created first.
-    NOTE: changing the threshold to 2.5 doubles the number of lines and produces repeats that will need to be merged.
-
-    Parameters
-    ----------
-    grid_name : str
-        Name of the grid.
-    synthesizer_data_dir : str
-        Directory where synthesizer data is kept.
-    threshold : float
-        The log threshold relative to Hbeta for which lines should be kept.
-        Default = 2.0 which implies L > 0.01 * L_Hbeta
-
-    Returns
-    ----------
-    list
-        list of the lines meeting the threshold criteria
-    """
-
-    # open the new grid
-    with h5py.File(f'{synthesizer_data_dir}/grids/{grid_name}.hdf5', 'a') as hf:
-
-        # get the reference metallicity and age grid point
-        ia = hf.attrs['ia_ref']
-        iZ = hf.attrs['iZ_ref']
-
-    reference_filename = f'{synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}'
-
-    cloudy_ids, blends, wavelengths, intrinsic, emergent = read_lines(
-        reference_filename)
-
-    threshold = emergent[cloudy_ids == threshold_line] - relative_threshold
-
-    s = (emergent > threshold) & (blends == False) & (wavelengths < 50000)
-
-    line_list = cloudy_ids[s]
-
-    # print(f'number of lines: {np.sum(s)}')
-    # print(line_list)
-    # print(len(list(set(line_list))))
-
-    return line_list
-
-
-def add_lines(grid_name, synthesizer_data_dir, dlog10Q, lines_to_include):
+def add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', lines_to_include = False, include_spectra = True):
     """
     Open cloudy lines and add them to the HDF5 grid
 
@@ -285,6 +221,8 @@ def add_lines(grid_name, synthesizer_data_dir, dlog10Q, lines_to_include):
         Name of the grid.
     synthesizer_data_dir: str
         Directory where synthesizer data is kept.
+    line_type : str
+        The type of line file to use (linelist, lines)
     dlog10Q
         The difference between the original and cloudy log10Q used for rescaling the cloudy spectra
     """
@@ -292,54 +230,99 @@ def add_lines(grid_name, synthesizer_data_dir, dlog10Q, lines_to_include):
     # open the new grid
     with h5py.File(f'{synthesizer_data_dir}/grids/{grid_name}.hdf5', 'a') as hf:
 
-        # --- short hand for later
-        metallicities = hf['metallicities']
-        log10ages = hf['log10ages']
-        spectra = hf['spectra']
-        lam = spectra['wavelength']
+        
+        # Get the properties of the grid including the dimensions etc.
+        axes, n_axes, shape, n_models, mesh, model_list, index_list = get_grid_properties_hf(hf)
 
-        nZ = len(metallicities)  # number of metallicity grid points
-        na = len(log10ages)  # number of age grid points
+        # delete lines group if it already exists
+        if 'lines' in hf:
+            del hf['lines']
 
-        # -- get list of lines
-
+        # define spectra
+        if include_spectra:
+            spectra = hf['spectra']
+            normalisation = spectra['normalisation'][:]
+            lam = spectra['wavelength'][:]
+            
+        # create group for holding lines
         lines = hf.create_group('lines')
         # lines.attrs['lines'] = list(lines_to_include)  # save list of spectra as attribute
 
+        # set up output arrays
         for line_id in lines_to_include:
-            lines[f'{line_id}/luminosity'] = np.zeros((na, nZ))
-            lines[f'{line_id}/stellar_continuum'] = np.zeros((na, nZ))
-            lines[f'{line_id}/nebular_continuum'] = np.zeros((na, nZ))
-            lines[f'{line_id}/continuum'] = np.zeros((na, nZ))
+            lines[f'{line_id}/luminosity'] = np.zeros(shape)
+            lines[f'{line_id}/stellar_continuum'] = np.zeros(shape)
+            lines[f'{line_id}/nebular_continuum'] = np.zeros(shape)
+            lines[f'{line_id}/continuum'] = np.zeros(shape)
 
-        for iZ, Z in enumerate(metallicities):
+        for i, indices in enumerate(index_list):
 
-            for ia, log10age in enumerate(log10ages):
+            # convert indices array to tuple
+            indices = tuple(indices)
 
-                infile = f'{synthesizer_data_dir}/cloudy/{grid_name}/{ia}_{iZ}'
+            # define the infile
+            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
 
-                # --- get TOTAL continuum spectra
-                nebular_continuum = spectra['nebular'][ia, iZ] - spectra['linecont'][ia, iZ]
-                continuum = spectra['transmitted'][ia, iZ] + nebular_continuum
+            # get TOTAL continuum spectra
+            if include_spectra:
+                nebular_continuum = spectra['nebular'][indices] - spectra['linecont'][indices]
+                continuum = spectra['transmitted'][indices] + nebular_continuum
 
-                # --- get line quantities
-                id, blend, wavelength, intrinsic, emergent = read_lines(infile)
+            
+            # get line quantities  <--- THIS NEEDS TO CHANGE
 
+            if line_type == 'lines':
+
+                id, blend, wavelength, intrinsic, luminosity = read_lines(infile)
+
+                # identify lines we want to keep
                 s = np.nonzero(np.in1d(id, np.array(lines_to_include)))[0]
 
-                for id_, wavelength_, emergent_ in zip(id[s], wavelength[s], emergent[s]):
+                id = id[s]
+                wavelength = wavelength[s]
+                luminosity = luminosity[s]
 
-                    line = lines[id_]
 
-                    line.attrs['wavelength'] = wavelength_
+            elif line_type == 'linelist':
+                
+                id, wavelength, luminosity = read_linelist(infile)
 
-                    line['luminosity'][ia, iZ] = 10**(emergent_ + dlog10Q[ia, iZ])  # erg s^-1
-                    line['stellar_continuum'][ia, iZ] = np.interp(
-                        wavelength_, lam, spectra['transmitted'][ia, iZ])  # erg s^-1 Hz^-1
-                    line['nebular_continuum'][ia, iZ] = np.interp(
+        
+            for id_, wavelength_, luminosity_ in zip(id, wavelength, luminosity):
+
+                line = lines[id_]
+
+                # save line wavelength
+                line.attrs['wavelength'] = wavelength_
+
+                # if spectra have been calculated pull the normalisation
+                if include_spectra:
+                    norm = normalisation[indices]
+                else:
+                    norm = 1.
+
+                # calculate line luminosity and save it. Uses normalisation from spectra.
+                line['luminosity'][indices] = 10**(luminosity_)/norm  # erg s^-1
+                line['intrinsic_luminosity'][indices] = 10**(luminosity_)/norm  # erg s^-1
+                
+                if include_spectra:
+
+                    # calculate stellar continuum at the line wavelength and save it. 
+                    line['stellar_continuum'][indices] = np.interp(
+                        wavelength_, lam, spectra['transmitted'][indices])  # erg s^-1 Hz^-1
+                    
+                    # calculate nebular continuum at the line wavelength and save it. 
+                    line['nebular_continuum'][indices] = np.interp(
                         wavelength_, lam, nebular_continuum)  # erg s^-1 Hz^-1
-                    line['continuum'][ia, iZ] = np.interp(
+                    
+                    # calculate total continuum at the line wavelength and save it. 
+                    line['continuum'][indices] = np.interp(
                         wavelength_, lam, continuum)  # erg s^-1 Hz^-1
+
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -347,38 +330,52 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=('Create synthesizer HDF5 grid '
                                                   'for a given grid.'))
 
-    parser.add_argument("-dir", "--directory", type=str, required=True)
-
-    parser.add_argument("-grid", "--grid", type=str,
-                        nargs='+', required=True,
-                        help=('The SPS/CLOUDY grid(s) to use. '
-                              'Multiple grids can be listed as: \n '
-                              '  --sps_grid grid_1 grid_2'))
+    parser.add_argument("-synthesizer_data_dir", type=str, required=True) # path to synthesizer_data_dir
+    parser.add_argument("-grid_name", "--grid_name", type=str, required=True)
+    parser.add_argument("-include_spectra", "--include_spectra", type=bool, default=False, required=False)
+    parser.add_argument("-replace", "--replace", type=bool, default=False, required=False)
+    parser.add_argument("-line_calc_method", "--line_calc_method", type=str, default='lines', required=False)
 
     args = parser.parse_args()
 
-    synthesizer_data_dir = args.directory
+    # get arguments
+    synthesizer_data_dir = args.synthesizer_data_dir
+    grid_name = args.grid_name
+    include_spectra = args.include_spectra
 
-    for grid_name in args.grid:
+ 
+    # create new grid that the cloudy runs will be added to 
+    create_new_grid(grid, synthesizer_data_dir)
 
-        print('-'*50)
-        print(grid_name)
+    # check cloudy runs
+    failed_list = check_cloudy_runs(grid_name, synthesizer_data_dir, replace = args.replace, include_spectra = include_spectra)
 
-        failed = False
 
-        create_new_grid(grid_name, synthesizer_data_dir)
-        # failed = check_cloudy_runs(grid_name, synthesizer_data_dir)
+    # print(failed_list)
 
-        # fix failed cloudy runs by replacing with nearest metallicity grid point
-        fix_cloudy_runs(grid_name, synthesizer_data_dir)
+    # # if failed prompt to re-run
+    # if len(failed_list)>0:
 
-        if not failed:
-            dlog10Q = add_spectra(grid_name, synthesizer_data_dir)
+    #     print(f'ERROR: {len(failed_list)} cloudy runs have failed. You should re-run these with command:')
+    #     print(f'  qsub -t 1:{len(failed_list)}  run_grid.job')
 
-            # this causes issues for 3D grids
-            # lines_to_include = get_line_list(
-            #     grid_name, synthesizer_data_dir, threshold_line='H 1 4862.69A', relative_threshold=2.5)
+    #     # replace input_names with list of failed runs
+    #     with open(f"{synthesizer_data_dir}/cloudy/{grid_name}/input_names.txt", "w") as myfile:
+    #         myfile.write('\n'.join(map(str, failed_list)))
 
-            lines_to_include = get_default_line_list()
+    # #if not failed, go ahead and add spectra and lines
+    # else:
+        
+    #     print('- passed checks')
 
-            add_lines(grid_name, synthesizer_data_dir, dlog10Q, lines_to_include)
+    #     # add spectra
+
+    #     if include_spectra:
+    #         add_spectra(grid_name, synthesizer_data_dir)
+    #         print('- spectra added')
+
+    #     if args.line_calc_method == 'lines':
+
+    #         # add lines
+    #         add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', include_spectra = include_spectra)
+            
