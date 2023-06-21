@@ -165,27 +165,14 @@ class Grid:
 
             self.parameters = {k: v for k, v in hf.attrs.items()}
 
-            if 'grid_axes' in hf.attrs.keys():
-                self.axes = hf.attrs['grid_axes']
-            else:
-                # backwards compatability with old grids
-                self.axes = ['log10ages', 'metallicities']
+            # list of axes
+            self.axes_list = self.parameters['axes']
 
-            self.naxes = len(self.axes)
+            # dictionary containing the axes points
+            self.axes = {axis: hf[f'axes/{axis}'][:] for axis in self.axes_list}
 
-            # the centres of the bins
-            self.bin_centres = {}
-
-            for axis in self.axes:
-                self.bin_centres[axis] = hf[axis][:]
-
-            if 'log10ages' in self.axes:
-                self.log10ages = hf['log10ages'][:]
-                self.ages = 10**self.log10ages
-
-            if 'metallicities' in self.axes:
-                self.metallicities = hf['metallicities'][:]
-                self.log10metallicities = np.log10(self.metallicities)
+            # number of axes
+            self.naxes = len(self.axes_list)
 
             if 'log10Q' in hf.keys():
                 self.log10Q = {}
@@ -216,8 +203,8 @@ class Grid:
         # Add the content of the summary to the string to be printed
         pstr += "-"*30 + "\n"
         pstr += f"SUMMARY OF GRID" + "\n"
-        pstr += f"log10ages: {self.log10ages}\n"
-        pstr += f"metallicities: {self.metallicities}\n"
+        for k,v in self.bin_centres.items():
+            pstr += f"{k}: {v} \n"
         for k, v in self.parameters.items():
             pstr += f"{k}: {v} \n"
         if self.spectra:
@@ -227,6 +214,7 @@ class Grid:
         pstr += "-"*30 + "\n"
 
         return pstr
+
 
     def get_spectra(self):
         """
@@ -352,33 +340,22 @@ class Grid:
 
         return idx, array[idx]
 
-    def get_nearest_log10Z(self, log10metallicity):
-
-        return self.get_nearest(log10metallicity, self.log10metallicities)
-
-    def get_nearest_log10age(self, log10age):
-
-        return self.get_nearest(log10age, self.log10ages)
 
     def get_sed(self, grid_point, spec_name='stellar'):
         """
-        Simple function for calculating the closest index in an array for a given value
-
-        NOTE: ONLY WORKS FOR 2D GRIDS
+        Returns the an Sed object of a given spectra type for a given grid point.
 
         Parameters
         ----------
-        ia : int
-            the age grid point
-
-        iZ : int
-            the metallicity grid point
+        grid_point: tuple (int)
+            A tuple of the grid point indices
 
         Returns
         -------
         obj (Sed)
              An Sed object at the defined grid point
         """
+
 
         if len(grid_point) != self.naxes:
             # throw exception
@@ -389,21 +366,17 @@ class Grid:
 
     def get_line_info(self, line_id, grid_point):
         """
-        Return a line object for a given line and metallicity/age index
+        Returns the a Line object for a given line_id and grid_point
 
-        NOTE: ONLY WORKS FOR 2D GRIDS
+        Parameters
+        ----------
+        grid_point: tuple (int)
+            A tuple of the grid point indices
 
-        Parameters:
-        ------------
-        line_id : (list or str):
-            unique line identification string
-
-        grid_point : tuple (int)
-            the grid point to select
-
-        Returns:
-        ------------
+        Returns
+        -------
         obj (Line)
+             A Line object at the defined grid point
         """
 
         if len(grid_point) != self.naxes:
@@ -429,14 +402,12 @@ class Grid:
     def get_lines_info(self, line_ids, grid_point):
         """
         Return a LineCollection object for a given line and metallicity/age index
-        Parameters:
-        ------------
-        line_ids : list:
-            list of unique line identification string
-        ia : int
-            age grid point index
-        iZ : int
-            metallicity grid point index
+        
+        Parameters
+        ----------
+        grid_point: tuple (int)
+            A tuple of the grid point indices
+
         Returns:
         ------------
         obj (Line)
