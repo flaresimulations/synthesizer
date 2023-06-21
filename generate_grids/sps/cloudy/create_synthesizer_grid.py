@@ -151,7 +151,7 @@ def add_spectra(grid_name, synthesizer_data_dir):
             indices = tuple(indices)
 
             # define the infile
-            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
+            infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/{i}"
 
             # read the continuum file containing the spectra 
             spec_dict = read_continuum(infile, return_dict=True)
@@ -223,7 +223,7 @@ def add_lines(grid_name, synthesizer_data_dir, line_type = 'linelist', lines_to_
             indices = tuple(indices)
 
             # define the infile
-            infile = f"{synthesizer_data_dir}/cloudy/{grid_name}/{i}"
+            infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/{i}"
 
             # get TOTAL continuum spectra
             if include_spectra:
