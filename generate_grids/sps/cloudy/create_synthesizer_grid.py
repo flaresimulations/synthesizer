@@ -157,13 +157,13 @@ def add_spectra(grid_name, synthesizer_data_dir):
             spec_dict = read_continuum(infile, return_dict=True)
 
             # calculate Q for the output spectra and use this to calculate the normalisation
-            Q = calculate_Q(lam, spectra['incident'][indices],
+            Q = calculate_Q(lam, spec_dict['incident'],
                         ionisation_energy=13.6 * eV)
             
             # calcualte normalisation
             normalisation = hf['log10Q/HI'][indices] - np.log10(Q)
 
-            print(i, normalisation, np.log10(Q), hf['log10Q/HI'][indices])
+            print(i, normalisation, np.log10(Q))
 
             # save normalisation for later use (rescaling lines)
             spectra['normalisation'][indices] = normalisation
