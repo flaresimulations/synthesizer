@@ -61,7 +61,7 @@ def check_cloudy_runs(grid_name, synthesizer_data_dir, replace=False, files_to_c
         for i, grid_params_ in enumerate(model_list):
 
             infile = f"{synthesizer_data_dir}/sps/cloudy/{grid_name}/{i+1}"
-
+            print(infile)
             failed = False
 
             # check if files exist
