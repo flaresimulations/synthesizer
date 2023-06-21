@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
         # add other parameters as attributes
         for k,v in params.items():
-            hf.attrs['k'] = v
+            hf.attrs[k] = v
 
         print('-'*50)
         print('---- attributes')
