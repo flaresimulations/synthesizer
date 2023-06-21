@@ -465,7 +465,7 @@ def read_linelist(filename, extension = 'elin'):
             wavelength = convert_cloudy_wavelength(id.split(' ')[-1])
 
             # convert luminosity to float
-            lum = float(lum)
+            lum = float(lum)/1E7
 
             # print(id, wavelength, lum)
 
