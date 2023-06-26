@@ -68,6 +68,19 @@ class Particles:
             "docs/CONTRIBUTING.md"
         )
 
+    def convert_to_physical_properties(self,):
+        """
+        Converts comoving coordinates and velocities to physical coordinates
+        and velocties.
+
+        Note that redshift must be provided to perform this conversion.
+        """
+        raise execeptions.UnimplementedFunctionality(
+            "Not yet implemented! Feel free to implement and raise a "
+            "pull request. Guidance for contributing can be found at "
+            "https://github.com/flaresimulations/synthesizer/blob/main/"
+            "docs/CONTRIBUTING.md"
+        )
 
 class CoordinateGenerator:
     """
