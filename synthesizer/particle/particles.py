@@ -27,10 +27,13 @@ class Particles:
             The mass of each particle in Msun.
         redshift (array-like/float)
             The redshift/s of the stellar particles.
+        softening_length (float)
+            The physical gravitational softening length.
         nparticle : int
             How many particles are there?
     """
-    def __init__(self, coordinates, velocities, masses, redshift, nparticles):
+    def __init__(self, coordinates, velocities, masses, redshift,
+                 softening_length, nparticles):
         """
         Intialise the Particles.
 
@@ -43,6 +46,8 @@ class Particles:
                 The mass of each particle.
             redshift (float)
                 The redshift/s of the particles.
+            softening_length (float)
+                The physical gravitational softening length.
             nparticle : int
                 How many particles are there?
         """
@@ -50,6 +55,9 @@ class Particles:
         # Set phase space coordinates
         self.coordinates = coordinates
         self.velocities = velocities
+
+        # Set the softening length
+        self.softening_length = softening_length
 
         # Set the particle masses
         self.masses = masses
