@@ -151,3 +151,23 @@ class LogNormal(Common):
             return (1./(self.max_age-age))*np.exp(-(np.log(self.max_age-age)-self.T0)**2/(2*self.tau**2))
         else:
             return 0.0
+
+        
+def generate_sfh(ages, sfh_, log10=False):
+
+    if log10:
+        ages = 10**ages
+
+    SFH = np.zeros(len(ages))
+
+    min_age = 0
+    for ia, age in enumerate(ages[:-1]):
+        max_age = int(np.mean([ages[ia+1], ages[ia]]))  #  years
+        sf = integrate.quad(sfh_.sfr, min_age, max_age)[0]
+        SFH[ia] = sf
+        min_age = max_age
+
+    # --- normalise
+    SFH /= np.sum(SFH)
+
+    return SFH

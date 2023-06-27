@@ -126,26 +126,6 @@ class BinnedSFZH:
         return fig, ax
 
 
-def generate_sfh(ages, sfh_, log10=False):
-
-    if log10:
-        ages = 10**ages
-
-    SFH = np.zeros(len(ages))
-
-    min_age = 0
-    for ia, age in enumerate(ages[:-1]):
-        max_age = int(np.mean([ages[ia+1], ages[ia]]))  #  years
-        sf = integrate.quad(sfh_.sfr, min_age, max_age)[0]
-        SFH[ia] = sf
-        min_age = max_age
-
-    # --- normalise
-    SFH /= np.sum(SFH)
-
-    return SFH
-
-
 def generate_instant_sfzh(log10ages, metallicities, log10age, metallicity, stellar_mass=1):
     """ simply returns the SFZH where only bin is populated corresponding to the age and metallicity """
 
