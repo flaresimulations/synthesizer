@@ -4,6 +4,7 @@ Download BC03 and convert to HDF5 synthesizer grid.
 TODO: data download does not currently work, directories need to be updated
 """
 
+import argparse
 import numpy as np
 import os
 import sys
@@ -218,23 +219,37 @@ def make_grid(variant, synthesizer_data_dir, out_filename):
 
     spec = np.swapaxes(spec, 0, 1)  # make (age, metallicity, wavelength)
 
-    spec *= 1E7  # I'm guessing this is W -> erg?
-
     spec *= (3.826e33)  # erg s^-1 AA^-1 Msol^-1
     spec *= lam/nu  # erg s^-1 Hz^-1 Msol^-1
 
     na = len(ages)
     nZ = len(metallicities)
 
-    write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
-    write_attribute(out_filename, 'log10ages', 'Description',
-                    'Stellar population ages in log10 years')
-    write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+    # write out axes
+    write_attribute(out_filename, '/', 'axes', ('log10age', 'metallicity'))
 
-    write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
-    write_attribute(out_filename, 'metallicities', 'Description',
+    # write out log10ages
+    write_data_h5py(out_filename, 'axes/log10age', data=log10ages,
+                    overwrite=True)
+    write_attribute(out_filename, 'axes/log10age', 'Description',
+                    'Stellar population ages in log10 years')
+    write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
+
+    # write out metallicities
+    write_data_h5py(out_filename, 'axes/metallicity', data=metallicities, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicity', 'Description',
                     'raw abundances')
-    write_attribute(out_filename, 'metallicities', 'Units', '')
+    write_attribute(out_filename, 'axes/metallicity', 'Units', 'dimensionless')
+
+    # write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
+    # write_attribute(out_filename, 'log10ages', 'Description',
+    #                 'Stellar population ages in log10 years')
+    # write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+
+    # write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
+    # write_attribute(out_filename, 'metallicities', 'Description',
+    #                 'raw abundances')
+    # write_attribute(out_filename, 'metallicities', 'Units', '')
 
     write_data_h5py(out_filename, 'spectra/wavelength', data=lam, overwrite=True)
     write_attribute(out_filename, 'spectra/wavelength', 'Description',
@@ -250,7 +265,20 @@ def make_grid(variant, synthesizer_data_dir, out_filename):
 
 if __name__ == "__main__":
 
-    synthesizer_data_dir = os.getenv('SYNTHESIZER_DATA')
+    parser = argparse.ArgumentParser(description="BC03-2016 download and grid creation")
+    parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
+    parser.add_argument('-download_data', '--download_data', type=bool, default=False)
+
+    args = parser.parse_args()
+
+    synthesizer_data_dir = args.synthesizer_data_dir
+   
+    grid_dir = f'{synthesizer_data_dir}/grids'
+
+    # download data
+    if args.download_data:
+        download_data()
+        untar_data()
 
     default_model = {'sps_name': 'bc03-2016',
                      'sps_version': '',

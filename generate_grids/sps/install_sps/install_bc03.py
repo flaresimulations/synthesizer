@@ -216,15 +216,32 @@ def make_grid():
     na = len(ages)
     nZ = len(metallicities)
 
-    write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
-    write_attribute(out_filename, 'log10ages', 'Description',
-                    'Stellar population ages in log10 years')
-    write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+    # write out axes
+    write_attribute(out_filename, '/', 'axes', ('log10age', 'metallicity'))
 
-    write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
-    write_attribute(out_filename, 'metallicities', 'Description',
+    # write out log10ages
+    write_data_h5py(out_filename, 'axes/log10age', data=log10ages,
+                    overwrite=True)
+    write_attribute(out_filename, 'axes/log10age', 'Description',
+                    'Stellar population ages in log10 years')
+    write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
+
+    # write out metallicities
+    write_data_h5py(out_filename, 'axes/metallicity', data=metallicities, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicity', 'Description',
                     'raw abundances')
-    write_attribute(out_filename, 'metallicities', 'Units', '')
+    write_attribute(out_filename, 'axes/metallicity', 'Units', 'dimensionless')
+
+
+    # write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
+    # write_attribute(out_filename, 'log10ages', 'Description',
+    #                 'Stellar population ages in log10 years')
+    # write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+
+    # write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
+    # write_attribute(out_filename, 'metallicities', 'Description',
+    #                 'raw abundances')
+    # write_attribute(out_filename, 'metallicities', 'Units', '')
 
     write_data_h5py(out_filename, 'spectra/wavelength', data=lam, overwrite=True)
     write_attribute(out_filename, 'spectra/wavelength', 'Description',
@@ -240,16 +257,15 @@ def make_grid():
 
 if __name__ == "__main__":
 
-    # parser = argparse.ArgumentParser(
-    #     description='Install the BC03 grid to the specified directory.')
-    # parser.add_argument("-dir", "--directory", type=str, required=True)
-    # args = parser.parse_args()
-    #
-    # synthesizer_data_dir = args.directory
+    parser = argparse.ArgumentParser(description="BC03 download and grid creation")
+    parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
+    parser.add_argument('-download_data', '--download_data', type=bool, default=False)
 
-    synthesizer_data_dir = os.getenv('SYNTHESIZER_DATA')
+    args = parser.parse_args()
+
+    synthesizer_data_dir = args.synthesizer_data_dir
+   
     grid_dir = f'{synthesizer_data_dir}/grids'
-    # synthesizer_data_dir = '/its/research/astrodata/highz/synthesizer/'
 
     model = {'sps_name': 'bc03',
              'sps_version': '',
@@ -260,11 +276,15 @@ if __name__ == "__main__":
              'alpha': '',
              }
 
+    # create synthesizer style model name
     synthesizer_model_name = get_model_filename(model)
     print(synthesizer_model_name)
 
-    # download_data()
-    # untar_data()
+    if args.download_data:
+        download_data()
+        untar_data()
+
+    # make grid  
     make_grid()
 
     # this is the full path to the ultimate HDF5 grid file

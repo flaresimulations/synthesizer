@@ -1,6 +1,6 @@
 import os
 import sys
-
+import argparse
 import numpy as np
 import fsps
 
@@ -64,39 +64,61 @@ def generate_grid(model):
     for key, value in model.items():
         write_attribute(out_filename, '/', key, (value))
 
+    # write wavelength grid
     write_data_h5py(out_filename, 'spectra/wavelength', data=lam, overwrite=True)
     write_attribute(out_filename, 'spectra/wavelength', 'Description',
                     'Wavelength of the spectra grid')
     write_attribute(out_filename, 'spectra/wavelength', 'Units', 'Angstrom')
 
-    write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
-    write_attribute(out_filename, 'log10ages', 'Description',
-                    'Stellar population ages in log10 years')
-    write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
-
-    write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
-    write_attribute(out_filename, 'metallicities', 'Description',
-                    'raw abundances')
-    write_attribute(out_filename, 'metallicities', 'Units', 'dimensionless [Z]')
-
+    # write stellar spectra
     write_data_h5py(out_filename, 'spectra/stellar', data=spec, overwrite=True)
     write_attribute(out_filename, 'spectra/stellar', 'Description',
                     'Three-dimensional spectra grid, [age, metallicity, wavelength]')
     write_attribute(out_filename, 'spectra/stellar', 'Units', 'erg/s/Hz')
+
+    # write out axes
+    write_attribute(out_filename, '/', 'axes', ('log10age', 'metallicity'))
+
+    # write out log10ages
+    write_data_h5py(out_filename, 'axes/log10age', data=log10ages,
+                    overwrite=True)
+    write_attribute(out_filename, 'axes/log10age', 'Description',
+                    'Stellar population ages in log10 years')
+    write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
+
+    # write out metallicities
+    write_data_h5py(out_filename, 'axes/metallicity', data=metallicities, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicity', 'Description',
+                    'raw abundances')
+    write_attribute(out_filename, 'axes/metallicity', 'Units', 'dimensionless')
+
+    # write_data_h5py(out_filename, 'log10ages', data=log10ages, overwrite=True)
+    # write_attribute(out_filename, 'log10ages', 'Description',
+    #                 'Stellar population ages in log10 years')
+    # write_attribute(out_filename, 'log10ages', 'Units', 'dex(yr)')
+
+    # write_data_h5py(out_filename, 'metallicities', data=metallicities, overwrite=True)
+    # write_attribute(out_filename, 'metallicities', 'Description',
+    #                 'raw abundances')
+    # write_attribute(out_filename, 'metallicities', 'Units', 'dimensionless [Z]')
+
+    
 
     return out_filename
 
 
 if __name__ == "__main__":
 
-    # parser = argparse.ArgumentParser(description="BPASS_2.2.1 download and grid creation")
-    # parser.add_argument('--download-data', default=False, action='store_true',
-    #                     help=("download bpass data directly in current directory "
-    #                           "and untar in sunthesizer data directory"))
-    #
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="FSPS download and grid creation")
+    parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
+    
 
-    synthesizer_data_dir = '/its/research/astrodata/highz/synthesizer/'
+    args = parser.parse_args()
+
+    synthesizer_data_dir = args.synthesizer_data_dir
+   
+    grid_dir = f'{synthesizer_data_dir}/grids'
+    
 
     default_model = {'sps_name': 'fsps',
                      'sps_version': '3.2',
@@ -110,16 +132,16 @@ if __name__ == "__main__":
     models = []
 
     # two standard models
-    # models += [{},  # default model
-    #            {'imf_type': 'chabrier03', 'imf_masses': [0.08, 120]},  # chabrier03
-    #            ]
+    models += [{},  # default model
+               {'imf_type': 'chabrier03', 'imf_masses': [0.08, 120], 'imf_slopes': []},  # chabrier03
+               ]
 
     # different high-mass slopes
-    # models += [{'imf_slopes': [1.3, 2.3, a3]} for a3 in np.arange(2.8, 3.01, 0.1)]
+    models += [{'imf_slopes': [1.3, 2.3, a3]} for a3 in np.arange(2.8, 3.01, 0.1)]
 
     # different high-mass cut-offs
-    # models += [{'imf_type': 'chabrier03', 'imf_masses': [0.08, hmc]}
-    #            for hmc in [1, 2, 5, 10, 20, 50, 100]]
+    models += [{'imf_type': 'chabrier03', 'imf_masses': [0.08, hmc]}
+               for hmc in [1, 2, 5, 10, 20, 50, 100]]
 
     # different low-mass cut-offs
     models += [{'imf_type': 'chabrier03', 'imf_masses': [lmc, 120]}

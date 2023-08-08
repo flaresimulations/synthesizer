@@ -171,11 +171,10 @@ def make_grid(original_model_name, bin):
     write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
 
     # write out metallicities
-    write_data_h5py(out_filename, 'axes/metallicities', data=Zs, overwrite=True)
-    write_attribute(out_filename, 'axes/metallicities', 'Description',
+    write_data_h5py(out_filename, 'axes/metallicity', data=Zs, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicity', 'Description',
                     'raw abundances')
-    write_attribute(out_filename, 'axes/metallicities', 'Units',
-                    'dimensionless [log10(Z)]')
+    write_attribute(out_filename, 'axes/metallicity', 'Units', 'dimensionless')
 
 
 
@@ -196,20 +195,23 @@ if __name__ == "__main__":
                         help=("download bpass data directly in current directory "
                               "and untar in sunthesizer data directory"))
 
+
+    parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
+
     args = parser.parse_args()
 
-    synthesizer_data_dir = os.getenv('SYNTHESIZER_DATA')
+    synthesizer_data_dir = args.synthesizer_data_dir
     grid_dir = f'{synthesizer_data_dir}/grids'
 
     original_model_names = [
         # 'bpass_v2.2.1_imf_chab100',
-        'bpass_v2.2.1_imf_chab300',
-        # 'bpass_v2.2.1_imf100_300',
-        # 'bpass_v2.2.1_imf135_300',
-        # 'bpass_v2.2.1_imf170_300',
-        # 'bpass_v2.2.1_imf100_100',
-        # 'bpass_v2.2.1_imf135_100',
-        # 'bpass_v2.2.1_imf170_100',
+        # 'bpass_v2.2.1_imf_chab300',
+        'bpass_v2.2.1_imf100_300',
+        'bpass_v2.2.1_imf135_300',
+        'bpass_v2.2.1_imf170_300',
+        'bpass_v2.2.1_imf100_100',
+        'bpass_v2.2.1_imf135_100',
+        'bpass_v2.2.1_imf170_100',
     ]
 
     for original_model_name in original_model_names:

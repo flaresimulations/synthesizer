@@ -46,8 +46,9 @@ def add_log10Q(grid_filename, ions=['HI', 'HeII'], limit=100):
 
     with h5py.File(grid_filename, 'a') as hf:
 
-        metallicities = hf['metallicities'][()]
-        log10ages = hf['log10ages'][()]
+        # THIS NEEDS UPDATING TO USE MORE GENERAL GRIDS
+        metallicities = hf['axes/metallicity'][()]
+        log10ages = hf['axes/log10age'][()]
 
         nZ = len(metallicities)
         na = len(log10ages)
