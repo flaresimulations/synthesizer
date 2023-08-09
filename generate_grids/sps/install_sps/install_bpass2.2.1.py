@@ -79,7 +79,7 @@ def make_grid(original_model_name, bin):
     # this is the full path to the ultimate HDF5 grid file
     out_filename = f'{synthesizer_data_dir}/grids/{synthesizer_model_name}.hdf5'
 
-    # input director
+    # input directory
     input_dir = f'{synthesizer_data_dir}/input_files/bpass/{model["original_model_name"]}/'
 
     # --- ccreate metallicity grid and dictionary
@@ -194,7 +194,6 @@ if __name__ == "__main__":
     parser.add_argument('--download-data', default=False, action='store_true',
                         help=("download bpass data directly in current directory "
                               "and untar in sunthesizer data directory"))
-
 
     parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
 

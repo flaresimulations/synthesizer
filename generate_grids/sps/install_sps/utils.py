@@ -94,7 +94,7 @@ def get_model_filename(model):
     if model["imf_type"] == 'bpl':
         imf_slopes_label = ','.join(map(lambda x: str(np.round(x, 2)), model["imf_slopes"]))
         synthesizer_model_name += '-'+imf_slopes_label
-    if model["alpha"]:
+    if model["alpha"] is not False:
         synthesizer_model_name += f'_alpha{model["alpha"]}'
 
     return synthesizer_model_name

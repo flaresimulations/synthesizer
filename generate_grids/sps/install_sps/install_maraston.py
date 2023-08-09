@@ -4,19 +4,14 @@ Download BC03 and convert to HDF5 synthesizer grid.
 
 import numpy as np
 import os
-import sys
-import re
-import wget
 import argparse
-from synthesizer.utils import write_data_h5py, write_attribute, flam_to_fnu
+from pathlib import Path
 import tarfile
-import glob
-import gzip
-import shutil
 
+from synthesizer.utils import flam_to_fnu
 from synthesizer.sed import calculate_Q
 
-from pathlib import Path
+from utils import write_data_h5py, write_attribute, get_model_filename, add_log10Q
 
 
 
@@ -50,25 +45,27 @@ def download_data(input_dir):
 
 
 
-def make_grid():
+def make_grid(model, imf, hr_morphology):
     """ Main function to convert BC03 grids and
         produce grids used by synthesizer """
 
+    # get synthesizer model name
+    synthesizer_model_name = get_model_filename(model)
+
+    print(synthesizer_model_name)
 
     # Define output
-    fname = f'{synthesizer_data_dir}/grids/{model_name}-{hr_morphology}_{imf}.h5'
+    out_filename = f'{synthesizer_data_dir}/grids/{synthesizer_model_name}.hdf5'
 
-
+    # NOTE THE LOWEST METALLICITY MODEL DOES NOT HAVE YOUNG AGES so don't use
     metallicities = np.array([0.001, 0.01, 0.02, 0.04])  # array of avialable metallicities
-    # NOTE THE LOWEST METALLICITY MODEL DOES NOT HAVE YOUNG AGES
-
-    log10metallicities = np.log10(metallicities)
-
-    metallicity_code = {0.0001: '10m4', 0.001: '0001', 0.01: '001', 0.02: '002', 0.04: '004', 0.07: '007'} # codes for converting metallicty
+    
+    # codes for converting metallicty
+    metallicity_code = {0.0001: '10m4', 0.001: '0001', 0.01: '001', 0.02: '002', 0.04: '004', 0.07: '007'} 
 
 
     # --- open first file to get age
-    fn = f'{input_dir}/sed.{imf_code[imf]}z{metallicity_code[metallicities[0]]}.{hr_morphology}'
+    fn = f'{input_dir}/sed.{imf}z{metallicity_code[metallicities[0]]}.{hr_morphology}'
     ages_, _, lam_, flam_ = np.loadtxt(fn).T
 
     ages_Gyr = np.sort(np.array(list(set(ages_)))) # Gyr
@@ -82,7 +79,7 @@ def make_grid():
     for iZ, metallicity in enumerate(metallicities):
         for ia, age_Gyr in enumerate(ages_Gyr):
 
-            fn = f'{input_dir}/sed.{imf_code[imf]}z{metallicity_code[metallicity]}.{hr_morphology}'
+            fn = f'{input_dir}/sed.{imf}z{metallicity_code[metallicity]}.{hr_morphology}'
             print(iZ, ia, fn)
             ages_, _, lam_, flam_ = np.loadtxt(fn).T
 
@@ -92,64 +89,75 @@ def make_grid():
 
 
 
-    write_data_h5py(fname, 'spectra/wavelength', data=lam, overwrite=True)
-    write_attribute(fname, 'spectra/wavelength', 'Description',
+    write_data_h5py(out_filename, 'spectra/wavelength', data=lam, overwrite=True)
+    write_attribute(out_filename, 'spectra/wavelength', 'Description',
             'Wavelength of the spectra grid')
-    write_attribute(fname, 'spectra/wavelength', 'Units', 'AA')
+    write_attribute(out_filename, 'spectra/wavelength', 'Units', 'AA')
 
-    write_data_h5py(fname, 'ages', data=ages, overwrite=True)
-    write_attribute(fname, 'ages', 'Description',
-            'Stellar population ages years')
-    write_attribute(fname, 'ages', 'Units', 'yr')
-
-    write_data_h5py(fname, 'log10ages', data=log10ages, overwrite=True)
-    write_attribute(fname, 'log10ages', 'Description',
-            'Stellar population ages in log10 years')
-    write_attribute(fname, 'log10ages', 'Units', 'log10(yr)')
-
-    write_data_h5py(fname, 'metallicities', data=metallicities, overwrite=True)
-    write_attribute(fname, 'metallicities', 'Description',
-            'raw abundances')
-    write_attribute(fname, 'metallicities', 'Units', 'dimensionless [Z]')
-
-    write_data_h5py(fname, 'log10metallicities', data=log10metallicities, overwrite=True)
-    write_attribute(fname, 'log10metallicities', 'Description',
-            'raw abundances in log10')
-    write_attribute(fname, 'log10metallicities', 'Units', 'dimensionless [log10(Z)]')
-
-    write_data_h5py(fname, 'spectra/stellar', data=spec, overwrite=True)
-    write_attribute(fname, 'spectra/stellar', 'Description',
+    write_data_h5py(out_filename, 'spectra/stellar', data=spec, overwrite=True)
+    write_attribute(out_filename, 'spectra/stellar', 'Description',
                     'Three-dimensional spectra grid, [age, metallicity, wavelength]')
-    write_attribute(fname, 'spectra/stellar', 'Units', 'erg s^-1 Hz^-1')
+    write_attribute(out_filename, 'spectra/stellar', 'Units', 'erg/s/Hz')
 
+
+    # write out axes
+    write_attribute(out_filename, '/', 'axes', ('log10age', 'metallicity'))
+
+    write_data_h5py(out_filename, 'axes/log10age', data=log10ages, overwrite=True)
+    write_attribute(out_filename, 'axes/log10age', 'Description',
+            'Stellar population ages in log10 years')
+    write_attribute(out_filename, 'axes/log10age', 'Units', 'dex(yr)')
+
+    write_data_h5py(out_filename, 'axes/metallicity', data=metallicities, overwrite=True)
+    write_attribute(out_filename, 'axes/metallicity', 'Description',
+            'raw abundances')
+    write_attribute(out_filename, 'axes/metallicity', 'Units', 'dimensionless')
+
+   
+    return out_filename
 
 # Lets include a way to call this script not via an entry point
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='Install the Maraston05 grid to the specified directory.')
-    parser.add_argument("-dir", "--directory", type=str, required=True)
+    parser = argparse.ArgumentParser(description="BPASS_2.2.1 download and grid creation")
+    parser.add_argument('--download', default=False, action='store_true',
+                        help=("download bpass data directly in current directory "
+                              "and untar in sunthesizer data directory"))
+
+    parser.add_argument('-synthesizer_data_dir', '--synthesizer_data_dir', default=False)
+
     args = parser.parse_args()
 
-    synthesizer_data_dir = args.directory
+    synthesizer_data_dir = args.synthesizer_data_dir
+    grid_dir = f'{synthesizer_data_dir}/grids'
 
     model_name = 'maraston'
 
     input_dir = f'{synthesizer_data_dir}/input_files/{model_name}'  # the location to untar the original data
 
-    imfs = ['salpeter']
-    # imfs = ['salpeter','kroupa']
+    imfs = ['ss'] #, 'kr'
+   
 
     original_data_url = {}
-    original_data_url['salpeter'] = 'http://www.icg.port.ac.uk/~maraston/SSPn/SED/Sed_Mar05_SSP_Salpeter.tar.gz'
-    imf_code = {'salpeter': 'ss', 'kroupa': 'kr'}
+    original_data_url['ss'] = 'http://www.icg.port.ac.uk/~maraston/SSPn/SED/Sed_Mar05_SSP_Salpeter.tar.gz'
+    
+    
 
-    for imf in imfs: #,
+    model = {'sps_name': 'maraston',
+             'sps_version': '',
+             'alpha': False,
+             }
+    
+    for imf in imfs:
 
-        download_data(input_dir)
+        if imf == 'ss':
+            model['imf_type'] = 'bpl'
+            model['imf_masses'] = [0.1, 100]
+            model['imf_slopes'] = [2.35]
 
         for hr_morphology in ['rhb']:
 
-            make_grid()
+            model['sps_variant'] = hr_morphology
+            out_filename = make_grid(model, imf, hr_morphology)
 
-            # filename = f'{sythesizer_data_dir}/grids/{model_name}.h5'
-            # add_log10Q(filename)
+            add_log10Q(out_filename)
