@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("-sps_grid", type=str, required=True) # grid_name, used to define parameter file
     parser.add_argument("-cloudy_grid", type=str, required=False, default='c17.03') # the parameters of the cloudy run, including any grid axes
     parser.add_argument("-cloudy_path", type=str, required=True) # path to cloudy directory (not executable; this is assumed to {cloudy}/{cloudy_version}/source/cloudy.ext)
-    parser.add_argument("-verbose", type=bool, required=True, default=False) # path to cloudy directory (not executable; this is assumed to {cloudy}/{cloudy_version}/source/cloudy.ext)
+    parser.add_argument("-verbose", type=bool, required=False, default=True) # path to cloudy directory (not executable; this is assumed to {cloudy}/{cloudy_version}/source/cloudy.ext)
     args = parser.parse_args()
 
     verbose = args.verbose
