@@ -112,8 +112,13 @@ export CLOUDY_DATA_PATH={cloudy_data_path}
 
     open(f'{grid_data_dir}/run_grid.job', 'w').write(apollo_job_script)
     print(grid_data_dir)
-    # print(f'qsub -t 1:{n} run_grid.job -v CLOUDY_DATA_PATH={cloudy_data_path}')
-    print(f'qsub -t 1:{n} -q smp.q -pe openmp 2 run_grid.job ')
+
+    # define the qsub command
+    qsub = f'qsub -t 1:{n} -q smp.q -pe openmp 2 run_grid.job '
+    print(qsub)
+
+    # create a script to execute the qsub command
+    open(f'{grid_data_dir}/run.sh', 'w').write(qsub)
 
     return
 
