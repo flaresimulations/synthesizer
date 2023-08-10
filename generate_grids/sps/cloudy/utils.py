@@ -88,6 +88,8 @@ def apollo_submission_script(n, grid_data_dir, cloudy_path, cloudy_version):
 #$ -S /bin/bash
 # -- Execute this job from the current working directory.
 #$ -cwd
+#$ -l h_vmem=4G
+#$ -l m_mem_free=4G
 # -- Job output to stderr will be merged into standard out. Remove this line if
 # -- you want to have separate stderr and stdout log files
 #$ -j y
@@ -111,7 +113,7 @@ export CLOUDY_DATA_PATH={cloudy_data_path}
     open(f'{grid_data_dir}/run_grid.job', 'w').write(apollo_job_script)
     print(grid_data_dir)
     # print(f'qsub -t 1:{n} run_grid.job -v CLOUDY_DATA_PATH={cloudy_data_path}')
-    print(f'qsub -t 1:{n} -jc test.short run_grid.job ')
+    print(f'qsub -t 1:{n} -q smp.q -pe openmp 2 run_grid.job ')
 
     return
 
