@@ -65,10 +65,12 @@ if __name__ == "__main__":
     parser.add_argument("-machine", type=str, required=True) # machine (for submission script generation)
     parser.add_argument("-synthesizer_data_dir", type=str, required=True) # path to synthesizer_data_dir
     parser.add_argument("-sps_grid", type=str, required=True) # grid_name, used to define parameter file
-    parser.add_argument("-cloudy_grid", type=str, required=False, default='params/default.yaml') # the parameters of the cloudy run, including any grid axes
+    parser.add_argument("-cloudy_grid", type=str, required=False, default='c17.03') # the parameters of the cloudy run, including any grid axes
     parser.add_argument("-cloudy_path", type=str, required=True) # path to cloudy directory (not executable; this is assumed to {cloudy}/{cloudy_version}/source/cloudy.ext)
+    parser.add_argument("-verbose", type=bool, required=True, default=False) # path to cloudy directory (not executable; this is assumed to {cloudy}/{cloudy_version}/source/cloudy.ext)
     args = parser.parse_args()
 
+    verbose = args.verbose
 
     # load the cloudy parameters you are going to run
     fixed_params, grid_params = load_grid_params(args.cloudy_grid)
@@ -93,20 +95,23 @@ if __name__ == "__main__":
 
     # set a list of the axes
     axes = list(sps_grid.axes) + list(grid_params.keys())
-    print('axes:', axes)
+    if verbose: print('axes:', axes)
 
 
     # add the SPS grid parameters to grid_params
     for axis in sps_grid.axes:
         grid_params[axis] = getattr(sps_grid, axis)
 
-    # print fixed parameters
-    for k, v in fixed_params.items():
-        print(k,v)
+    
+    if verbose: 
 
-    # print grid parameters, including SPS parameters
-    for k, v in grid_params.items():
-        print(k,v)
+        # print fixed parameters
+        for k, v in fixed_params.items():
+            print(k,v)
+
+        # print grid parameters, including SPS parameters
+        for k, v in grid_params.items():
+            print(k,v)
 
     # if the U model is the reference model (i.e. not fixed) save the grid point for the reference values
     if fixed_params['U_model'] == 'ref':
@@ -136,7 +141,8 @@ if __name__ == "__main__":
         # open the original SPS model grid
         with h5py.File(f'{args.synthesizer_data_dir}/grids/{sps_grid_name}.hdf5', 'r') as hf_sps:
 
-            hf_sps.visit(print)
+
+            if verbose: hf_sps.visit(print)
 
             # copy top-level attributes
             for k, v in hf_sps.attrs.items():
@@ -159,12 +165,13 @@ if __name__ == "__main__":
         for k,v in params.items():
             hf.attrs[k] = v
 
-        print('-'*50)
-        print('---- attributes')
-        for k,v in hf.attrs.items():
-            print(k,v)
-        print('---- groups and datasets')
-        hf.visit(print)
+        if verbose: 
+            print('-'*50)
+            print('---- attributes')
+            for k,v in hf.attrs.items():
+                print(k,v)
+            print('---- groups and datasets')
+            hf.visit(print)
         
 
 
