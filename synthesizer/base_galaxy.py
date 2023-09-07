@@ -333,6 +333,234 @@ class BaseGalaxy:
 
         return emergent
 
+    def get_spectra_pacman_single(
+        self,
+        grid,
+        dust_curve=PowerLaw(),
+        tau_v=1.0,
+        alpha=-1.0,
+        young_old_thresh=None,
+        fesc=0.0,
+        fesc_LyA=1.0,
+        label='',
+    ):
+        """
+        Calculates dust attenuated spectra assuming the PACMAN dust/fesc model
+        including variable Lyman-alpha transmission. In this model some
+        fraction (fesc) of the pure stellar emission is able to completely
+        escaped the galaxy without reprocessing by gas or dust. The rest is
+        assumed to be reprocessed by both gas and a screen of dust. If
+        young_old_thresh is set then the individual and combined spectra will
+        be generated for both young and old components. In this case it's
+        necessary to provide an array of tau_v and alphas dscribing the ISM
+        birth cloud components respectively. The young component feels
+        attenuation from both the ISM and birth cloud while the old component
+        only feels attenuation from the ISM.
+
+        Args:
+            grid  (object, Grid):
+                The spectral grid
+            dust_curve (object):
+                instance of dust_curve
+            fesc :(float):
+                Lyman continuum escaped fraction
+            fesc_LyA (float):
+                Lyman-alpha escaped fraction
+            tau_v (float):
+                numerical value of dust attenuation
+            alpha (float):
+                numerical value of the dust curve slope
+            young_old_thresh (float)
+                numerical value of threshold from young to old
+
+        Raises:
+            InconsistentArguments:
+                Errors when more than two values for tau_v and alpha is
+                passed for CF00 dust screen. In case of single dust
+                screen, raises error for multiple optical depths or dust
+                curve slope.
+
+        Updates:
+            incident
+            escaped
+            transmitted
+            nebular
+            reprocessed
+            intrinsic
+            attenuated
+            emergent
+
+            if CF00:
+                young_incident
+                young_escaped
+                young_transmitted
+                young_nebular
+                young_reprocessed
+                young_intrinsic
+                young_attenuated
+                young_emergent
+                old_incident
+                old_escaped
+                old_transmitted
+                old_nebular
+                old_reprocessed
+                old_intrinsic
+                old_attenuated
+                old_emergent
+
+        Returns:
+            obj (Sed):
+                A Sed object containing the emergent spectra
+        """
+
+        if young_old_thresh:
+            if (len(tau_v) > 2) or (len(alpha) > 2):
+                exceptions.InconsistentArguments(
+                    (
+                        "Only 2 values for the optical depth or dust curve "
+                        "slope are allowed for the CF00 model"
+                    )
+                )
+        else:
+            if isinstance(tau_v, (list, tuple, np.ndarray)) or isinstance(
+                alpha, (list, tuple, np.ndarray)
+            ):
+                exceptions.InconsistentArguments(
+                    (
+                        """Only single value
+                supported for tau_v and alpha in case of single dust
+                screen"""
+                    )
+                )
+
+        # initialise output spectra
+        self.spectra["attenuated"] = Sed(grid.lam)
+        self.spectra["emergent"] = Sed(grid.lam)
+
+        # generate intrinsic spectra using full star formation and metal
+        # enrichment history or all particles
+        # generates:
+        #   - incident
+        #   - escaped
+        #   - transmitted
+        #   - nebular
+        #   - reprocessed = transmitted + nebular
+        #   - intrinsic = transmitted + reprocessed
+        self.get_spectra_reprocessed(
+            grid, fesc, fesc_LyA=fesc_LyA, young=False, old=False
+        )
+
+        if young_old_thresh:
+            self.spectra["young_attenuated"] = Sed(grid.lam)
+            self.spectra["old_attenuated"] = Sed(grid.lam)
+            self.spectra["young_emergent"] = Sed(grid.lam)
+            self.spectra["old_emergent"] = Sed(grid.lam)
+
+            # generate the young gas reprocessed spectra
+            # add a label so saves e.g. 'escaped_young' etc.
+            self.get_spectra_reprocessed(
+                grid,
+                fesc,
+                fesc_LyA=fesc_LyA,
+                young=young_old_thresh,
+                old=False,
+                label="young_",
+            )
+
+            # generate the old gas reprocessed spectra
+            # add a label so saves e.g. 'escaped_old' etc.
+            self.get_spectra_reprocessed(
+                grid,
+                fesc,
+                fesc_LyA=fesc_LyA,
+                young=False,
+                old=young_old_thresh,
+                label="old_",
+            )
+
+            print(self.spectra.keys())
+
+        if np.isscalar(tau_v):
+            # single screen dust, no separate birth cloud attenuation
+            dust_curve.params["slope"] = alpha
+
+            # calculate dust attenuation
+            T = dust_curve.attenuate(tau_v, grid.lam)
+
+            # calculate the attenuated emission
+            self.spectra["attenuated"]._lnu = T * self.spectra["reprocessed"]._lnu
+
+        elif np.isscalar(tau_v) is False:
+            """
+            Apply separate attenuation to both the young and old components.
+            """
+
+            # Two screen dust, one for diffuse other for birth cloud dust.
+            if np.isscalar(alpha):
+                print(
+                    (
+                        "Separate dust curve slopes for diffuse and "
+                        "birth cloud dust not given"
+                    )
+                )
+                print(
+                    (
+                        "Defaulting to alpha_ISM=-0.7 and alpha_BC=-1.4 "
+                        "(Charlot & Fall 2000)"
+                    )
+                )
+                alpha = [-0.7, -1.4]
+
+            dust_curve.params["slope"] = alpha[0]
+            T_ISM = dust_curve.attenuate(tau_v[0], grid.lam)
+
+            dust_curve.params["slope"] = alpha[1]
+            T_BC = dust_curve.attenuate(tau_v[1], grid.lam)
+
+            T_young = T_ISM * T_BC
+            T_old = T_ISM
+
+            self.spectra["young_attenuated"]._lnu = (
+                T_young * self.spectra["young_reprocessed"]._lnu
+            )
+            self.spectra["old_attenuated"]._lnu = (
+                T_old * self.spectra["old_reprocessed"]._lnu
+            )
+
+            self.spectra["attenuated"]._lnu = (
+                self.spectra["young_attenuated"]._lnu
+                + self.spectra["old_attenuated"]._lnu
+            )
+
+            # set emergent spectra
+            if not fesc > 0:
+                self.spectra["young_emergent"]._lnu = self.spectra[
+                    "young_attenuated"
+                ]._lnu
+                self.spectra["old_emergent"]._lnu = self.spectra["old_attenuated"]._lnu
+            else:
+                self.spectra["young_emergent"]._lnu = (
+                    self.spectra["young_escaped"]._lnu
+                    + self.spectra["young_attenuated"]._lnu
+                )
+                self.spectra["old_emergent"]._lnu = (
+                    self.spectra["old_escaped"]._lnu
+                    + self.spectra["old_attenuated"]._lnu
+                )
+
+        if not fesc > 0:
+            self.spectra["emergent"]._lnu = self.spectra["attenuated"]._lnu
+        else:
+            self.spectra["emergent"]._lnu = (
+                self.spectra["escaped"]._lnu + self.spectra["attenuated"]._lnu
+            )
+
+        return self.spectra["emergent"]
+
+
+
+
+
     def get_spectra_pacman(
         self,
         grid,
@@ -555,6 +783,15 @@ class BaseGalaxy:
             )
 
         return self.spectra["emergent"]
+
+
+
+
+
+
+
+
+
 
     def get_spectra_CharlotFall(
         self,
