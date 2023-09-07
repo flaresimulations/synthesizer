@@ -19,8 +19,8 @@ class EmissionBase:
         um
         """
         return integrate.quad(
-            self.lnu_, c / (1000 * um), c / (8 * um), full_output=False, limit=100
-        )[0]
+            self.lnu_, c / (1000 * um), c / (8 * um), full_output=False,
+            limit=100)[0]
 
     # @accepts(lam=length)
     def lnu(self, lam):
@@ -162,7 +162,8 @@ class Casey12(EmissionBase):
         b2 = 6.246
         b3 = 0.0001905
         b4 = 0.00007243
-        L = ((b1 + b2 * alpha) ** -2 + (b3 + b4 * alpha) * T.to("K").value) ** -1
+        L = ((b1 + b2 * alpha) ** -2 + (b3 + b4 * alpha) * T.to("K").value) **\
+            -1
 
         self.lam_c = (3.0 / 4.0) * L * um
 
