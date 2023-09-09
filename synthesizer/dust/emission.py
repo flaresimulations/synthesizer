@@ -5,13 +5,17 @@ from unyt import accepts
 from unyt.dimensions import temperature
 
 from synthesizer.utils import planck
-
+from syntehsizer.units import Quantity
 
 class EmissionBase:
-
     """
     Dust emission base class for holding common methods.
     """
+
+    # Quantities
+    lnu = Quantity()
+    temperature = Quantity()
+    nu = Quantity()
 
     def normalise(self):
         """

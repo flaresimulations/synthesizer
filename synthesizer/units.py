@@ -66,6 +66,7 @@ default_units = {
     "accretion_rate": Msun / yr,
     "bol_luminosity": erg / s,
     "bb_temperature": K,
+    "temperature": K,
 }
 
 
@@ -250,6 +251,9 @@ class Units(metaclass=UnitSingleton):
         self.accretion_rate = Msun / yr
         self.bol_luminosity = erg / s
         self.bb_temperature = K
+
+        # Temperatures
+        self.temperature = K
 
         # Do we have any modifications to the default unit system
         if units is not None:
