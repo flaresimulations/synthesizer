@@ -59,24 +59,28 @@ class BaseGalaxy:
 
         return linecont
 
-    def get_spectra_incident(self, grid, young=False, old=False, label="", update=True):
+    def get_spectra_incident(self, grid, young=False, old=False, label="",
+                             update=True, integrated=True):
         """
         Generate the incident (equivalent to pure stellar for stars) spectra
         using the provided Grid.
 
         Args:
             grid (obj):
-                spectral grid object
+                Spectral grid object
             update (bool):
-                flag for whether to update the `stellar` spectra
+                Flag for whether to update the `stellar` spectra
                 inside the galaxy object `spectra` dictionary.
                 These are the combined values of young and old.
             young (bool, float):
-                if not False, specifies age in Myr at which to filter
+                If not False, specifies age in Myr at which to filter
                 for young star particles
             old (bool, float):
-                if not False, specifies age in Myr at which to filter
+                If not False, specifies age in Myr at which to filter
                 for old star particles
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Returns:
             An Sed object containing the stellar spectra

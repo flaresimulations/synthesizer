@@ -426,6 +426,64 @@ class Galaxy(BaseGalaxy):
 
         return spec
 
+    def generate_particle_lnu(
+        self, grid, spectra_name, fesc=0.0, young=False, old=False, verbose=False
+    ):
+        """
+        Generate the luminosity for a given grid key spectra for all
+        stars in this galaxy object. Can optionally apply masks.
+
+        Base class for :func:`~particle.ParticleGalaxy.get_spectra_incident`
+        and other related methods
+
+        Args:
+            grid (obj):
+                spectral grid object
+            spectra_name (string):
+                name of the target spectra inside the grid file
+            fesc (float):
+                fraction of stellar emission that escapes unattenuated from
+                the birth cloud (defaults to 0.0)
+            young (bool, float):
+                if not False, specifies age in Myr at which to filter
+                for young star particles
+            old (bool, float):
+                if not False, specifies age in Myr at which to filter
+                for old star particles
+            verbose (bool):
+                Flag for verbose output
+
+        Returns:
+            numpy array of integrated spectra in units of (erg / s / Hz)
+        """
+
+        # Ensure we have a total key in the grid. If not error.
+        if spectra_name not in list(grid.spectra.keys()):
+            raise MissingSpectraType(
+                "The Grid does not contain the key '%s'" % spectra_name
+            )
+
+        # get particle age masks
+        mask = self._get_masks(young, old)
+
+        if np.sum(mask) == 0:
+            if verbose:
+                print("Age mask has filtered out all particles")
+
+            return np.zeros(len(grid.lam))
+
+        from ..extensions.csed import compute_particle_seds
+
+        # Prepare the arguments for the C function.
+        args = self._prepare_sed_args(
+            grid, fesc=fesc, spectra_type=spectra_name, mask=mask
+        )
+
+        # Get the integrated spectra in grid units (erg / s / Hz)
+        spec = compute_particle_seds(*args)
+
+        return spec
+
     def _get_masks(self, young=None, old=None):
         """
         Get masks for which components we are handling, if a sub-component
