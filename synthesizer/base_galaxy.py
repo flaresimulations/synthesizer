@@ -37,7 +37,13 @@ class BaseGalaxy:
         )
 
     def get_spectra_linecont(
-        self, grid, fesc=0.0, fesc_LyA=1.0, young=False, old=False
+            self,
+            grid,
+            fesc=0.0,
+            fesc_LyA=1.0,
+            young=False,
+            old=False,
+            integrated=True,
     ):
         """
         Generate the line contribution spectra. This is only invoked if
@@ -46,9 +52,11 @@ class BaseGalaxy:
 
         # generate contribution of line emission alone and reduce the
         # contribution of Lyman-alpha
-        linecont = self.generate_lnu(
-            grid, spectra_name="linecont", old=old, young=young
-        )
+        if integrated:
+            linecont = self.generate_lnu(grid, "linecont", young=young, old=old)
+        else:
+            linecont = self.generate_particle_lnu(grid, "linecont", young=young,
+                                                  old=old)
 
         # multiply by the Lyamn-continuum escape fraction
         linecont *= 1 - fesc
@@ -86,17 +94,25 @@ class BaseGalaxy:
             An Sed object containing the stellar spectra
         """
 
-        lnu = self.generate_lnu(grid, "incident", young=young, old=old)
+        # Get the correct type of spectra
+        if integrated:
+            lnu = self.generate_lnu(grid, "incident", young=young, old=old)
+        else:
+            lnu = self.generate_particle_lnu(grid, "incident", young=young,
+                                             old=old)
 
         sed = Sed(grid.lam, lnu)
 
-        if update:
+        if update and integrated:
             self.spectra[label + "incident"] = sed
+        elif update:
+             self.spectra_array[label + "incident"] = sed
 
         return sed
 
     def get_spectra_transmitted(
-        self, grid, fesc=0.0, young=False, old=False, label="", update=True
+            self, grid, fesc=0.0, young=False, old=False, label="", update=True,
+            integrated=True,
     ):
         """
         Generate the transmitted spectra using the provided Grid. This is the
@@ -119,24 +135,36 @@ class BaseGalaxy:
             old (bool, float):
                 if not False, specifies age in Myr at which to filter
                 for old star particles
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Returns:
             An Sed object containing the transmitted spectra
         """
 
-        lnu = (1.0 - fesc) * self.generate_lnu(
-            grid, "transmitted", young=young, old=old
-        )
+        # Get the correct spectra
+        if integrated:
+            lnu = (1.0 - fesc) * self.generate_lnu(
+                grid, "transmitted", young=young, old=old
+            )
+        else:
+            lnu = (1.0 - fesc) * self.generate_particle_lnu(
+                grid, "transmitted", young=young, old=old
+            )
 
         sed = Sed(grid.lam, lnu)
 
-        if update:
+        if update and integrated:
             self.spectra[label + "transmitted"] = sed
+        elif update:
+            self.spectra_array[label + "transmitted"] = sed
 
         return sed
 
     def get_spectra_nebular(
-        self, grid, fesc=0.0, update=True, young=False, label="", old=False
+            self, grid, fesc=0.0, update=True, young=False, label="", old=False,
+            integrated=True,
     ):
         """
         Generate nebular spectra from a grid object and star particles.
@@ -158,19 +186,29 @@ class BaseGalaxy:
             old (bool, float):
                 if not False, specifies age in Myr at which to filter
                 for old star particles
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Returns:
             An Sed object containing the nebular spectra
         """
 
-        lnu = self.generate_lnu(grid, "nebular", young=young, old=old)
+        # Get the correct type of spectra
+        if integrated:
+            lnu = self.generate_lnu(grid, "nebular", young=young, old=old)
+        else:
+            lnu = self.generate_particle_lnu(grid, "nebular", young=young,
+                                             old=old)
 
         lnu *= 1 - fesc
 
         sed = Sed(grid.lam, lnu)
 
-        if update:
+        if update and integrated:
             self.spectra[label + "nebular"] = sed
+        elif update:
+            self.spectra_array[label + "nebular"] = sed
 
         return sed
 
@@ -183,6 +221,7 @@ class BaseGalaxy:
         old=False,
         label="",
         update=True,
+        integrated=True,
     ):
         """
         Generates the intrinsic spectra, this is the sum of the escaping
@@ -211,6 +250,9 @@ class BaseGalaxy:
             old (bool, float):
                 if not False, specifies age in Myr at which to filter
                 for old star particles
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Updates:
             incident:
@@ -228,7 +270,12 @@ class BaseGalaxy:
 
         # the incident emission
         incident = self.get_spectra_incident(
-            grid, update=update, young=young, old=old, label=label
+            grid,
+            update=update,
+            young=young,
+            old=old,
+            label=label,
+            integrated=integrated
         )
 
         # the emission which escapes the gas
@@ -237,22 +284,45 @@ class BaseGalaxy:
 
         # the stellar emission which **is** reprocessed by the gas
         transmitted = self.get_spectra_transmitted(
-            grid, fesc, update=update, young=young, old=old, label=label
+            grid,
+            fesc,
+            update=update,
+            young=young,
+            old=old,
+            label=label,
+            integrated=integrated
         )
         # the nebular emission
         nebular = self.get_spectra_nebular(
-            grid, fesc, update=update, young=young, old=old, label=label
+            grid,
+            fesc,
+            update=update,
+            young=young,
+            old=old,
+            label=label,
+            integrated=integrated
         )
 
         # if the Lyman-alpha escape fraction is <1.0 suppress it.
         if fesc_LyA < 1.0:
             # get the new line contribution to the spectrum
-            linecont = self.get_spectra_linecont(grid, fesc=fesc, fesc_LyA=fesc_LyA)
+            linecont = self.get_spectra_linecont(
+                grid,
+                fesc=fesc,
+                fesc_LyA=fesc_LyA,
+                integrated=integrated,
+            )
 
             # get the nebular continuum emission
-            nebular_continuum = self.generate_lnu(
-                grid, "nebular_continuum", young=young, old=old
-            )
+            if integrated:
+                nebular_continuum = self.generate_lnu(
+                    grid, "nebular_continuum", young=young, old=old
+                )
+            else:
+                nebular_continuum = self.generate_particle_lnu(
+                    grid, "nebular_continuum", young=young, old=old
+                )
+
             nebular_continuum *= 1 - fesc
 
             # redefine the nebular emission
@@ -268,11 +338,16 @@ class BaseGalaxy:
         else:
             intrinsic = reprocessed
 
-        if update:
+        if update and integrated:
             if fesc > 0:
                 self.spectra[label + "escaped"] = escaped
             self.spectra[label + "reprocessed"] = reprocessed
             self.spectra[label + "intrinsic"] = intrinsic
+        elif update:
+            if fesc > 0:
+                self.spectra_array[label + "escaped"] = escaped
+            self.spectra_array[label + "reprocessed"] = reprocessed
+            self.spectra_array[label + "intrinsic"] = intrinsic
 
         return reprocessed
 
@@ -284,6 +359,7 @@ class BaseGalaxy:
         young=False,
         old=False,
         update=True,
+        integrated=True,
     ):
         """
         Calculates dust attenuated spectra assuming a simple screen.
@@ -307,6 +383,9 @@ class BaseGalaxy:
                 flag for whether to update the `attenuated` spectra inside
                 the galaxy object `spectra` dictionary. These are the
                 combined values of young and old.
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Returns:
             An Sed object containing the dust attenuated spectra
@@ -322,7 +401,12 @@ class BaseGalaxy:
         #   - reprocessed = transmitted + nebular
         #   - intrinsic = transmitted + reprocessed
         self.get_spectra_reprocessed(
-            grid, update=update, fesc=0.0, young=young, old=old
+            grid,
+            update=update,
+            fesc=0.0,
+            young=young,
+            old=old,
+            integrated=integrated,
         )
 
         if tau_v:
@@ -346,6 +430,7 @@ class BaseGalaxy:
         young_old_thresh=None,
         fesc=0.0,
         fesc_LyA=1.0,
+        integrated=True,
     ):
         """
         Calculates dust attenuated spectra assuming the PACMAN dust/fesc model
@@ -375,6 +460,9 @@ class BaseGalaxy:
                 numerical value of the dust curve slope
             young_old_thresh (float)
                 numerical value of threshold from young to old
+            integrated (bool):
+                Flag for whether to do integrated or particle spectra. Not
+                applicable to ParametricGalaxy.
 
         Raises:
             InconsistentArguments:
@@ -450,7 +538,12 @@ class BaseGalaxy:
         #   - reprocessed = transmitted + nebular
         #   - intrinsic = transmitted + reprocessed
         self.get_spectra_reprocessed(
-            grid, fesc, fesc_LyA=fesc_LyA, young=False, old=False
+            grid,
+            fesc,
+            fesc_LyA=fesc_LyA,
+            young=False,
+            old=False,
+            integrated=integrated,
         )
 
         if young_old_thresh:
@@ -468,6 +561,7 @@ class BaseGalaxy:
                 young=young_old_thresh,
                 old=False,
                 label="young_",
+                integrated=integrated,
             )
 
             # generate the old gas reprocessed spectra
@@ -479,6 +573,7 @@ class BaseGalaxy:
                 young=False,
                 old=young_old_thresh,
                 label="old_",
+                integrated=integrated,
             )
 
         if np.isscalar(tau_v):
@@ -566,6 +661,7 @@ class BaseGalaxy:
         alpha_ISM=-0.7,
         alpha_BC=-1.3,
         young_old_thresh=7.0,
+        integrated=True,
     ):
         """
         Calculates dust attenuated spectra assuming the Charlot & Fall (2000)
@@ -587,6 +683,9 @@ class BaseGalaxy:
             slope of the BC dust curve, -1.3 in MAGPHYS
         young_old_thresh: float
             the threshold in log10(age/yr) for young/old stellar populations
+        integrated (bool):
+            Flag for whether to do integrated or particle spectra. Not
+            applicable to ParametricGalaxy.
 
         Returns
         -------
@@ -602,6 +701,7 @@ class BaseGalaxy:
             tau_v=[tau_v_ISM, tau_v_BC],
             alpha=[alpha_ISM, alpha_BC],
             young_old_thresh=young_old_thresh,
+            integrated=integrated,
         )
 
     def get_spectra_dust(self, emissionmodel):
