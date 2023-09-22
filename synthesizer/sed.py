@@ -63,24 +63,24 @@ class Sed:
         self.broadband_luminosities = None
         self.broadband_fluxes = None
 
+    def concat(self, second_sed):
+        if not np.array_equal(self._lam, second_sed._lam):
+            exceptions.InconsistentAddition("Wavelength grids must be identical")
+
+        if self._lnu.ndim != second_sed._lnu.ndim:
+            exceptions.InconsistentAddition("SEDs must have same dimensions")
+
+        # Concatenate and return the SEDs
+        return Sed(self._lam, np.concatenate((self._lnu, second_sed._lnu)))
+
     def __add__(self, second_sed):
         if not np.array_equal(self._lam, second_sed._lam):
             exceptions.InconsistentAddition("Wavelength grids must be identical")
 
-        else:
-            if self._lnu.ndim != second_sed._lnu.ndim:
-                exceptions.InconsistentAddition("SEDs must have same dimensions")
+        if self._lnu.ndim != second_sed._lnu.ndim:
+            exceptions.InconsistentAddition("SEDs must have same dimensions")
 
-            elif self._lnu.ndim == 1:
-                # if single Seds simply add together and return.
-                return Sed(self._lam, lnu=self._lnu + second_sed._lnu)
-
-            elif self._lnu.ndim == 2:
-                # if array of Seds concatenate them. This is only relevant for particles.
-                return Sed(self._lam, np.concatenate((self._lnu, second_sed._lnu)))
-
-            else:
-                exceptions.InconsistentAddition("Sed.lnu must have ndim 1 or 2")
+        return Sed(self._lam, lnu=self._lnu + second_sed._lnu)
 
     def __str__(self):
         """
