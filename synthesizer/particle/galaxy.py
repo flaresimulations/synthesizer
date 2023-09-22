@@ -793,7 +793,7 @@ class Galaxy(BaseGalaxy):
 
         transmission = np.zeros((tau_v.size, lam.size))
         for ind, t in enumerate(tau_v):
-            transmission[ind] = dust_curve.attenuate(tau_v, lam)
+            transmission[ind] = dust_curve.attenuate(t, lam)
 
         # need exception
         # if not self.intrinsic_lum_array:
