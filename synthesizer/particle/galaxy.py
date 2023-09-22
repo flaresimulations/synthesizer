@@ -788,8 +788,12 @@ class Galaxy(BaseGalaxy):
         dust_curve: instance of the dust class
         """
 
-        transmission = dust_curve.attenuate(tau_v,
-                                            self.spectra_array[spectra_type].lam)
+        # Get the wavelength array
+        lam = self.spectra_array[spectra_type].lam
+
+        transmission = np.zeros((tau_v.size, lam.size))
+        for ind, t in enumerate(tau_v):
+            transmission[ind] = dust_curve.attenuate(tau_v, lam)
 
         # need exception
         # if not self.intrinsic_lum_array:
@@ -798,10 +802,10 @@ class Galaxy(BaseGalaxy):
         # these two should have the same shape so should work?
         sed = self.spectra_array[spectra_type] * transmission
         self.spectra_array["attenuated"] = Sed(
-            self.spectra_array[spectra_type].lam, sed
+            lam, sed
         )
         self.spectra["attenuated"] = Sed(
-            self.spectra_array[spectra_type].lam,
+            lam,
             np.sum(sed, axis=0)
         )
 
