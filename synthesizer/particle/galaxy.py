@@ -788,16 +788,22 @@ class Galaxy(BaseGalaxy):
         dust_curve: instance of the dust class
         """
 
-        T = np.outer(tau_v, dust_curve.T(self.lam))
+        transmission = dust_curve.attenuate(tau_v,
+                                            self.spectra_array[spectra_type].lam)
 
         # need exception
         # if not self.intrinsic_lum_array:
         #     print('Must generate spectra for individual star particles')
 
         # these two should have the same shape so should work?
-        sed = self.spectra_array[spectra_type] * T
-        self.spectra_array["attenuated"] = Sed(self.lam, sed)
-        self.spectra["attenuated"] = Sed(self.lam, np.sum(sed, axis=0))
+        sed = self.spectra_array[spectra_type] * transmission
+        self.spectra_array["attenuated"] = Sed(
+            self.spectra_array[spectra_type].lam, sed
+        )
+        self.spectra["attenuated"] = Sed(
+            self.spectra_array[spectra_type].lam,
+            np.sum(sed, axis=0)
+        )
 
         if integrated:
             return self.spectra["attenuated"]
