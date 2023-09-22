@@ -800,7 +800,7 @@ class Galaxy(BaseGalaxy):
         #     print('Must generate spectra for individual star particles')
 
         # these two should have the same shape so should work?
-        sed = self.spectra_array[spectra_type] * transmission
+        sed = self.spectra_array[spectra_type]._lnu * transmission
         self.spectra_array["attenuated"] = Sed(
             lam, sed
         )
