@@ -16,6 +16,7 @@
 
 /* Local includes */
 #include "macros.h"
+#include "threadpool.h"
 #include "weights.h"
 
 /**
