@@ -5,10 +5,6 @@
 
 /* C includes */
 #include <pthread.h>
-#include <pthreads.h>
-#include <stdlib.h>
-
-#include <pthread.h>
 #include <stdlib.h>
 
 /* Function signature for the map function */
@@ -33,6 +29,9 @@ typedef struct {
   pthread_cond_t condition;
   int shutdown;
 } ThreadPool;
+
+/* Forward declaration of workerThread */
+void *workerThread(ThreadPool *pool);
 
 /* Initialize the thread pool */
 ThreadPool *initializeThreadPool(int nthreads, int queue_size) {

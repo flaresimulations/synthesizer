@@ -69,44 +69,28 @@ class BuildExt(build_ext):
         ct = self.compiler.compiler_type
 
         # Set up the flags and links for compilation
-        opts = self.compile_flags.get(ct, [])
+        # opts = self.compile_flags.get(ct, [])
+        opts = []
+        opts.extend(
+            [
+                "-std=c99",
+                "-w",
+                "-O3",
+                "-ffast-math",
+                "-I{:s}".format(np.get_include()),
+            ]
+        )
         links = []
 
         # Uncomment below if we use openMP and find a nice way to demonstrate
         # the user how to install it.
         # Will - NOTE: this broke for me with a complaint about -lgomp
 
-        # # Check for the presence of -fopenmp; if it's there we're good to go!
-        # if has_flags(self.compiler, ["-fopenmp"]):
-        #     # Generic case, this is what GCC accepts
-        #     opts += ["-fopenmp"]
-        #     links += ["-lgomp"]
-
-        # elif has_flags(self.compiler, ["-Xpreprocessor", "-fopenmp", "-lomp"]):
-        #     # Hope that clang accepts this
-        #     opts += ["-Xpreprocessor", "-fopenmp", "-lomp"]
-        #     links += ["-lomp"]
-
-        # elif has_flags(self.compiler, ["-Xpreprocessor",
-        #                                "-fopenmp",
-        #                                "-lomp",
-        #                                '-I"$(brew --prefix libomp)/include"',
-        #                                '-L"$(brew --prefix libomp)/lib"']):
-        #     # Case on MacOS where somebody has installed libomp using homebrew
-        #     opts += ["-Xpreprocessor",
-        #              "-fopenmp",
-        #              "-lomp",
-        #              '-I"$(brew --prefix libomp)/include"',
-        #              '-L"$(brew --prefix libomp)/lib"']
-
-        #     links += ["-lomp"]
-
-        # else:
-
-        #     raise CompileError("Unable to compile C extensions on your machine, as we can't find OpenMP. "
-        #                        "If you are on MacOS, try `brew install libomp` and try again. "
-        #                        "If you are on Windows, please reach out on the GitHub and we can try "
-        #                        "to find a solution.")
+        # Check for the presence of -fopenmp; if it's there we're good to go!
+        if has_flags(self.compiler, ["-pthread"]):
+            # Generic case, this is what GCC accepts
+            opts += ["-pthread"]
+            links += ["-lpthread"]
 
         # Apply the flags and links
         for ext in self.extensions:
@@ -139,4 +123,7 @@ extensions = [
 ]
 
 # Finally, call the setup
-setup(cmdclass={build_ext: BuildExt}, ext_modules=extensions)
+setup(
+    cmdclass={build_ext: BuildExt},
+    ext_modules=extensions,
+)
