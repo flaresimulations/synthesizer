@@ -28,7 +28,7 @@ from synthesizer.components import StarsComponent
 from synthesizer.dust.attenuation import PowerLaw
 from synthesizer.line import Line, LineCollection
 from synthesizer.particle.particles import Particles
-from synthesizer.plt import single_histxy, mlabel
+from synthesizer.plt import single_histxy
 from synthesizer.sed import Sed
 from synthesizer.units import Quantity
 from synthesizer import exceptions
@@ -80,7 +80,7 @@ class Stars(Particles, StarsComponent):
     """
 
     # Define the allowed attributes
-    __slots__ = [
+    attrs = [
         "nparticles",
         "tau_v",
         "alpha_enhancement",
@@ -238,7 +238,7 @@ class Stars(Particles, StarsComponent):
         """
 
         # Ensure all arrays are the expected length
-        for key in self.__slots__:
+        for key in self.attrs:
             attr = getattr(self, key)
             if isinstance(attr, np.ndarray):
                 if attr.shape[0] != self.nparticles:
@@ -360,7 +360,7 @@ class Stars(Particles, StarsComponent):
         young=False,
         old=False,
         verbose=False,
-        do_grid_check=True,
+        do_grid_check=False,
         grid_assignment_method="cic",
     ):
         """
@@ -387,11 +387,11 @@ class Stars(Particles, StarsComponent):
                 Whether to check how many particles lie outside the grid. This
                 is True by default and provides a vital sanity check. There
                 are instances when you may want to turn this off:
-                    - You know particles will lie outside the grid and want
-                      this behaviour. In this case the check is redundant.
-                    - You know your particle lie within the grid but don't
-                      want to waste compute checking. This case is useful when
-                      working with large particle counts.
+                - You know particles will lie outside the grid and want
+                  this behaviour. In this case the check is redundant.
+                - You know your particle lie within the grid but don't
+                  want to waste compute checking. This case is useful when
+                  working with large particle counts.
             grid_assignment_method (string)
                 The type of method used to assign particles to a SPS grid
                 point. Allowed methods are cic (cloud in cell) or nearest
@@ -410,6 +410,18 @@ class Stars(Particles, StarsComponent):
 
         # Are we checking the particles are consistent with the grid?
         if do_grid_check:
+            # How many particles lie below the grid limits?
+            n_below_age = self.log10ages[self.log10ages < grid.log10age[0]].size
+            n_below_metal = self.metallicities[
+                self.metallicities < grid.metallicity[0]
+            ].size
+
+            # How many particles lie above the grid limits?
+            n_above_age = self.log10ages[self.log10ages > grid.log10age[-1]].size
+            n_above_metal = self.metallicities[
+                self.metallicities > grid.metallicity[-1]
+            ].size
+
             # Check the fraction of particles outside of the grid (these will be
             # pinned to the edge of the grid) by finding those inside
             age_inside_mask = np.logical_and(
@@ -432,7 +444,23 @@ class Stars(Particles, StarsComponent):
 
             # Tell the user if there are particles outside the grid
             if ratio_out > 0:
-                print(f"{ratio_out * 100:.2f}% of particles lie outside the grid!")
+                print(
+                    f"{ratio_out * 100:.2f}% of particles lie outside the grid! "
+                    "These will be pinned at the grid limits."
+                )
+                print(f"Of these:")
+                print(
+                    f"  {n_below_age / self.nparticles * 100:.2f}% have log10(ages/yr) > {grid.log10age[0]}"
+                )
+                print(
+                    f"  {n_below_metal / self.nparticles * 100:.2f}% have metallicities < {grid.metallicity[0]}"
+                )
+                print(
+                    f"  {n_above_age / self.nparticles * 100:.2f}% have log10(ages/yr) > {grid.log10age[-1]}"
+                )
+                print(
+                    f"  {n_above_metal / self.nparticles * 100:.2f}% have metallicities > {grid.metallicity[-1]}"
+                )
 
         # Get particle age masks
         mask = self._get_masks(young, old)
@@ -546,7 +574,7 @@ class Stars(Particles, StarsComponent):
         young=False,
         old=False,
         verbose=False,
-        do_grid_check=True,
+        do_grid_check=False,
         grid_assignment_method="cic",
     ):
         """
@@ -596,6 +624,18 @@ class Stars(Particles, StarsComponent):
 
         # Are we checking the particles are consistent with the grid?
         if do_grid_check:
+            # How many particles lie below the grid limits?
+            n_below_age = self.log10ages[self.log10ages < grid.log10age[0]].size
+            n_below_metal = self.metallicities[
+                self.metallicities < grid.metallicity[0]
+            ].size
+
+            # How many particles lie above the grid limits?
+            n_above_age = self.log10ages[self.log10ages > grid.log10age[-1]].size
+            n_above_metal = self.metallicities[
+                self.metallicities > grid.metallicity[-1]
+            ].size
+
             # Check the fraction of particles outside of the grid (these will be
             # pinned to the edge of the grid) by finding those inside
             age_inside_mask = np.logical_and(
@@ -618,7 +658,23 @@ class Stars(Particles, StarsComponent):
 
             # Tell the user if there are particles outside the grid
             if ratio_out > 0:
-                print(f"{ratio_out * 100:.2f}% of particles lie outside the grid!")
+                print(
+                    f"{ratio_out * 100:.2f}% of particles lie outside the grid! "
+                    "These will be pinned at the grid limits."
+                )
+                print(f"Of these:")
+                print(
+                    f"  {n_below_age / self.nparticles * 100:.2f}% have log10(ages/yr) < {grid.log10age[0]}"
+                )
+                print(
+                    f"  {n_below_metal / self.nparticles * 100:.2f}% have metallicities < {grid.metallicity[0]}"
+                )
+                print(
+                    f"  {n_above_age / self.nparticles * 100:.2f}% have log10(ages/yr) > {grid.log10age[-1]}"
+                )
+                print(
+                    f"  {n_above_metal / self.nparticles * 100:.2f}% have metallicities > {grid.metallicity[-1]}"
+                )
 
         # Get particle age masks
         mask = self._get_masks(young, old)
@@ -918,7 +974,7 @@ class Stars(Particles, StarsComponent):
             print("Duplicate existing attributes")
 
         # Handle the other propertys that need duplicating
-        for attr in Stars.__slots__:
+        for attr in Stars.attrs:
             # Skip unset attributes
             if getattr(self, attr) is None:
                 continue
@@ -935,7 +991,7 @@ class Stars(Particles, StarsComponent):
             print("Delete old particles")
 
         # Loop over attributes
-        for attr in Stars.__slots__:
+        for attr in Stars.attrs:
             # Skip unset attributes
             if getattr(self, attr) is None:
                 continue
@@ -1637,8 +1693,8 @@ class Stars(Particles, StarsComponent):
         haxx.set_xlim(log10ages[0], log10ages[-1])
 
         # Set labels
-        ax.set_xlabel(mlabel("log_{10}(age/yr)"))
-        ax.set_ylabel(mlabel("log_{10}Z"))
+        ax.set_xlabel(r"$\log_{10}(\mathrm{age}/\mathrm{yr})$")
+        ax.set_ylabel(r"$\log_{10}Z$")
 
         # Set the limits so all axes line up
         ax.set_ylim(log10metallicities[0], log10metallicities[-1])
