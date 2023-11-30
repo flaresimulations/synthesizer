@@ -223,6 +223,59 @@ void spectra_loop_ngp(const double **grid_props, const double **part_props,
   }
 }
 
+typedef struct {
+  const double *part_mass;
+  const double **grid_props;
+  const double **part_props;
+  const double *grid_spectra;
+  const int *dims;
+  int ndim;
+  double *spectra;
+  int nlam;
+  double fesc;
+  const char *method;
+} MapperData;
+
+void spectra_mapper(int start, int n_elements, void *extra_data) {
+
+  /* Unpack the extra data. */
+  MapperData *mapper_data = (MapperData *)extra_data;
+  const double *part_mass = mapper_data->part_mass;
+  const double **grid_props = mapper_data->grid_props;
+  const double **part_props = mapper_data->part_props;
+  const double *grid_spectra = mapper_data->grid_spectra;
+  const int *dims = mapper_data->dims;
+  const int ndim = mapper_data->ndim;
+  double *spectra = mapper_data->spectra;
+  const int nlam = mapper_data->nlam;
+  const double fesc = mapper_data->fesc;
+  const char *method = mapper_data->method;
+
+  for (int p = start; p < start + n_elements; p++) {
+
+    /* Get this particle's mass. */
+    const double mass = part_mass[p];
+
+    /* Finally, compute the spectra for this particle using the
+     * requested method. */
+    if (strcmp(method, "cic") == 0) {
+      spectra_loop_cic(grid_props, part_props, mass, grid_spectra, dims, ndim,
+                       spectra, nlam, fesc, p);
+    } else if (strcmp(method, "ngp") == 0) {
+      spectra_loop_ngp(grid_props, part_props, mass, grid_spectra, dims, ndim,
+                       spectra, nlam, fesc, p);
+    } else {
+      /* Only print this warning once */
+      if (p == 0)
+        printf(
+            "Unrecognised gird assignment method (%s)! Falling back on CIC\n",
+            method);
+      spectra_loop_cic(grid_props, part_props, mass, grid_spectra, dims, ndim,
+                       spectra, nlam, fesc, p);
+    }
+  }
+}
+
 /**
  * @brief Computes an integrated SED for a collection of particles.
  *
@@ -241,15 +294,16 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
 
   const int ndim;
   const int npart, nlam;
+  const int nthreads;
   const double fesc;
   const PyObject *grid_tuple, *part_tuple;
   const PyArrayObject *np_grid_spectra;
   const PyArrayObject *np_part_mass, *np_ndims;
   const char *method;
 
-  if (!PyArg_ParseTuple(args, "OOOOdOiiis", &np_grid_spectra, &grid_tuple,
+  if (!PyArg_ParseTuple(args, "OOOOdOiiisi", &np_grid_spectra, &grid_tuple,
                         &part_tuple, &np_part_mass, &fesc, &np_ndims, &ndim,
-                        &npart, &nlam, &method))
+                        &npart, &nlam, &method, &nthreads))
     return NULL;
 
   /* Quick check to make sure our inputs are valid. */
@@ -313,30 +367,23 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
     part_props[idim] = part_arr;
   }
 
-  /* Loop over particles. */
-  for (int p = 0; p < npart; p++) {
+  /* Set up the extra data we need to pass to the threadpool. */
+  MapperData *mapper_data = malloc(sizeof(MapperData));
+  mapper_data->part_mass = part_mass;
+  mapper_data->grid_props = grid_props;
+  mapper_data->part_props = part_props;
+  mapper_data->grid_spectra = grid_spectra;
+  mapper_data->dims = dims;
+  mapper_data->ndim = ndim;
+  mapper_data->spectra = spectra;
+  mapper_data->nlam = nlam;
+  mapper_data->fesc = fesc;
+  mapper_data->method = method;
 
-    /* Get this particle's mass. */
-    const double mass = part_mass[p];
-
-    /* Finally, compute the spectra for this particle using the
-     * requested method. */
-    if (strcmp(method, "cic") == 0) {
-      spectra_loop_cic(grid_props, part_props, mass, grid_spectra, dims, ndim,
-                       spectra, nlam, fesc, p);
-    } else if (strcmp(method, "ngp") == 0) {
-      spectra_loop_ngp(grid_props, part_props, mass, grid_spectra, dims, ndim,
-                       spectra, nlam, fesc, p);
-    } else {
-      /* Only print this warning once */
-      if (p == 0)
-        printf(
-            "Unrecognised gird assignment method (%s)! Falling back on CIC\n",
-            method);
-      spectra_loop_cic(grid_props, part_props, mass, grid_spectra, dims, ndim,
-                       spectra, nlam, fesc, p);
-    }
-  }
+  /* Let the threadpool do its magic! */
+  /* NOTE: if we don't have multiple threads the threadpool will simply loop. */
+  threadpoolMapper(nthreads, npart, mapper_data, spectra_mapper);
+  free(mapper_data);
 
   /* Clean up memory! */
   free(grid_weights);

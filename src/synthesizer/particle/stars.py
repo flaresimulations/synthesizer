@@ -278,6 +278,7 @@ class Stars(Particles, StarsComponent):
         spectra_type,
         mask,
         grid_assignment_method,
+        nthreads,
     ):
         """
         A method to prepare the arguments for SED computation with the C
@@ -350,6 +351,7 @@ class Stars(Particles, StarsComponent):
             npart,
             nlam,
             grid_assignment_method,
+            nthreads,
         )
 
     def generate_lnu(
@@ -481,7 +483,8 @@ class Stars(Particles, StarsComponent):
             spectra_type=spectra_name,
             mask=mask,
             grid_assignment_method=grid_assignment_method.lower(),
-        )
+            nthreads=None,
+        )[:-1]
 
         # Get the integrated spectra in grid units (erg / s / Hz)
         return compute_integrated_sed(*args)
@@ -576,6 +579,7 @@ class Stars(Particles, StarsComponent):
         verbose=False,
         do_grid_check=False,
         grid_assignment_method="cic",
+        nthreads=1,
     ):
         """
         Generate the particle rest frame spectra for a given grid key spectra
@@ -695,6 +699,7 @@ class Stars(Particles, StarsComponent):
             spectra_type=spectra_name,
             mask=mask,
             grid_assignment_method=grid_assignment_method.lower(),
+            nthreads=nthreads,
         )
 
         # Get the integrated spectra in grid units (erg / s / Hz)
