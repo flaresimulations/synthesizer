@@ -210,6 +210,12 @@ void ThreadPool::initializeThreads() {
 void ThreadPool::map(std::function<void(void *, int, void *)> mapFunction,
                      void *mapData, size_t dataSize, int chunk,
                      void *extraData) {
+  /* Handle the serial case. */
+  if (this->numThreads == 0) {
+    mapFunction(mapData, dataSize, extraData);
+    return;
+  }
+
   std::unique_lock<std::mutex> lock(waitMutex);
 
   // Set the map function
@@ -326,8 +332,8 @@ void ThreadPool::workerThread(int tid) {
     ptrdiff_t currentChunkSize = std::min(
         static_cast<ptrdiff_t>(mapDataSize - currentTaskInd), chunkSize);
 
-    printf("Thread %d: Processing chunk %d of size %d\n", tid, currentTaskInd,
-           currentChunkSize);
+    printf("Thread %d: Processing chunk %d of size %d (of %d)\n", tid,
+           currentTaskInd, currentChunkSize, mapDataSize);
 
     // Call the map function
     mapFunction(static_cast<void *>(currentMapData), currentChunkSize,
