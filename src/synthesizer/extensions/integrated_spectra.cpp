@@ -35,13 +35,13 @@
  */
 PyObject *compute_integrated_sed(PyObject *self, PyObject *args) {
 
-  const int ndim;
-  const int npart, nlam;
-  const double fesc;
-  const PyObject *grid_tuple, *part_tuple;
-  const PyArrayObject *np_grid_spectra;
-  const PyArrayObject *np_part_mass, *np_ndims;
-  const char *method;
+  int ndim;
+  int npart, nlam;
+  double fesc;
+  PyObject *grid_tuple, *part_tuple;
+  PyArrayObject *np_grid_spectra;
+  PyArrayObject *np_part_mass, *np_ndims;
+  char *method;
 
   if (!PyArg_ParseTuple(args, "OOOOdOiiis", &np_grid_spectra, &grid_tuple,
                         &part_tuple, &np_part_mass, &fesc, &np_ndims, &ndim,
@@ -57,23 +57,26 @@ PyObject *compute_integrated_sed(PyObject *self, PyObject *args) {
     return NULL;
 
   /* Extract a pointer to the spectra grids */
-  const double *grid_spectra = PyArray_DATA(np_grid_spectra);
+  const double *grid_spectra =
+      reinterpret_cast<const double *>(PyArray_DATA(np_grid_spectra));
 
   /* Set up arrays to hold the SEDs themselves. */
-  double *spectra = malloc(nlam * sizeof(double));
+  double *spectra = reinterpret_cast<double *>(malloc(nlam * sizeof(double)));
   bzero(spectra, nlam * sizeof(double));
 
   /* Extract a pointer to the grid dims */
-  const int *dims = PyArray_DATA(np_ndims);
+  const int *dims = reinterpret_cast<const int *>(PyArray_DATA(np_ndims));
 
   /* Extract a pointer to the particle masses. */
-  const double *part_mass = PyArray_DATA(np_part_mass);
+  const double *part_mass =
+      reinterpret_cast<const double *>(PyArray_DATA(np_part_mass));
 
   /* Allocate a single array for grid properties*/
   int nprops = 0;
   for (int dim = 0; dim < ndim; dim++)
     nprops += dims[dim];
-  const double **grid_props = malloc(nprops * sizeof(double *));
+  const double **grid_props =
+      reinterpret_cast<const double **>(malloc(nprops * sizeof(double *)));
 
   /* How many grid elements are there? (excluding wavelength axis)*/
   int grid_size = 1;
@@ -81,29 +84,35 @@ PyObject *compute_integrated_sed(PyObject *self, PyObject *args) {
     grid_size *= dims[dim];
 
   /* Allocate an array to hold the grid weights. */
-  double *grid_weights = malloc(grid_size * sizeof(double));
+  double *grid_weights =
+      reinterpret_cast<double *>(malloc(grid_size * sizeof(double)));
   bzero(grid_weights, grid_size * sizeof(double));
 
   /* Unpack the grid property arrays into a single contiguous array. */
   for (int idim = 0; idim < ndim; idim++) {
 
     /* Extract the data from the numpy array. */
-    const PyArrayObject *np_grid_arr = PyTuple_GetItem(grid_tuple, idim);
-    const double *grid_arr = PyArray_DATA(np_grid_arr);
+    PyArrayObject *np_grid_arr =
+        reinterpret_cast<PyArrayObject *>(PyTuple_GetItem(grid_tuple, idim));
+    const double *grid_arr =
+        reinterpret_cast<const double *>(PyArray_DATA(np_grid_arr));
 
     /* Assign this data to the property array. */
     grid_props[idim] = grid_arr;
   }
 
   /* Allocate a single array for particle properties. */
-  const double **part_props = malloc(npart * ndim * sizeof(double *));
+  const double **part_props = reinterpret_cast<const double **>(
+      malloc(npart * ndim * sizeof(double *)));
 
   /* Unpack the particle property arrays into a single contiguous array. */
   for (int idim = 0; idim < ndim; idim++) {
 
     /* Extract the data from the numpy array. */
-    const PyArrayObject *np_part_arr = PyTuple_GetItem(part_tuple, idim);
-    const double *part_arr = PyArray_DATA(np_part_arr);
+    PyArrayObject *np_part_arr =
+        reinterpret_cast<PyArrayObject *>(PyTuple_GetItem(part_tuple, idim));
+    const double *part_arr =
+        reinterpret_cast<const double *>(PyArray_DATA(np_part_arr));
 
     /* Assign this data to the property array. */
     part_props[idim] = part_arr;
