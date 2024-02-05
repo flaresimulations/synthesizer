@@ -690,7 +690,7 @@ class Grid:
         y = np.arange(len(self.metallicity))
 
         # Select grid for specific ion
-        if hasattr(self, "log10_specific_ionising_lum"):
+        if hasattr(self, "log10_specific_ionising_luminosity"):
             log10_specific_ionising_lum = self.log10_specific_ionising_lum[ion]
         else:
             log10_specific_ionising_lum = self.log10Q[ion]
