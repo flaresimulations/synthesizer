@@ -236,7 +236,7 @@ typedef struct {
   const char *method;
 } MapperData;
 
-void spectra_mapper(int start, int n_elements, void *extra_data) {
+void spectra_mapper(int *inds, int n_elements, void *extra_data) {
 
   /* Unpack the extra data. */
   MapperData *mapper_data = (MapperData *)extra_data;
@@ -251,7 +251,10 @@ void spectra_mapper(int start, int n_elements, void *extra_data) {
   const double fesc = mapper_data->fesc;
   const char *method = mapper_data->method;
 
-  for (int p = start; p < start + n_elements; p++) {
+  for (int i = 0; i < n_elements; i++) {
+
+    /* Get the index into the particle data. */
+    const int p = inds[i];
 
     /* Get this particle's mass. */
     const double mass = part_mass[p];
@@ -292,14 +295,14 @@ void spectra_mapper(int start, int n_elements, void *extra_data) {
  */
 PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
 
-  const int ndim;
-  const int npart, nlam;
-  const int nthreads;
-  const double fesc;
-  const PyObject *grid_tuple, *part_tuple;
-  const PyArrayObject *np_grid_spectra;
-  const PyArrayObject *np_part_mass, *np_ndims;
-  const char *method;
+  int ndim;
+  int npart, nlam;
+  int nthreads;
+  double fesc;
+  PyObject *grid_tuple, *part_tuple;
+  PyArrayObject *np_grid_spectra;
+  PyArrayObject *np_part_mass, *np_ndims;
+  char *method;
 
   if (!PyArg_ParseTuple(args, "OOOOdOiiisi", &np_grid_spectra, &grid_tuple,
                         &part_tuple, &np_part_mass, &fesc, &np_ndims, &ndim,
@@ -315,23 +318,27 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
     return NULL;
 
   /* Extract a pointer to the spectra grids */
-  const double *grid_spectra = PyArray_DATA(np_grid_spectra);
+  const double *grid_spectra =
+      reinterpret_cast<const double *>(PyArray_DATA(np_grid_spectra));
 
   /* Set up arrays to hold the SEDs themselves. */
-  double *spectra = malloc(npart * nlam * sizeof(double));
+  double *spectra =
+      reinterpret_cast<double *>(malloc(npart * nlam * sizeof(double)));
   bzero(spectra, npart * nlam * sizeof(double));
 
   /* Extract a pointer to the grid dims */
-  const int *dims = PyArray_DATA(np_ndims);
+  const int *dims = reinterpret_cast<const int *>(PyArray_DATA(np_ndims));
 
   /* Extract a pointer to the particle masses. */
-  const double *part_mass = PyArray_DATA(np_part_mass);
+  const double *part_mass =
+      reinterpret_cast<const double *>(PyArray_DATA(np_part_mass));
 
   /* Allocate a single array for grid properties*/
   int nprops = 0;
   for (int dim = 0; dim < ndim; dim++)
     nprops += dims[dim];
-  const double **grid_props = malloc(nprops * sizeof(double *));
+  const double **grid_props =
+      reinterpret_cast<const double **>(malloc(nprops * sizeof(double *)));
 
   /* How many grid elements are there? (excluding wavelength axis)*/
   int grid_size = 1;
@@ -339,36 +346,44 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
     grid_size *= dims[dim];
 
   /* Allocate an array to hold the grid weights. */
-  double *grid_weights = malloc(grid_size * sizeof(double));
+  double *grid_weights =
+      reinterpret_cast<double *>(malloc(grid_size * sizeof(double)));
   bzero(grid_weights, grid_size * sizeof(double));
+
+  /* Set up the threadpool. */
+  ThreadPool threadpool(nthreads);
 
   /* Unpack the grid property arrays into a single contiguous array. */
   for (int idim = 0; idim < ndim; idim++) {
 
     /* Extract the data from the numpy array. */
-    const PyArrayObject *np_grid_arr = PyTuple_GetItem(grid_tuple, idim);
-    const double *grid_arr = PyArray_DATA(np_grid_arr);
+    PyArrayObject *np_grid_arr =
+        reinterpret_cast<PyArrayObject *>(PyTuple_GetItem(grid_tuple, idim));
+    double *grid_arr = reinterpret_cast<double *>(PyArray_DATA(np_grid_arr));
 
     /* Assign this data to the property array. */
     grid_props[idim] = grid_arr;
   }
 
   /* Allocate a single array for particle properties. */
-  const double **part_props = malloc(npart * ndim * sizeof(double *));
+  const double **part_props = reinterpret_cast<const double **>(
+      malloc(npart * ndim * sizeof(double *)));
 
   /* Unpack the particle property arrays into a single contiguous array. */
   for (int idim = 0; idim < ndim; idim++) {
-
     /* Extract the data from the numpy array. */
-    const PyArrayObject *np_part_arr = PyTuple_GetItem(part_tuple, idim);
-    const double *part_arr = PyArray_DATA(np_part_arr);
+    PyArrayObject *np_part_arr =
+        reinterpret_cast<PyArrayObject *>(PyTuple_GetItem(part_tuple, idim));
+    const double *part_arr =
+        reinterpret_cast<const double *>(PyArray_DATA(np_part_arr));
 
     /* Assign this data to the property array. */
     part_props[idim] = part_arr;
   }
 
   /* Set up the extra data we need to pass to the threadpool. */
-  MapperData *mapper_data = malloc(sizeof(MapperData));
+  MapperData *mapper_data =
+      reinterpret_cast<MapperData *>(malloc(sizeof(MapperData)));
   mapper_data->part_mass = part_mass;
   mapper_data->grid_props = grid_props;
   mapper_data->part_props = part_props;
@@ -380,9 +395,15 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
   mapper_data->fesc = fesc;
   mapper_data->method = method;
 
+  /* Create an array of indices. */
+  int *inds = reinterpret_cast<int *>(malloc(npart * sizeof(int)));
+  for (int i = 0; i < npart; i++)
+    inds[i] = i;
+
   /* Let the threadpool do its magic! */
   /* NOTE: if we don't have multiple threads the threadpool will simply loop. */
-  threadpoolMapper(nthreads, npart, mapper_data, spectra_mapper);
+  threadpool.map(spectra_mapper, inds, npart,
+                 threadpool.threadpool_auto_chunk_size, mapper_data);
   free(mapper_data);
 
   /* Clean up memory! */
