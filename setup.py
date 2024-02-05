@@ -111,8 +111,8 @@ src_files = {
     "synthesizer.extensions.particle_spectra": "src/synthesizer/extensions/particle_spectra.cpp",
     "synthesizer.extensions.sfzh": "src/synthesizer/extensions/sfzh.cpp",
     "synthesizer.extensions.los": "src/synthesizer/extensions/los.cpp",
-    "synthesizer.imaging.extensions.spectral_cube": "src/synthesizer/imaging/extensions/spectral_cube.c",
-    "synthesizer.imaging.extensions.image": "src/synthesizer/imaging/extensions/image.c",
+    "synthesizer.imaging.extensions.spectral_cube": "src/synthesizer/imaging/extensions/spectral_cube.cpp",
+    "synthesizer.imaging.extensions.image": "src/synthesizer/imaging/extensions/image.cpp",
 }
 
 # Create the extension objects

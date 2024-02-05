@@ -16,17 +16,18 @@
 #define bzero(b, len) (memset((b), '\0', (len)), (void)0)
 
 /**
- * @brief Function to compute an IFU from particle data and a kernel.
+ * @brief Function to compute an image from particle data and a kernel.
  *
  * The SPH kernel of a particle (integrated along the z axis) is used to
- * calculate the spaxel weight for all spaxels within a stellar particles
- * kernel. Once the kernel value is found at a spaxel's position each element of
- * the SED is added to the spaxel mulitplied by the kernels weight.
+ * calculate the pixel weight for all pixels within a stellar particles kernel.
+ * Once the kernel value is found at a pixels position the pixel value is added
+ * multiplied by the kernels weight.
  *
  * NOTE: the implementation uses the exact position of a particle, thus
  * accounting for sub pixel positioning.
  *
- * @param np_sed_values: The particle SEDs.
+ * @param np_pix_values: The particle data to be sorted into pixels
+ *                       (luminosity/flux/mass etc.).
  * @param np_smoothing_lengths: The stellar particle smoothing lengths.
  * @param np_xs: The x coordinates of the particles.
  * @param np_ys: The y coordinates of the particles.
@@ -39,28 +40,32 @@
  * @param threshold: The threshold of the SPH kernel.
  * @param kdim: The number of elements in the kernel.
  */
-PyObject *make_ifu(PyObject *self, PyObject *args) {
+PyObject *make_img(PyObject *self, PyObject *args) {
 
-  const double res, threshold;
-  const int npix, npart, nlam, kdim;
-  PyArrayObject *np_sed_values, *np_kernel;
+  double res, threshold;
+  int npix, npart, kdim;
+  PyArrayObject *np_pix_values, *np_kernel;
   PyArrayObject *np_smoothing_lengths, *np_xs, *np_ys;
 
-  if (!PyArg_ParseTuple(args, "OOOOOdiiidi", &np_sed_values,
+  if (!PyArg_ParseTuple(args, "OOOOOdiidi", &np_pix_values,
                         &np_smoothing_lengths, &np_xs, &np_ys, &np_kernel, &res,
-                        &npix, &npart, &nlam, &threshold, &kdim))
+                        &npix, &npart, &threshold, &kdim))
     return NULL;
 
   /* Get pointers to the actual data. */
-  const double *sed_values = PyArray_DATA(np_sed_values);
-  const double *smoothing_lengths = PyArray_DATA(np_smoothing_lengths);
-  const double *xs = PyArray_DATA(np_xs);
-  const double *ys = PyArray_DATA(np_ys);
-  const double *kernel = PyArray_DATA(np_kernel);
+  const double *pix_values =
+      reinterpret_cast<const double *>(PyArray_DATA(np_pix_values));
+  const double *smoothing_lengths =
+      reinterpret_cast<const double *>(PyArray_DATA(np_smoothing_lengths));
+  const double *xs = reinterpret_cast<const double *>(PyArray_DATA(np_xs));
+  const double *ys = reinterpret_cast<const double *>(PyArray_DATA(np_ys));
+  const double *kernel =
+      reinterpret_cast<const double *>(PyArray_DATA(np_kernel));
 
-  /* Allocate IFU. */
-  double *ifu = malloc(npix * npix * nlam * sizeof(double));
-  bzero(ifu, npix * npix * nlam * sizeof(double));
+  /* Allocate the image.. */
+  double *img =
+      reinterpret_cast<double *>(malloc(npix * npix * sizeof(double)));
+  bzero(img, npix * npix * sizeof(double));
 
   /* Loop over positions including the sed */
   for (int ind = 0; ind < npart; ind++) {
@@ -81,7 +86,8 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
     int kernel_cdim = 2 * delta_pix + 1;
 
     /* Create an empty kernel for this particle. */
-    double *part_kernel = malloc(kernel_cdim * kernel_cdim * sizeof(double));
+    double *part_kernel = reinterpret_cast<double *>(
+        malloc(kernel_cdim * kernel_cdim * sizeof(double)));
     bzero(part_kernel, kernel_cdim * kernel_cdim * sizeof(double));
 
     /* Track the kernel sum for normalisation. */
@@ -89,8 +95,7 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
 
     /* Loop over a square aperture around this particle */
     for (int ii = i - delta_pix; ii <= i + delta_pix; ii++) {
-
-      /* Skip out of bounds spaxels. */
+      /* Skip out of bounds pixels. */
       if (ii < 0 || ii >= npix)
         continue;
 
@@ -99,7 +104,7 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
 
       for (int jj = j - delta_pix; jj <= j + delta_pix; jj++) {
 
-        /* Skip out of bounds spaxels. */
+        /* Skip out of bounds pixels. */
         if (jj < 0 || jj >= npix)
           continue;
 
@@ -141,14 +146,13 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
 
     /* Loop over a square aperture around this particle */
     for (int ii = i - delta_pix; ii <= i + delta_pix; ii++) {
-
-      /* Skip out of bounds spaxels. */
+      /* Skip out of bounds pixels. */
       if (ii < 0 || ii >= npix)
         continue;
 
       for (int jj = j - delta_pix; jj <= j + delta_pix; jj++) {
 
-        /* Skip out of bounds spaxels. */
+        /* Skip out of bounds pixels. */
         if (jj < 0 || jj >= npix)
           continue;
 
@@ -157,12 +161,8 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
         int jjj = jj - (j - delta_pix);
 
         /* Loop over the wavelength axis. */
-        for (int ilam = 0; ilam < nlam; ilam++) {
-          int ifu_ind = ilam + nlam * (jj + npix * ii);
-          int sed_ind = (ind * nlam) + ilam;
-          ifu[ifu_ind] +=
-              part_kernel[iii * kernel_cdim + jjj] * sed_values[sed_ind];
-        }
+        img[jj + npix * ii] +=
+            part_kernel[iii * kernel_cdim + jjj] * pix_values[ind];
       }
     }
 
@@ -170,33 +170,33 @@ PyObject *make_ifu(PyObject *self, PyObject *args) {
   }
 
   /* Construct a numpy python array to return the IFU. */
-  npy_intp dims[3] = {npix, npix, nlam};
-  PyArrayObject *out_ifu =
-      (PyArrayObject *)PyArray_SimpleNewFromData(3, dims, NPY_FLOAT64, ifu);
+  npy_intp dims[3] = {npix, npix};
+  PyArrayObject *out_img =
+      (PyArrayObject *)PyArray_SimpleNewFromData(2, dims, NPY_FLOAT64, img);
 
-  return Py_BuildValue("N", out_ifu);
+  return Py_BuildValue("N", out_img);
 }
 
 static PyMethodDef ImageMethods[] = {
-    {"make_ifu", make_ifu, METH_VARARGS,
-     "Method for smoothing particles into a spectral cube."},
+    {"make_img", make_img, METH_VARARGS,
+     "Method for smoothing particles into an image."},
     {NULL, NULL, 0, NULL},
 };
 
 /* Make this importable. */
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
-    "spectral_cube",                        /* m_name */
-    "A module to make IFUs from particles", /* m_doc */
-    -1,                                     /* m_size */
-    ImageMethods,                           /* m_methods */
-    NULL,                                   /* m_reload */
-    NULL,                                   /* m_traverse */
-    NULL,                                   /* m_clear */
-    NULL,                                   /* m_free */
+    "image",                                  /* m_name */
+    "A module to make images from particles", /* m_doc */
+    -1,                                       /* m_size */
+    ImageMethods,                             /* m_methods */
+    NULL,                                     /* m_reload */
+    NULL,                                     /* m_traverse */
+    NULL,                                     /* m_clear */
+    NULL,                                     /* m_free */
 };
 
-PyMODINIT_FUNC PyInit_spectral_cube(void) {
+PyMODINIT_FUNC PyInit_image(void) {
   PyObject *m = PyModule_Create(&moduledef);
   import_array();
   return m;
