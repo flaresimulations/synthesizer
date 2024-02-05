@@ -129,6 +129,7 @@ extensions = [
             "-ffast-math",
             "-I{:s}".format(np.get_include()),
             "-pthread",
+            "-g",
         ],
         extra_link_args=["-lpthread"],
     )
