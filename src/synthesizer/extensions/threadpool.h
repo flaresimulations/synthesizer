@@ -181,6 +181,8 @@ void ThreadPool::initializeThreads() {
     this->threads.emplace_back(&ThreadPool::workerThread, this, i);
   }
 
+  printf("Threadpool: %d threads created.\n", this->numThreads);
+
   // Initialise the flag to say we are done
   this->done = false;
 
@@ -323,6 +325,9 @@ void ThreadPool::workerThread(int tid) {
     // Handle chunks that would extend beyond the end of the map data
     ptrdiff_t currentChunkSize = std::min(
         static_cast<ptrdiff_t>(mapDataSize - currentTaskInd), chunkSize);
+
+    printf("Thread %d: Processing chunk %d of size %d\n", tid, currentTaskInd,
+           currentChunkSize);
 
     // Call the map function
     mapFunction(static_cast<void *>(currentMapData), currentChunkSize,
