@@ -52,7 +52,7 @@ class BuildExt(build_ext):
     # Note that we don't support MSVC here.
     compile_flags = {
         "unix": [
-            "-std=c99",
+            "-std=c++17",
             "-w",
             "-O3",
             "-ffast-math",
@@ -67,13 +67,14 @@ class BuildExt(build_ext):
 
         # Get local useful variables
         ct = self.compiler.compiler_type
+        print(ct)
 
         # Set up the flags and links for compilation
         # opts = self.compile_flags.get(ct, [])
         opts = []
         opts.extend(
             [
-                "-std=c99",
+                "-std=c++17",
                 "-w",
                 "-O3",
                 "-ffast-math",
@@ -81,6 +82,7 @@ class BuildExt(build_ext):
             ]
         )
         links = []
+        print(opts)
 
         # Uncomment below if we use openMP and find a nice way to demonstrate
         # the user how to install it.
@@ -96,6 +98,8 @@ class BuildExt(build_ext):
         for ext in self.extensions:
             ext.extra_compile_args = opts
             ext.extra_link_args = links
+            print(ext.extra_compile_args)
+            print(ext.extra_link_args)
 
         # Build the extensions
         build_ext.build_extensions(self)
@@ -104,7 +108,7 @@ class BuildExt(build_ext):
 # Define the extension source files
 src_files = {
     "synthesizer.extensions.integrated_spectra": "src/synthesizer/extensions/integrated_spectra.c",
-    "synthesizer.extensions.particle_spectra": "src/synthesizer/extensions/particle_spectra.c",
+    "synthesizer.extensions.particle_spectra": "src/synthesizer/extensions/particle_spectra.cpp",
     "synthesizer.extensions.sfzh": "src/synthesizer/extensions/sfzh.c",
     "synthesizer.extensions.los": "src/synthesizer/extensions/los.c",
     "synthesizer.imaging.extensions.spectral_cube": "src/synthesizer/imaging/extensions/spectral_cube.c",
@@ -118,12 +122,20 @@ extensions = [
         sources=[source],
         include_dirs=[np.get_include()],
         py_limited_api=True,
+        extra_compile_args=[
+            "-std=c++17",
+            "-w",
+            "-O3",
+            "-ffast-math",
+            "-I{:s}".format(np.get_include()),
+            "-pthread",
+        ],
+        extra_link_args=["-lpthread"],
     )
     for path, source in src_files.items()
 ]
 
 # Finally, call the setup
 setup(
-    cmdclass={build_ext: BuildExt},
     ext_modules=extensions,
 )
