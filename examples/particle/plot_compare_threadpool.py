@@ -47,7 +47,7 @@ galaxy = Galaxy(stars=stars)
 
 # Generates stellar incident spectra in serial
 start = time.time()
-serial_sed = galaxy.stars.get_particle_spectra_incident(grid, nthreads=1)
+serial_sed = galaxy.stars.get_particle_spectra_incident(grid, nthreads=2)
 print(f"Serial spectra took {time.time() - start} seconds")
 
 # Generates stellar incident spectra with 4 threads
