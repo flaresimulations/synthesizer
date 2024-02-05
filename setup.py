@@ -107,10 +107,10 @@ class BuildExt(build_ext):
 
 # Define the extension source files
 src_files = {
-    "synthesizer.extensions.integrated_spectra": "src/synthesizer/extensions/integrated_spectra.c",
+    "synthesizer.extensions.integrated_spectra": "src/synthesizer/extensions/integrated_spectra.cpp",
     "synthesizer.extensions.particle_spectra": "src/synthesizer/extensions/particle_spectra.cpp",
-    "synthesizer.extensions.sfzh": "src/synthesizer/extensions/sfzh.c",
-    "synthesizer.extensions.los": "src/synthesizer/extensions/los.c",
+    "synthesizer.extensions.sfzh": "src/synthesizer/extensions/sfzh.cpp",
+    "synthesizer.extensions.los": "src/synthesizer/extensions/los.cpp",
     "synthesizer.imaging.extensions.spectral_cube": "src/synthesizer/imaging/extensions/spectral_cube.c",
     "synthesizer.imaging.extensions.image": "src/synthesizer/imaging/extensions/image.c",
 }
