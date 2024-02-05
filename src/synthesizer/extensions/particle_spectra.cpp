@@ -236,7 +236,7 @@ typedef struct {
   const char *method;
 } MapperData;
 
-void spectra_mapper(int *inds, int n_elements, void *extra_data) {
+void spectra_mapper(void *map_data, int n_elements, void *extra_data) {
 
   /* Unpack the extra data. */
   MapperData *mapper_data = (MapperData *)extra_data;
@@ -250,6 +250,7 @@ void spectra_mapper(int *inds, int n_elements, void *extra_data) {
   const int nlam = mapper_data->nlam;
   const double fesc = mapper_data->fesc;
   const char *method = mapper_data->method;
+  const int *inds = (int *)map_data;
 
   for (int i = 0; i < n_elements; i++) {
 
