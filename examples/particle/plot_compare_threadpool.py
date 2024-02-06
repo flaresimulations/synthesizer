@@ -33,7 +33,7 @@ stars = ParametricStars(
 )
 
 # Create stars object
-n = 100000  # number of particles for sampling
+n = 10000  # number of particles for sampling
 stars = sample_sfhz(
     stars.sfzh,
     stars.log10ages,
