@@ -69,7 +69,7 @@ public:
   // Constants
   static const int threadpool_auto_chunk_size = 0;
   static const int threadpool_uniform_chunk_size = -1;
-  static const int threadpool_default_chunk_ratio = 7;
+  static const int threadpool_default_chunk_ratio = 4;
 
 private:
   // Number of threads
