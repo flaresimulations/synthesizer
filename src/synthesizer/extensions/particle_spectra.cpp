@@ -19,6 +19,9 @@
 #include "threadpool.h"
 #include "weights.h"
 
+// Declare a mutex for the spectra array
+std::mutex spectraMutex;
+
 /**
  * @brief This calculates the spectra of a particle using a cloud in cell
  *        approach.
@@ -137,12 +140,15 @@ void spectra_loop_cic(const double **grid_props, const double **part_props,
     unraveled_ind[ndim] = 0;
     int spectra_ind = get_flat_index(unraveled_ind, dims, ndim + 1);
 
-    /* Add this grid cell's contribution to the spectra */
-    for (int ilam = 0; ilam < nlam; ilam++) {
+    {
+      std::unique_lock<std::mutex> lock(spectraMutex);
+      /* Add this grid cell's contribution to the spectra */
+      for (int ilam = 0; ilam < nlam; ilam++) {
 
-      /* Add the contribution to this wavelength. */
-      spectra[p * nlam + ilam] +=
-          grid_spectra[spectra_ind + ilam] * (1 - fesc) * weight;
+        /* Add the contribution to this wavelength. */
+        spectra[p * nlam + ilam] +=
+            grid_spectra[spectra_ind + ilam] * (1 - fesc) * weight;
+      }
     }
   }
 }
@@ -250,7 +256,7 @@ void spectra_mapper(void *map_data, int n_elements, void *extra_data) {
   const int nlam = mapper_data->nlam;
   const double fesc = mapper_data->fesc;
   const char *method = mapper_data->method;
-  const int *inds = (int *)map_data;
+  const int *inds = reinterpret_cast<const int *>(map_data);
 
   for (int i = 0; i < n_elements; i++) {
 
@@ -396,15 +402,18 @@ PyObject *compute_particle_seds(PyObject *self, PyObject *args) {
   mapper_data->fesc = fesc;
   mapper_data->method = method;
 
-  /* Create an array of indices. */
-  int *inds = reinterpret_cast<int *>(malloc(npart * sizeof(int)));
-  for (int i = 0; i < npart; i++)
-    inds[i] = i;
+  // Create an array of atomic indices.
+  std::atomic<int> *inds = new std::atomic<int>[npart];
+  printf("npart: %d\n", npart);
+
+  for (int i = 0; i < npart; i++) {
+    inds[i].store(i);
+  }
 
   /* Let the threadpool do its magic! */
   /* NOTE: if we don't have multiple threads the threadpool will simply loop. */
-  threadpool.map(spectra_mapper, inds, npart,
-                 threadpool.threadpool_auto_chunk_size, mapper_data);
+  threadpool.map(spectra_mapper, inds, npart, (int)(npart / nthreads),
+                 mapper_data);
   free(mapper_data);
 
   /* Clean up memory! */
