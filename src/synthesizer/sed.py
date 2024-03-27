@@ -1291,19 +1291,29 @@ class Sed:
         # Convert lnu to llam
         llam = lnu_to_llam(self.lam, self.lnu)
 
-        # Caculate ionisation wavelength
+        # Calculate ionisation wavelength
         ionisation_wavelength = h * c / ionisation_energy
 
-        # Defintion integration arrays
+        ionisation_mask = self.lam < ionisation_wavelength
+
+        # Define integration arrays
         x = self._lam
         y = llam * self.lam / h.to(erg / Hz) / c.to(angstrom / s)
 
-        return integrate.quad(
-            lambda x_: np.interp(x_, x, y.to(1 / s / angstrom).value),
-            0,
-            ionisation_wavelength.to(angstrom).value,
-            limit=limit,
-        )[0]
+        # Get value of luminosity at ionisation wavelength
+        ionisation_y = np.interp(
+            ionisation_wavelength.to(angstrom).value, x, y
+        )
+
+        # Restrict arrays to ionisation regime
+        x = x[ionisation_mask]
+        y = y[ionisation_mask]
+
+        # Add ionisation wavelength and luminosity values
+        x = np.append(x, ionisation_wavelength)
+        y = np.append(y, ionisation_y)
+
+        return integrate.trapezoid(y, x)
 
 
 def plot_spectra(
