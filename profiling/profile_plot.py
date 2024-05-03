@@ -16,21 +16,46 @@ will exhibit the same runtime.
 """
 
 import sys
+from typing import Any, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from numpy.typing import NDArray
 
 
-def make_report(funcs, ncalls, tottime, pcent, col_width, numeric_width=14):
+def make_report(
+    funcs: NDArray[Any],
+    ncalls: NDArray[np.int32],
+    tottime: NDArray[np.float64],
+    pcent: NDArray[np.float64],
+    col_width: int,
+    numeric_width: int = 14,
+) -> str:
+    """
+    Generates a formatted string report of profiling data.
+
+    Args:
+        funcs: List of function names.
+        ncalls: List of call counts for each function.
+        tottime: List of total execution times for each function.
+        pcent: List of percentages of total runtime for each function.
+        col_width: Column width for the function names.
+        numeric_width: Width for numeric columns (default is 14).
+
+    Returns:
+        A string representing the formatted report.
+    """
     # Define string holding the table
-    report_string = ""
+    report_string: str = ""
 
     # Check the initial width is large enough
     if numeric_width < 14:
         numeric_width = 14
 
     # Make the header
-    head = "|"
+    head: str = "|"
     head += "Function call".ljust(col_width) + "|"
     head += "ncalls".ljust(numeric_width) + "|"
     head += "tottime (s)".ljust(numeric_width) + "|"
@@ -53,7 +78,7 @@ def make_report(funcs, ncalls, tottime, pcent, col_width, numeric_width=14):
     # Loop over making each row
     for ind, func in enumerate(funcs):
         # Make this row of the table
-        row_string = ""
+        row_string: str = ""
         row_string += "|" + func.strip("\n").ljust(col_width) + "|"
         row_string += str(int(ncalls[ind])).ljust(numeric_width) + "|"
         row_string += f"{tottime[ind]:.4f}".ljust(numeric_width) + "|"
@@ -93,55 +118,42 @@ def make_report(funcs, ncalls, tottime, pcent, col_width, numeric_width=14):
 
 
 if __name__ == "__main__":
-    # Get the commandline inputs
-    profile_file = sys.argv[1]
-    plot_loc = sys.argv[2]
+    profile_file: str = sys.argv[1]
+    plot_loc: str = sys.argv[2]
 
-    # Create some dictionaries
-    ncalls = {}
-    tottime = {}
+    ncalls_dict: Dict[str, float] = {}
+    tottime_dict: Dict[str, float] = {}
+    extract_data: bool = False
 
-    # Create a flag to skip non-profiling information in the output
-    extract_data = False
-
-    # Open the profile file
     with open(profile_file, "r") as file:
-        for iline, line in enumerate(file):
-            line_split = [s for s in line.split(" ") if s != " " and s != ""]
+        for line in file:
+            line_split = [s for s in line.split(" ") if s.strip()]
 
-            # Flag that we found the table (this is very primitive)
-            if (
-                line_split[-1] == "seconds\n"
-                and line_split[-3] == "in"
-                and line_split[-4] == "calls)"
-            ):
-                # Flag that we can now extract data
+            if line_split and line_split[-1] == "seconds\n":
                 extract_data = True
+                total_runtime: float = float(line_split[-2])
+                print(f"Total Runtime: {total_runtime:.2f} seconds")
 
-                # Get the total runtime
-                total_runtime = float(line_split[-2])
-                print("Total Runtime: %.2f seconds" % total_runtime)
+            if (
+                extract_data
+                and len(line_split) == 6
+                and line_split[0].strip() != "ncalls"
+            ):
+                func_name: str = line_split[-1]
+                if "/" in line_split[0]:
+                    ncalls_dict[func_name] = max(
+                        float(val) for val in line_split[0].split("/")
+                    )
+                else:
+                    ncalls_dict[func_name] = float(line_split[0])
+                    tottime_dict[func_name] = float(line_split[1])
 
-            # Have we reached the profiling information?
-            if extract_data:
-                # Are we in the table?
-                if len(line_split) == 6 and line_split[0].strip() != "ncalls":
-                    # Store the data
-                    if "/" in line_split[0]:
-                        ncalls[line_split[-1]] = np.max(
-                            [float(val) for val in line_split[0].split("/")]
-                        )
-                    else:
-                        ncalls[line_split[-1]] = float(line_split[0])
-                        tottime[line_split[-1]] = float(line_split[1])
-
-    # Convert dictionaries to arrays to manipulate, report and plot
-    funcs = np.array(list(ncalls.keys()))
-    ncalls = np.array(list(ncalls.values()))
-    tottime = np.array(list(tottime.values()))
+    funcs: NDArray[Any] = np.array(list(ncalls_dict.keys()))
+    ncalls: NDArray[np.int32] = np.array(list(ncalls_dict.values()))
+    tottime: NDArray[np.float64] = np.array(list(tottime_dict.values()))
 
     # Mask away inconsequential operations
-    okinds = tottime > 0.05 * total_runtime
+    okinds: NDArray[np.bool_] = tottime > 0.05 * total_runtime
     funcs = funcs[okinds]
     ncalls = ncalls[okinds]
     tottime = tottime[okinds]
@@ -150,7 +162,7 @@ if __name__ == "__main__":
     pcent = tottime / total_runtime * 100
 
     # Sort arrays in descending cumaltive time order
-    sinds = np.argsort(tottime)[::-1]
+    sinds: NDArray[np.int64] = np.argsort(tottime)[::-1]
     funcs = funcs[sinds]
     ncalls = ncalls[sinds]
     tottime = tottime[sinds]
@@ -182,21 +194,21 @@ if __name__ == "__main__":
             funcs[ind] = func_split[2]
 
     # Report the results to the user
-    col_width = 15
-    report_string = make_report(funcs, ncalls, tottime, pcent, col_width)
+    col_width: int = 15
+    report_string: str = make_report(funcs, ncalls, tottime, pcent, col_width)
 
     print(report_string)
 
     # Get the name of this file
-    file_name = profile_file.split("/")[-1].split(".")[0]
+    file_name: str = profile_file.split("/")[-1].split(".")[0]
 
     # And write the table to a file
     with open(plot_loc + file_name + "_report.txt", "w") as text_file:
         text_file.write(report_string)
 
     # Now make a plot of the percentage time taken
-    fig = plt.figure(figsize=(3.5, 3.5))
-    ax = fig.add_subplot(111)
+    fig: Figure = plt.figure(figsize=(3.5, 3.5))
+    ax: Axes = fig.add_subplot(111)
     ax.grid(True)
     ax.set_axisbelow(True)
     ax.scatter(funcs, pcent, marker="+")
@@ -209,30 +221,30 @@ if __name__ == "__main__":
     plt.close(fig)
 
     # Now make a plot of the number of calls
-    fig = plt.figure(figsize=(3.5, 3.5))
-    ax = fig.add_subplot(111)
-    ax.semilogy()
-    ax.grid(True)
-    ax.set_axisbelow(True)
-    ax.bar(funcs, ncalls, width=1, edgecolor="grey", alpha=0.8)
-    ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=-90)
-    ax.set_title(file_name)
-    ax.set_ylabel("Number of calls")
+    fig1: Figure = plt.figure(figsize=(3.5, 3.5))
+    ax1: Axes = fig.add_subplot(111)
+    ax1.semilogy()
+    ax1.grid(True)
+    ax1.set_axisbelow(True)
+    ax1.bar(funcs, ncalls, width=1, edgecolor="grey", alpha=0.8)
+    ax1.set_xticks(ax.get_xticks())
+    ax1.set_xticklabels(ax.get_xticklabels(), rotation=-90)
+    ax1.set_title(file_name)
+    ax1.set_ylabel("Number of calls")
     outpng = plot_loc + file_name + "_ncalls.png"
-    fig.savefig(outpng, bbox_inches="tight")
-    plt.close(fig)
+    fig1.savefig(outpng, bbox_inches="tight")
+    plt.close(fig1)
 
     # Now make a plot of the number of calls
-    fig = plt.figure(figsize=(3.5, 3.5))
-    ax = fig.add_subplot(111)
-    ax.grid(True)
-    ax.set_axisbelow(True)
-    ax.scatter(funcs, tottime, marker="+")
-    ax.set_xticks(ax.get_xticks())
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=-90)
-    ax.set_title(file_name)
-    ax.set_ylabel("Runtime (s)")
+    fig2: Figure = plt.figure(figsize=(3.5, 3.5))
+    ax2: Axes = fig.add_subplot(111)
+    ax2.grid(True)
+    ax2.set_axisbelow(True)
+    ax2.scatter(funcs, tottime, marker="+")
+    ax2.set_xticks(ax.get_xticks())
+    ax2.set_xticklabels(ax.get_xticklabels(), rotation=-90)
+    ax2.set_title(file_name)
+    ax2.set_ylabel("Runtime (s)")
     outpng = plot_loc + file_name + "_tot_time.png"
-    fig.savefig(outpng, bbox_inches="tight")
-    plt.close(fig)
+    fig2.savefig(outpng, bbox_inches="tight")
+    plt.close(fig2)
