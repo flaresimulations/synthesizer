@@ -92,10 +92,107 @@ class EmissionBase:
             limit=100,
         )[0]
 
+    def get_spectra(
+        self,
+        _lam,
+        intrinsic_sed=None,
+        attenuated_sed=None,
+    ):
+        """
+        Return the normalised lnu for the provided wavelength grid.
+
+        Args:
+            _lam (float/array-like, float)
+                An array of wavelengths (expected in AA, global unit)
+            intrinsic_sed (Sed)
+                The intrinsic SED to scale with dust.
+            attenuated_sed (Sed)
+                The attenuated SED to scale with dust.
+        """
+        # If we haven't been given spectra to scale with dust just return the
+        # spectra
+        if intrinsic_sed is None and attenuated_sed is None:
+            return self._get_spectra(_lam)
+
+        # If we have been given spectra to scale with dust, we need to scale
+        # the dust spectra to the bolometric luminosity of the input spectra
+        # and then add the input spectra to the dust spectra
+        elif intrinsic_sed is not None and attenuated_sed is not None:
+            # Calculate the bolometric dust luminosity as the difference
+            # between the intrinsic and attenuated
+            bolometric_luminosity = (
+                intrinsic_sed.bolometric_luminosity
+                - attenuated_sed.bolometric_luminosity
+            )
+
+        # If we only have the intrinsic SED, we can just scale the emission
+        elif intrinsic_sed is not None:
+            bolometric_luminosity = intrinsic_sed.bolometric_luminosity
+
+        else:
+            raise exceptions.InvalidInput(
+                "Must provide either no scaling spectra, intrinsic_sed, or "
+                "intrinsic_sed and attenuated_sed"
+            )
+
+        # Get the spectrum and normalise it properly (handling
+        # multidiensional arrays properly)
+        if bolometric_luminosity.value.ndim == 0:
+            lnu = (
+                bolometric_luminosity.to("erg/s").value
+                * self._get_spectra(_lam)._lnu
+                * erg
+                / s
+                / Hz
+            )
+        else:
+            lnu = (
+                np.expand_dims(
+                    bolometric_luminosity.to("erg/s").value, axis=-1
+                )
+                * self._get_spectra(_lam)._lnu
+                * erg
+                / s
+                / Hz
+            )
+
+        # Create new Sed object containing dust emission spectra
+        return Sed(_lam, lnu=lnu)
+
+    def _get_spectra(
+        self, _lam: Union[NDArray[np.float64], unyt_array]
+    ) -> Sed:
+        """
+        Return the normalised lnu for the provided wavelength grid.
+
+        Args:
+            _lam (float/array-like, float)
+                    An array of wavelengths (expected in AA, global unit)
+
+        """
+        if isinstance(_lam, (unyt_quantity, unyt_array)):
+            lam = _lam
+        else:
+            lam = _lam * Angstrom
+
+        lnu = (erg / s / Hz) * self._lnu(c / lam).value / self.normalisation()
+
+        sed = Sed(lam=lam, lnu=lnu)
+
+        # Normalise the spectrum
+        sed._lnu /= np.expand_dims(
+            sed.measure_bolometric_luminosity().value, axis=-1
+        )
+
+        # Apply heating due to CMB, if applicable
+        sed._lnu *= self.cmb_factor
+
+        return sed
+
     def apply_cmb_heating(self, emissivity: float, z: float) -> None:
         """
-        Returns the factor by which the CMB boosts the
-        infrared luminosity
+        Return the factor by which the CMB boosts the infrared luminosity.
+
         (See implementation in da Cunha+2013)
 
         Args:
@@ -104,8 +201,7 @@ class EmissionBase:
             z (float)
                 The redshift of the galaxy
         """
-
-        # temperature of CMB at z=0
+        # Temperature of CMB at z=0
         _T_cmb_0 = 2.73 * K
         _T_cmb_z = _T_cmb_0 * (1 + z)
         _exp_factor = 4.0 + emissivity
@@ -122,32 +218,6 @@ class EmissionBase:
 
         self.cmb_factor = cmb_factor
         self.temperature_z = _temperature
-
-    def get_spectra(self, _lam: Union[NDArray[np.float64], unyt_array]) -> Sed:
-        """
-        Returns the normalised lnu for the provided wavelength grid
-
-        Args:
-            _lam (float/array-like, float)
-                    An array of wavelengths (expected in AA, global unit)
-
-        """
-        if isinstance(_lam, (unyt_quantity, unyt_array)):
-            lam = _lam
-        else:
-            lam = _lam * Angstrom
-
-        lnu = (erg / s / Hz) * self._lnu(c / lam).value / self.normalisation()
-
-        sed = Sed(lam=lam, lnu=lnu)
-
-        # normalise the spectrum
-        sed._lnu /= sed.measure_bolometric_luminosity().value  # type: ignore
-
-        # apply heating due to CMB, if applicable
-        sed._lnu *= self.cmb_factor
-
-        return sed
 
 
 class Blackbody(EmissionBase):
@@ -193,7 +263,7 @@ class Blackbody(EmissionBase):
         else:
             self.temperature_z = temperature
 
-    def _lnu(self, nu: unyt_array) -> unyt_array:  # type: ignore[override]
+    def _lnu(self, nu: unyt_array) -> unyt_array:
         """
         Generate unnormalised spectrum for given frequency (nu) grid.
 
@@ -268,7 +338,7 @@ class Greybody(EmissionBase):
 
         self.emissivity = emissivity
 
-    def _lnu(self, nu: unyt_array) -> unyt_array:  # type: ignore[override]
+    def _lnu(self, nu: unyt_array) -> unyt_array:
         """
         Generate unnormalised spectrum for given frequency (nu) grid.
 
@@ -403,9 +473,7 @@ class Casey12(EmissionBase):
             / (np.exp(h * c / (self.lam_c * kb * self.temperature)) - 1)
         )
 
-    def _lnu(  # type: ignore[override]
-        self, nu: unyt_array
-    ) -> Union[NDArray[np.float64], unyt_array]:
+    def _lnu(self, nu: unyt_array) -> Union[NDArray[np.float64], unyt_array]:
         """
         Generate unnormalised spectrum for given frequency (nu) grid.
 
@@ -475,6 +543,12 @@ class IR_templates:
         mdust (float)
             The mass of dust in the galaxy (Msun).
 
+        dgr (float)
+            The dust-to-gas ratio of the galaxy
+
+        MH (float)
+            The mass in hydrogen of the galaxy
+
         template (string)
             The IR template model to be used
             (Currently only Draine and Li 2007 model implemented)
@@ -504,7 +578,9 @@ class IR_templates:
 
     grid: Grid
     mdust: unyt_quantity
-    ldust: Optional[float]
+    dgr: float
+    MH: Optional[unyt_quantity]
+    ldust: Optional[unyt_quantity]
     template: str
     gamma: Optional[float]
     qpah: float
@@ -518,7 +594,9 @@ class IR_templates:
         self,
         grid: Grid,
         mdust: unyt_quantity,
-        ldust: Optional[float] = None,
+        dgr: float = 0.01,
+        MH: Optional[unyt_quantity] = None,
+        ldust: Optional[unyt_quantity] = None,
         template: str = "DL07",
         gamma: Optional[float] = None,
         qpah: float = 0.025,
@@ -529,8 +607,10 @@ class IR_templates:
     ) -> None:
         self.grid: Grid = grid
         self.mdust: unyt_quantity = mdust
+        self.dgr: float = dgr
         self.template: str = template
-        self.ldust: Optional[float] = ldust
+        self.ldust: Optional[unyt_quantity] = ldust
+        self.MH: Optional[unyt_quantity] = MH
         self.gamma: Optional[float] = gamma
         self.qpah: float = qpah
         self.umin: Optional[float] = umin
@@ -555,7 +635,15 @@ class IR_templates:
         alphas: NDArray[np.float32] = self.grid.alpha
 
         # default Umax=1e7
-        umax = 1e7
+        umax: float = 1e7
+
+        if self.MH is None:
+            warn(
+                "No hydrogen gas mass provided, assuming a"
+                f"dust-to-gas ratio of {self.dgr}"
+            )
+            # calculate MH: Mass in hydrogen gas
+            self.MH = 0.74 * self.mdust / self.dgr
 
         if (self.gamma is None) or (self.umin is None) or (self.alpha == 2.0):
             warn(
@@ -578,7 +666,7 @@ class IR_templates:
             func = partial(
                 solve_umin, umax=umax, u_avg=self.u_avg, gamma=self.gamma
             )
-            self.umin = fsolve(func, [0.1])
+            self.umin = fsolve(func, [1.0])
 
         qpah_id = qpahs == qpahs[np.argmin(np.abs(qpahs - self.qpah))]
         umin_id = umins == umins[np.argmin(np.abs(umins - self.umin))]
@@ -595,24 +683,44 @@ class IR_templates:
 
     def get_spectra(
         self,
-        _lam: Union[NDArray[np.float64], unyt_array],
-        dust_components: bool = False,
-    ) -> Union[tuple[Sed, Sed], Sed]:
+        _lam,
+        intrinsic_sed=None,
+        attenuated_sed=None,
+        dust_components=False,
+        **kwargs,
+    ):
         """
         Returns the lnu for the provided wavelength grid
 
         Arguments:
             _lam (float/array-like, float)
                     An array of wavelengths (expected in AA, global unit)
-
+            intrinsic_sed (Sed)
+                The intrinsic SED to scale with dust.
+            attenuated_sed (Sed)
+                The attenuated SED to scale with dust.
             dust_components (boolean)
                     If True, returns the constituent dust components
 
         """
 
         if self.template == "DL07":
-            print("Using the Draine & Li 2007 dust models")
-            self.dl07()  # type: ignore
+            if self.verbose:
+                print("Using the Draine & Li 2007 dust models")
+            if intrinsic_sed is not None and attenuated_sed is not None:
+                if self.ldust is not None:
+                    warn(
+                        "Dust luminosity is already set by user"
+                        "to {self.ldust}. Is this expected behaviour?"
+                    )
+                # Calculate the bolometric dust luminosity as the difference
+                # between the intrinsic and attenuated
+                ldust = (
+                    intrinsic_sed.measure_bolometric_luminosity()
+                    - attenuated_sed.measure_bolometric_luminosity()
+                )
+                self.ldust = ldust.to("Lsun")
+            self.dl07()
         else:
             raise exceptions.UnimplementedFunctionality(
                 f"{self.template} not a valid model!"
@@ -629,7 +737,7 @@ class IR_templates:
         lnu_old = (
             (1.0 - self.gamma)
             * self.grid.spectra["diffuse"][self.qpah_id, self.umin_id][0]
-            * (self.mdust / Msun).value
+            * (self.MH / Msun).value
         )
 
         lnu_young = (
@@ -637,7 +745,7 @@ class IR_templates:
             * self.grid.spectra["pdr"][
                 self.qpah_id, self.umin_id, self.alpha_id
             ][0]
-            * (self.mdust / Msun).value
+            * (self.MH / Msun).value
         )
 
         sed_old = Sed(lam=lam, lnu=lnu_old * (erg / s / Hz))
@@ -654,7 +762,7 @@ class IR_templates:
             return sed_old + sed_young
 
 
-def u_mean_magdis12(mdust: float, ldust: float, p0: float):
+def u_mean_magdis12(mdust: float, ldust: float, p0: float) -> float:
     """
     P0 value obtained from stacking analysis in Magdis+12
     For alpha=2.0
@@ -664,9 +772,9 @@ def u_mean_magdis12(mdust: float, ldust: float, p0: float):
     return ldust / (p0 * mdust)
 
 
-def u_mean(umin: float, umax: float, gamma: float):
+def u_mean(umin: float, umax: float, gamma: float) -> float:
     """
-    For fixed alpha=2.0
+    For fixed alpha=2.0, get <U> for Draine and Li model
     """
 
     return (1.0 - gamma) * umin + gamma * np.log(umax / umin) / (
@@ -674,9 +782,9 @@ def u_mean(umin: float, umax: float, gamma: float):
     )
 
 
-def solve_umin(umin: float, umax: float, u_avg: float, gamma: float):
+def solve_umin(umin: float, umax: float, u_avg: float, gamma: float) -> float:
     """
-    For fixed alpha=2.0
+    For fixed alpha=2.0, equation to solve to <U> in Draine and Li
     """
 
     return u_mean(umin, umax, gamma) - u_avg

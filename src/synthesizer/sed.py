@@ -445,7 +445,7 @@ class Sed:
         return self.lam
 
     @property
-    def _spec_dims(self):
+    def ndim(self):
         """
         Get the dimensions of the spectra array.
 
@@ -454,6 +454,17 @@ class Sed:
                 The shape of self.lnu
         """
         return np.ndim(self.lnu)
+
+    @property
+    def shape(self):
+        """
+        Get the shape of the spectra array.
+
+        Returns
+            Tuple
+                The shape of self.lnu
+        """
+        return self.lnu.shape
 
     def get_lnu_at_nu(self, nu, kind=False):
         """
@@ -494,9 +505,7 @@ class Sed:
         return interp1d(self._lam, self._lnu, kind=kind)(lam) * self.lnu.units
 
     def measure_bolometric_luminosity(
-        self,
-        integration_method="trapz",
-        nthreads=1
+        self, integration_method="trapz", nthreads=1
     ):
         """
         Calculate the bolometric luminosity of the SED.
@@ -538,10 +547,7 @@ class Sed:
         return self.bolometric_luminosity
 
     def measure_window_luminosity(
-        self,
-        window,
-        integration_method="trapz",
-        nthreads=1
+        self, window, integration_method="trapz", nthreads=1
     ):
         """
         Measure the luminosity in a spectral window.
@@ -586,10 +592,7 @@ class Sed:
         return luminosity
 
     def measure_window_lnu(
-        self,
-        window,
-        integration_method="trapz",
-        nthreads=1
+        self, window, integration_method="trapz", nthreads=1
     ):
         """
         Measure lnu in a spectral window.
@@ -620,7 +623,7 @@ class Sed:
         # Apply the correct method
         if integration_method == "average":
             # Apply to the correct axis of the spectra
-            if self._spec_dims == 2:
+            if self.ndim == 2:
                 lnu = (
                     np.array(
                         [
@@ -721,10 +724,7 @@ class Sed:
         red = (4150, 4250) * angstrom
 
         return self.measure_break(
-            blue,
-            red,
-            nthreads=nthreads,
-            integration_method=integration_method
+            blue, red, nthreads=nthreads, integration_method=integration_method
         )
 
     def measure_d4000(
@@ -809,7 +809,7 @@ class Sed:
             s = (self.lam > window[0]) & (self.lam < window[1])
 
             # Handle different spectra dimensions
-            if self._spec_dims == 2:
+            if self.ndim == 2:
                 beta = np.array(
                     [
                         linregress(
@@ -1075,7 +1075,7 @@ class Sed:
         mean_red = np.mean(red)
 
         # Handle different spectra shapes
-        if self._spec_dims == 2:
+        if self.ndim == 2:
             # Multiple spectra case
 
             # Perform polyfit for the continuum fit for all spectra
@@ -1207,7 +1207,6 @@ class Sed:
                 A new Sed containing the rest frame spectra of self attenuated
                 by the transmission defined from tau_v and the dust curve.
         """
-
         # Ensure the mask is compatible with the spectra
         if mask is not None:
             if self._lnu.ndim < 2:
@@ -1215,7 +1214,7 @@ class Sed:
                     "Masks are only applicable for Seds containing "
                     "multiple spectra"
                 )
-            if self._lnu.shape[0] != mask.size:
+            if self._lnu.shape[: mask.ndim] != mask.shape:
                 raise exceptions.InconsistentArguments(
                     "Mask and spectra are incompatible shapes "
                     f"({mask.shape}, {self._lnu.shape})"
@@ -1245,6 +1244,8 @@ class Sed:
         # without applying a mask
         if mask is None:
             spectra *= transmission
+        elif transmission.ndim > 1:
+            spectra[mask] *= transmission[mask]
         else:
             spectra[mask] *= transmission
 
@@ -1254,7 +1255,7 @@ class Sed:
         self, ionisation_energy=13.6 * eV, limit=100, nthreads=1
     ):
         """
-        A function to calculate the ionising photon production rate.
+        Calculate the ionising photon production rate.
 
         Args:
             ionisation_energy (unyt_array)
@@ -1270,7 +1271,6 @@ class Sed:
             float
                 Ionising photon luminosity (s^-1).
         """
-
         # Convert lnu to llam
         llam = lnu_to_llam(self.lam, self.lnu)
 
@@ -1302,18 +1302,24 @@ class Sed:
 
     def plot_spectra(self, **kwargs):
         """
+        Plot the spectra.
+
         A wrapper for synthesizer.sed.plot_spectra()
         """
         return plot_spectra(self, **kwargs)
 
     def plot_observed_spectra(self, **kwargs):
         """
+        Plot the observed spectra.
+
         A wrapper for synthesizer.sed.plot_observed_spectra()
         """
         return plot_observed_spectra(self, **kwargs)
 
     def plot_spectra_as_rainbow(self, **kwargs):
         """
+        Plot the spectra as a rainbow.
+
         A wrapper for synthesizer.sed.plot_spectra_as_rainbow()
         """
         return plot_spectra_as_rainbow(self, **kwargs)
@@ -1515,8 +1521,10 @@ def plot_spectra(
                 xlimits[1] = x_up
 
     # Set the limits
-    ax.set_xlim(*xlimits)
-    ax.set_ylim(*ylimits)
+    if not np.isnan(xlimits[0]) and not np.isnan(xlimits[1]):
+        ax.set_xlim(*xlimits)
+    if not np.isnan(ylimits[0]) and not np.isnan(ylimits[1]):
+        ax.set_ylim(*ylimits)
 
     # Make the legend
     if draw_legend:
