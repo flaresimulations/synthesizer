@@ -64,7 +64,7 @@ class Particles:
         velocities,
         masses,
         redshift,
-        softening_length,
+        softening_lengths,
         nparticles,
         centre,
         metallicity_floor=1e-5,
@@ -114,7 +114,7 @@ class Particles:
         # Set unit information
 
         # Set the softening length
-        self.softening_lengths = softening_length
+        self.softening_lengths = softening_lengths
 
         # Set the particle masses
         self.masses = masses
