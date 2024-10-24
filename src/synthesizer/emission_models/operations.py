@@ -299,6 +299,10 @@ class Extraction:
             if limit_to is not None and label != limit_to:
                 continue
 
+            # Also skip any models we didn't save
+            if not self._models[label].save:
+                continue
+
             # Get the model
             this_model = self._models[label]
 
@@ -306,18 +310,22 @@ class Extraction:
             emitter = emitters[this_model.emitter]
 
             # Store the resulting image collection
-            images[label] = _generate_image_collection_generic(
-                resolution,
-                fov,
-                img_type,
-                do_flux,
-                this_model.per_particle,
-                kernel,
-                kernel_threshold,
-                nthreads,
-                label,
-                emitter,
-            )
+            try:
+                images[label] = _generate_image_collection_generic(
+                    resolution,
+                    fov,
+                    img_type,
+                    do_flux,
+                    this_model.per_particle,
+                    kernel,
+                    kernel_threshold,
+                    nthreads,
+                    label,
+                    emitter,
+                )
+            except Exception as e:
+                print(f"Failed to generate image for {label}: {e}")
+                raise e
 
         return images
 
@@ -333,6 +341,20 @@ class Extraction:
         summary.append(f"  Escape fraction: {self._fesc}")
 
         return summary
+
+    def extract_to_hdf5(self, group):
+        """Save the extraction model to an HDF5 group."""
+        # Flag it's extraction
+        group.attrs["type"] = "extraction"
+
+        # Save the grid
+        group.attrs["grid"] = self._grid.grid_name
+
+        # Save the extract key
+        group.attrs["extract"] = self._extract
+
+        # Save the escape fraction
+        group.attrs["fesc"] = self._fesc
 
 
 class Generation:
@@ -660,6 +682,24 @@ class Generation:
 
         return summary
 
+    def generate_to_hdf5(self, group):
+        """Save the generation model to an HDF5 group."""
+        # Flag it's generation
+        group.attrs["type"] = "generation"
+
+        # Save the generator
+        group.attrs["generator"] = type(self._generator)
+
+        # Save the dust luminosity models
+        if self._lum_intrinsic_model is not None:
+            group.attrs["lum_intrinsic_model"] = (
+                self._lum_intrinsic_model.label
+            )
+        if self._lum_attenuated_model is not None:
+            group.attrs["lum_attenuated_model"] = (
+                self._lum_attenuated_model.label
+            )
+
 
 class DustAttenuation:
     """
@@ -897,6 +937,20 @@ class DustAttenuation:
 
         return summary
 
+    def attenuate_to_hdf5(self, group):
+        """Save the dust attenuation model to an HDF5 group."""
+        # Flag it's dust attenuation
+        group.attrs["type"] = "dust_attenuation"
+
+        # Save the dust curve
+        group.attrs["dust_curve"] = type(self._dust_curve)
+
+        # Save the model to apply the dust curve to
+        group.attrs["apply_dust_to"] = self._apply_dust_to.label
+
+        # Save the optical depth
+        group.attrs["tau_v"] = self._tau_v
+
 
 class Combination:
     """
@@ -1079,24 +1133,41 @@ class Combination:
             this_model (EmissionModel):
                 The model defining the combination.
         """
+        # Check we saved the models we are combining
+        missing = [
+            model.label
+            for model in this_model.combine
+            if model.label not in images
+        ]
+        if len(missing) > 0:
+            raise exceptions.MissingSpectraType(
+                "The following models weren't saved when generating spectra: "
+                f"{missing}\n"
+                f"To make an image for {this_model.label} these must be saved."
+            )
+
         # Get the image for each model we are combining
         combine_labels = []
         combine_images = []
         for model in this_model.combine:
             # If the image hasn't been made try to generate it
             if model.label not in images:
-                img = _generate_image_collection_generic(
-                    resolution,
-                    fov,
-                    img_type,
-                    do_flux,
-                    model.per_particle,
-                    kernel,
-                    kernel_threshold,
-                    nthreads,
-                    model.label,
-                    emitters[model.emitter],
-                )
+                try:
+                    img = _generate_image_collection_generic(
+                        resolution,
+                        fov,
+                        img_type,
+                        do_flux,
+                        model.per_particle,
+                        kernel,
+                        kernel_threshold,
+                        nthreads,
+                        model.label,
+                        emitters[model.emitter],
+                    )
+                except Exception as e:
+                    print(f"Failed to generate image for {model.label}: {e}")
+                    raise e
             else:
                 img = images[model.label]
             combine_labels.append(model.label)
@@ -1128,3 +1199,11 @@ class Combination:
         )
 
         return summary
+
+    def combine_to_hdf5(self, group):
+        """Save the combination model to an HDF5 group."""
+        # Flag it's combination
+        group.attrs["type"] = "combination"
+
+        # Save the models to combine
+        group.attrs["combine"] = [model.label for model in self._combine]

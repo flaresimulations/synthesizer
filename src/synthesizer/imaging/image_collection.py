@@ -304,7 +304,26 @@ class ImageCollection:
                 The image corresponding to the filter code.
         """
         # Perform the look up
-        return self.imgs[filter_code]
+        if filter_code in self.imgs:
+            return self.imgs[filter_code]
+
+        # We may be being asked for all the images for an observatory, e.g.
+        # "JWST", in which case we should return a new ImageCollection with
+        # just those images.
+        out = ImageCollection(resolution=self.resolution, npix=self.npix)
+        for f in self.imgs:
+            if filter_code in f:
+                out.imgs[f.replace(filter_code + "/", "")] = self.imgs[f]
+                out.filter_codes.append(f)
+
+        # if we have any images, return the new ImageCollection
+        if len(out) > 0:
+            return out
+
+        # We don't have any images, raise an error
+        raise KeyError(
+            f"Filter code {filter_code} not found in ImageCollection"
+        )
 
     def keys(self):
         """Enable dict.keys() behaviour."""
@@ -1004,6 +1023,11 @@ def _generate_image_collection_generic(
             f"Can't make an image for {label} without the photometry. "
             "Did you not save the spectra or produce the photometry?"
         )
+
+    # If the emitter is a particle BlackHoles object we can only make a hist
+    # image
+    if getattr(emitter, "name", None) == "Black Holes":
+        img_type = "hist"
 
     # Instantiate the Image colection ready to make the image.
     imgs = ImageCollection(resolution=resolution, fov=fov)

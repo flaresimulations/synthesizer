@@ -628,6 +628,10 @@ class EmissionModel(Extraction, Generation, DustAttenuation, Combination):
 
         return "|\n|".join(parts)
 
+    def items(self):
+        """Return the items in the model."""
+        return self._models.items()
+
     def __getitem__(self, label):
         """
         Enable label look up.
@@ -1424,6 +1428,62 @@ class EmissionModel(Extraction, Generation, DustAttenuation, Combination):
                 The parameters to fix.
         """
         self.fixed_parameters.update(kwargs)
+
+    def to_hdf5(self, group):
+        """
+        Save the model to an HDF5 group.
+
+        Args:
+            group (h5py.Group):
+                The group to save the model to.
+        """
+        # First off call the operation to save operation specific attributes
+        # to the group
+        if self._is_extracting:
+            self.extract_to_hdf5(group)
+        elif self._is_combining:
+            self.combine_to_hdf5(group)
+        elif self._is_dust_attenuating:
+            self.attenuate_to_hdf5(group)
+        elif self._is_dust_emitting:
+            self.generate_to_hdf5(group)
+        elif self._is_generating:
+            self.generate_to_hdf5(group)
+
+        # Save the model attributes
+        group.attrs["label"] = self.label
+        group.attrs["emitter"] = self.emitter
+        group.attrs["per_particle"] = self.per_particle
+        group.attrs["save"] = self.save
+        group.attrs["fesc"] = self.fesc
+        group.attrs["scale_by"] = self.scale_by
+        group.attrs["post_processing"] = (
+            [func.__name__ for func in self.post_processing]
+            if len(self._post_processing) > 0
+            else "None"
+        )
+
+        # Save the masks
+        if len(self.masks) > 0:
+            masks = group.create_group("Masks")
+            for ind, mask in enumerate(self.masks):
+                mask_group = masks.create_group(f"mask_{ind}")
+                mask_group.attrs["attr"] = mask["attr"]
+                mask_group.attrs["op"] = mask["op"]
+                mask_group.attrs["thresh"] = mask["thresh"]
+
+        # Save the fixed parameters
+        if len(self.fixed_parameters) > 0:
+            fixed_parameters = group.create_group("FixedParameters")
+            for key, value in self.fixed_parameters.items():
+                fixed_parameters.attrs[key] = value
+
+        # Save the children
+        if len(self._children) > 0:
+            group.create_dataset(
+                "Children",
+                data=[child.label.encode("utf-8") for child in self._children],
+            )
 
     def _get_tree_levels(self, root):
         """
@@ -2792,6 +2852,10 @@ class EmissionModel(Extraction, Generation, DustAttenuation, Combination):
                         )
                     )
 
+            # Skip if we didn't save this model
+            if not this_model.save:
+                continue
+
             # Skip models for a different emitters
             if (
                 this_model.emitter not in emitters
@@ -2812,44 +2876,58 @@ class EmissionModel(Extraction, Generation, DustAttenuation, Combination):
 
             # Call the appropriate method to generate the image for this model
             if this_model._is_combining:
-                images = self._combine_images(
-                    images,
-                    this_model,
-                    resolution,
-                    fov,
-                    img_type,
-                    do_flux,
-                    emitters,
-                    kernel,
-                    kernel_threshold,
-                    nthreads,
-                )
+                try:
+                    images = self._combine_images(
+                        images,
+                        this_model,
+                        resolution,
+                        fov,
+                        img_type,
+                        do_flux,
+                        emitters,
+                        kernel,
+                        kernel_threshold,
+                        nthreads,
+                    )
+                except Exception as e:
+                    print(f"Error in {this_model.label}!")
+                    raise e
+
             elif this_model._is_dust_attenuating:
-                images = self._attenuate_images(
-                    resolution,
-                    fov,
-                    this_model,
-                    img_type,
-                    do_flux,
-                    emitter,
-                    images,
-                    kernel,
-                    kernel_threshold,
-                    nthreads,
-                )
+                try:
+                    images = self._attenuate_images(
+                        resolution,
+                        fov,
+                        this_model,
+                        img_type,
+                        do_flux,
+                        emitter,
+                        images,
+                        kernel,
+                        kernel_threshold,
+                        nthreads,
+                    )
+                except Exception as e:
+                    print(f"Error in {this_model.label}!")
+                    raise e
+
             elif this_model._is_dust_emitting or this_model._is_generating:
-                images = self._generate_images(
-                    resolution,
-                    fov,
-                    this_model,
-                    img_type,
-                    do_flux,
-                    emitter,
-                    images,
-                    kernel,
-                    kernel_threshold,
-                    nthreads,
-                )
+                try:
+                    images = self._generate_images(
+                        resolution,
+                        fov,
+                        this_model,
+                        img_type,
+                        do_flux,
+                        emitter,
+                        images,
+                        kernel,
+                        kernel_threshold,
+                        nthreads,
+                    )
+                except Exception as e:
+                    print(f"Error in {this_model.label}!")
+                    raise e
 
         return images
 
