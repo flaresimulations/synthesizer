@@ -17,6 +17,8 @@ Example usage::
     point_source = morphology.PointSource(offset=[0.0, 0.0])
 """
 
+from abc import ABC, abstractmethod
+
 import matplotlib.pyplot as plt
 import numpy as np
 from astropy.modeling.models import Sersic2D as Sersic2D_
@@ -26,7 +28,7 @@ from unyt.dimensions import angle, length
 from synthesizer import exceptions
 
 
-class MorphologyBase:
+class MorphologyBase(ABC):
     """
     A base class holding common methods for parametric morphology descriptions.
 
@@ -69,15 +71,14 @@ class MorphologyBase:
         )
         plt.show()
 
-    def compute_density_grid_from_arrays(self, *args):
+    @abstractmethod
+    def compute_density_grid(self, *args):
         """
         Compute the density grid from coordinate grids.
 
         This is a place holder method to be overwritten by child classes.
         """
-        raise exceptions.NotImplemented(
-            "This method should be overwritten by child classes"
-        )
+        pass
 
     def get_density_grid(self, resolution, npix):
         """
@@ -105,9 +106,7 @@ class MorphologyBase:
         xx, yy = np.meshgrid(xbin_centres, ybin_centres)
 
         # Extract the density grid from the morphology function
-        density_grid = self.compute_density_grid_from_arrays(
-            xx, yy, units=res.units
-        )
+        density_grid = self.compute_density_grid(xx, yy, units=res.units)
 
         # And normalise it...
         return density_grid / np.sum(density_grid)
@@ -115,8 +114,22 @@ class MorphologyBase:
 
 class Sersic2D(MorphologyBase):
     """
-    A class holding the Sersic2D profile. This is a wrapper around the
-    astropy.models.Sersic2D class.
+    A class holding the Sersic2D profile.
+
+    This is a wrapper around the astropy.models.Sersic2D class FOR NOW!!!!!
+
+    Attributes:
+        r_eff_kpc (float): The effective radius in kpc.
+        r_eff_mas (float): The effective radius in milliarcseconds.
+        sersic_index (float): The Sersic index.
+        ellipticity (float): The ellipticity.
+        theta (float): The rotation angle.
+        cosmo (astropy.cosmology): The cosmology object.
+        redshift (float): The redshift.
+        model_kpc (astropy.modeling.models.Sersic2D): The Sersic2D model in
+            kpc.
+        model_mas (astropy.modeling.models.Sersic2D): The Sersic2D model in
+            milliarcseconds.
     """
 
     def __init__(
@@ -218,10 +231,7 @@ class Sersic2D(MorphologyBase):
             self.model_mas = None
 
     def _check_args(self):
-        """
-        Tests the inputs to ensure they are a valid combination.
-        """
-
+        """Test the inputs to ensure they are a valid combination."""
         # Ensure at least one effective radius has been passed
         if self.r_eff_kpc is None and self.r_eff_mas is None:
             raise exceptions.InconsistentArguments(
@@ -236,13 +246,12 @@ class Sersic2D(MorphologyBase):
                 "comoslogical calculations."
             )
 
-    def compute_density_grid_from_arrays(self, xx, yy, units=kpc):
+    def compute_density_grid(self, xx, yy, units=kpc):
         """
-        Compute the density grid defined by this morphology as a function of
-        the input coordinate grids.
+        Compute the density grid.
 
         This acts as a wrapper to astropy functionality (defined above) which
-        only work in units of kpc or milliarcseconds (mas)
+        only work in units of kpc or milliarcseconds (mas).
 
         Arguments
             xx: array-like (float)
@@ -256,7 +265,6 @@ class Sersic2D(MorphologyBase):
             density_grid : np.ndarray
                 The density grid produced
         """
-
         # Ensure we have the model corresponding to the requested units
         if units == kpc and self.model_kpc is None:
             raise exceptions.InconsistentArguments(
@@ -283,8 +291,18 @@ class Sersic2D(MorphologyBase):
 
 class PointSource(MorphologyBase):
     """
-    A class holding the Sersic2D profile. This is a wrapper around the
-    astropy.models.Sersic2D class.
+    A class holding a PointSource profile.
+
+    This is a morphology where a single cell of the density grid is populated.
+
+    Attributes:
+        cosmo (astropy.cosmology)
+            The cosmology object.
+        redshift (float)
+            The redshift.
+        offset_kpc (float)
+            The offset of the point source relative to the centre of the
+            image in kpc.
     """
 
     def __init__(
@@ -341,10 +359,9 @@ class PointSource(MorphologyBase):
             else:
                 self.offset_kpc = self.offset_mas * kpc_proper_per_mas
 
-    def compute_density_grid_from_arrays(self, xx, yy, units=kpc):
+    def compute_density_grid(self, xx, yy, units=kpc):
         """
-        Compute the density grid defined by this morphology as a function of
-        the input coordinate grids.
+        Compute the density grid.
 
         This acts as a wrapper to astropy functionality (defined above) which
         only work in units of kpc or milliarcseconds (mas)
@@ -361,7 +378,6 @@ class PointSource(MorphologyBase):
             density_grid : np.ndarray
                 The density grid produced
         """
-
         # Create empty density grid
         image = np.zeros((len(xx), len(yy)))
 
@@ -385,3 +401,101 @@ class PointSource(MorphologyBase):
                 "Only kpc and milliarcsecond (mas) units are supported "
                 "for morphologies."
             )
+
+
+class Gaussian2D(MorphologyBase):
+    """
+    A class holding a 2-dimensional Gaussian distribution.
+
+    This is a morphology where a 2-dimensional Gaussian density grid is
+    populated based on provided x and y values.
+
+    Attributes:
+        x_mean: (float)
+            The mean of the Gaussian along the x-axis.
+        y_mean: (float)
+            The mean of the Gaussian along the y-axis.
+        stddev_x: (float)
+            The standard deviation along the x-axis.
+        stddev_y: (float)
+            The standard deviation along the y-axis.
+        rho: (float)
+            The population correlation coefficient between x and y.
+    """
+
+    def __init__(self, x_mean=0, y_mean=0, stddev_x=1, stddev_y=1, rho=0):
+        # Initialise obj with params:
+        self.x_mean = x_mean
+        self.y_mean = y_mean
+        self.stddev_x = stddev_x
+        self.stddev_y = stddev_y
+        self.rho = rho
+
+        """
+        Initialise the morphology.
+
+        Arguments:
+            x_mean: (float)
+                The mean of the Gaussian along the x-axis.
+            y_mean: (float)
+                The mean of the Gaussian along the y-axis.
+            stddev_x: (float)
+                The standard deviation along the x-axis.
+            stddev_y: (float)
+                The standard deviation along the y-axis.
+            rho: (float)
+                The population correlation coefficient between x and y.
+        """
+
+    # Define 2D Gaussian matrix
+    def compute_density_grid(self, x, y):
+        """
+        Compute density grid.
+
+        Arguments:
+            x: array-like (float)
+                A 1D array of x values.
+            y: array-like (float)
+                A 1D array of y values.
+
+        Returns:
+            g_2D_mat: np.ndarray:
+                A 2D array representing the Gaussian density values at each
+                (x, y) point.
+
+        Raises:
+            ValueError:
+                If either x or y is None.
+        """
+
+        # Error for x, y = None
+        if x is None or y is None:
+            raise ValueError("x and y grids must be provided.")
+
+        # Define covariance matrix
+        cov_mat = np.array(
+            [
+                [self.stddev_x**2, (self.rho * self.stddev_x * self.stddev_y)],
+                [(self.rho * self.stddev_x * self.stddev_y), self.stddev_y**2],
+            ]
+        )
+
+        # Invert covariant matrix
+        inv_cov = np.linalg.inv(cov_mat)
+
+        # Determinant of covariance matrix
+        det_cov = np.linalg.det(cov_mat)
+
+        # Stack position deviation along third axis
+        stack = np.dstack((x - self.x_mean, y - self.y_mean))
+
+        # Define coefficient of Gaussian
+        coeff = 1 / (2 * np.pi * (np.sqrt(det_cov)))
+
+        # Define exponent of Gaussian
+        exp = np.einsum("...k, kl, ...l->...", stack, inv_cov, stack)
+
+        # Calc Gaussian vals
+        g_2D_mat = coeff * np.exp(-0.5 * exp)
+
+        return g_2D_mat
