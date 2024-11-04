@@ -39,10 +39,6 @@ with constant star formation.
 
  .. code-block:: none
 
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
     +-------------------------------------------------------------------------------------------------------+
     |                                                 STARS                                                 |
     +--------------------------+----------------------------------------------------------------------------+
@@ -50,9 +46,9 @@ with constant star formation.
     +--------------------------+----------------------------------------------------------------------------+
     | component_type           | 'Stars'                                                                    |
     +--------------------------+----------------------------------------------------------------------------+
-    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7f7c24406860>         |
+    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7f1cf5558700>         |
     +--------------------------+----------------------------------------------------------------------------+
-    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f7c24404460> |
+    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f1cf555b8e0> |
     +--------------------------+----------------------------------------------------------------------------+
     | metallicity_grid_type    | 'log10Z'                                                                   |
     +--------------------------+----------------------------------------------------------------------------+
@@ -78,10 +74,6 @@ with constant star formation.
     +--------------------------+----------------------------------------------------------------------------+
     | log10metallicities (35,) | -5.00e+00 -> -1.60e+00 (Mean: -3.30e+00)                                   |
     +--------------------------+----------------------------------------------------------------------------+
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:120: RuntimeWarning: Current mass of stars not provided, setting stellar_mass_weighted_age to `None`
-      self.calculate_integrated_stellar_properties()
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: divide by zero encountered in log10
-      out_arr = func(np.asarray(inp), out=out_func, **kwargs)
 
 
 
@@ -166,7 +158,7 @@ with constant star formation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.399 seconds)
+   **Total running time of the script:** (0 minutes 0.388 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_create_sampled_sed.py:

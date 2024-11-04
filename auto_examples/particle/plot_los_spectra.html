@@ -326,6 +326,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -441,6 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -533,10 +535,7 @@ to download the full example code.</p>
 <span id="sphx-glr-auto-examples-particle-plot-los-spectra-py"></span><h1>Plot line of sight diagnostics<a class="headerlink" href="#plot-line-of-sight-diagnostics" title="Link to this heading">¶</a></h1>
 <p>This example shows how to compute line of sight dust surface densities,
 and plots some diagnostics.</p>
-<img src="../../_images/sphx_glr_plot_los_spectra_001.png" srcset="../../_images/sphx_glr_plot_los_spectra_001.png" alt="plot los spectra" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:123: RuntimeWarning: Star forming gas particle mask not provided, setting sf_gas_mass and sf_gas_metallicity to `None`
-  self.calculate_integrated_gas_properties()
-
-(&lt;Figure size 350x500 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;$\\lambda/[\\mathrm{\\AA}]$&#39;, ylabel=&#39;$L_{\\nu}/[\\mathrm{\\rm{erg} \\ / \\ \\rm{Hz \\cdot \\rm{s}}}]$&#39;&gt;)
+<img src="../../_images/sphx_glr_plot_los_spectra_001.png" srcset="../../_images/sphx_glr_plot_los_spectra_001.png" alt="plot los spectra" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 350x500 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;$\\lambda/[\\mathrm{\\AA}]$&#39;, ylabel=&#39;$L_{\\nu}/[\\mathrm{\\rm{erg} \\ / \\ \\rm{Hz \\cdot \\rm{s}}}]$&#39;&gt;)
 </pre></div>
 </div>
 <div class="line-block">
@@ -686,7 +685,7 @@ and plots some diagnostics.</p>
 <span class="n">galaxy</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">combined_spectra</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stellar_spectra</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.130 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.096 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-particle-plot-los-spectra-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/55829db956316681b8770a19f9f1c158/plot_los_spectra.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_los_spectra.ipynb</span></code></a></p>
@@ -750,7 +749,7 @@ and plots some diagnostics.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

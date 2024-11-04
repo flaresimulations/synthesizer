@@ -33,10 +33,6 @@ parametric galaxy.
 
  .. code-block:: none
 
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
     +-------------------------------------------------------------------------------+
     |                                    GALAXY                                     |
     +---------------+---------------------------------------------------------------+
@@ -44,7 +40,7 @@ parametric galaxy.
     +---------------+---------------------------------------------------------------+
     | galaxy_type   | 'Parametric'                                                  |
     +---------------+---------------------------------------------------------------+
-    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f7c23a318a0> |
+    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f1cf54ce350> |
     +---------------+---------------------------------------------------------------+
     | name          | 'parametric galaxy'                                           |
     +---------------+---------------------------------------------------------------+
@@ -58,8 +54,6 @@ parametric galaxy.
     available ratios: ['R3']
     available diagrams: []
     ----------
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/line.py:745: RuntimeWarning: divide by zero encountered in log10
-      f"{np.log10(mean_lum):.2f}\n"
     ----------
     SUMMARY OF H 1 4861.32A
     wavelength: 4861.3 Å
@@ -102,7 +96,7 @@ parametric galaxy.
     +---------------+---------------------------------------------------------------+
     | galaxy_type   | 'Parametric'                                                  |
     +---------------+---------------------------------------------------------------+
-    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f7c23a318a0> |
+    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f1cf54ce350> |
     +---------------+---------------------------------------------------------------+
     | name          | 'parametric galaxy'                                           |
     +---------------+---------------------------------------------------------------+
@@ -215,7 +209,7 @@ parametric galaxy.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.340 seconds)
+   **Total running time of the script:** (0 minutes 0.330 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parametric_plot_generate_lines.py:

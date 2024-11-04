@@ -50,8 +50,6 @@ galaxy.
     Angular momentum after rotation: [ 1.68294228e+28  1.00795118e+26 -3.84252843e+28] Msun*km**2/s
     Angular momentum of face-on stars: [ 2.13735988e+13  1.07766045e+11 -4.19492802e+28] Msun*km**2/s
     Angular momentum of edge-on stars: [4.19492802e+28 1.08664095e+11 2.13771910e+13] Msun*km**2/s
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:123: RuntimeWarning: Star forming gas particle mask not provided, setting sf_gas_mass and sf_gas_metallicity to `None`
-      self.calculate_integrated_gas_properties()
     Rotating galaxy by phi=245.64543353442713 degree, theta=23.225201431032307 degree
 
 
@@ -309,7 +307,7 @@ galaxy.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.762 seconds)
+   **Total running time of the script:** (0 minutes 2.801 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_rotated_galaxy.py:

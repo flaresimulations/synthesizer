@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**01:28.395** total execution time for 34 files **from all galleries**:
+**01:34.734** total execution time for 35 files **from all galleries**:
 
 .. container::
 
@@ -33,97 +33,100 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_age_lookup.py` (``../../examples/cosmo/plot_test_age_lookup.py``)
-     - 00:45.639
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_cosmo_plot_cosmo_example.py` (``../../examples/cosmo/plot_cosmo_example.py``)
-     - 00:03.512
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_general_plot_photometry.py` (``../../examples/general/plot_photometry.py``)
-     - 00:03.371
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parametric_plot_sed.py` (``../../examples/parametric/plot_sed.py``)
-     - 00:03.082
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parametric_plot_observed_sed.py` (``../../examples/parametric/plot_observed_sed.py``)
-     - 00:03.058
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_grids_plot_lines.py` (``../../examples/grids/plot_lines.py``)
-     - 00:02.986
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_particle_plot_rotated_galaxy.py` (``../../examples/particle/plot_rotated_galaxy.py``)
-     - 00:02.762
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parametric_plot_create_image.py` (``../../examples/parametric/plot_create_image.py``)
-     - 00:02.643
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parametric_plot_equivalent_width.py` (``../../examples/parametric/plot_equivalent_width.py``)
-     - 00:02.588
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_particle_plot_los_spectra.py` (``../../examples/particle/plot_los_spectra.py``)
-     - 00:02.130
+     - 00:45.281
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_filters.py` (``../../examples/general/plot_filters.py``)
-     - 00:01.898
+     - 00:06.081
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_general_plot_photometry.py` (``../../examples/general/plot_photometry.py``)
+     - 00:03.731
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_cosmo_plot_cosmo_example.py` (``../../examples/cosmo/plot_cosmo_example.py``)
+     - 00:03.458
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_observed_sed.py` (``../../examples/parametric/plot_observed_sed.py``)
+     - 00:03.168
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_sed.py` (``../../examples/parametric/plot_sed.py``)
+     - 00:03.078
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_grids_plot_lines.py` (``../../examples/grids/plot_lines.py``)
+     - 00:03.012
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_create_image.py` (``../../examples/parametric/plot_create_image.py``)
+     - 00:02.830
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_particle_plot_rotated_galaxy.py` (``../../examples/particle/plot_rotated_galaxy.py``)
+     - 00:02.801
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_equivalent_width.py` (``../../examples/parametric/plot_equivalent_width.py``)
+     - 00:02.598
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_particle_plot_los_spectra.py` (``../../examples/particle/plot_los_spectra.py``)
+     - 00:02.096
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_dense_basis.py` (``../../examples/parametric/plot_dense_basis.py``)
+     - 00:02.084
      - 0.0
    * - :ref:`sphx_glr_auto_examples_imaging_plot_image_addition.py` (``../../examples/imaging/plot_image_addition.py``)
-     - 00:01.392
+     - 00:01.449
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_quiescent_colours.py` (``../../examples/general/plot_quiescent_colours.py``)
-     - 00:01.366
+     - 00:01.309
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_sc-sam.py` (``../../examples/cosmo/plot_sc-sam.py``)
-     - 00:01.242
+     - 00:01.210
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_los_spectra.py` (``../../examples/cosmo/plot_test_los_spectra.py``)
-     - 00:01.085
+     - 00:01.100
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_get_los_attenutation.py` (``../../examples/particle/plot_get_los_attenutation.py``)
-     - 00:01.035
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_parametric_plot_scale_by_luminosity.py` (``../../examples/parametric/plot_scale_by_luminosity.py``)
-     - 00:00.823
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_cosmo_plot_parametric_young_stars.py` (``../../examples/cosmo/plot_parametric_young_stars.py``)
-     - 00:00.811
+     - 00:01.033
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_igm.py` (``../../examples/general/plot_igm.py``)
-     - 00:00.804
+     - 00:00.833
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_parametric_plot_scale_by_luminosity.py` (``../../examples/parametric/plot_scale_by_luminosity.py``)
+     - 00:00.802
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_cosmo_plot_parametric_young_stars.py` (``../../examples/cosmo/plot_parametric_young_stars.py``)
+     - 00:00.779
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_single_star_test.py` (``../../examples/particle/plot_single_star_test.py``)
-     - 00:00.670
+     - 00:00.654
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_compare_grid_assignment.py` (``../../examples/particle/plot_compare_grid_assignment.py``)
-     - 00:00.637
+     - 00:00.620
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_aperture_mask.py` (``../../examples/cosmo/plot_test_aperture_mask.py``)
-     - 00:00.636
+     - 00:00.611
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_line_cont.py` (``../../examples/grids/plot_line_cont.py``)
-     - 00:00.559
+     - 00:00.535
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_spectra_by_age.py` (``../../examples/grids/plot_spectra_by_age.py``)
-     - 00:00.529
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_grids_plot_spectra.py` (``../../examples/grids/plot_spectra.py``)
-     - 00:00.462
+     - 00:00.516
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_compare_sfhs.py` (``../../examples/parametric/plot_compare_sfhs.py``)
-     - 00:00.457
+     - 00:00.463
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_compare_parametric_particle.py` (``../../examples/particle/plot_compare_parametric_particle.py``)
-     - 00:00.451
+     - 00:00.442
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_grids_plot_spectra.py` (``../../examples/grids/plot_spectra.py``)
+     - 00:00.441
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_log10Q.py` (``../../examples/grids/plot_log10Q.py``)
-     - 00:00.424
+     - 00:00.409
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_delta_lambda.py` (``../../examples/parametric/plot_delta_lambda.py``)
-     - 00:00.403
+     - 00:00.389
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_create_sampled_sed.py` (``../../examples/particle/plot_create_sampled_sed.py``)
-     - 00:00.399
+     - 00:00.388
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_generate_lines.py` (``../../examples/parametric/plot_generate_lines.py``)
-     - 00:00.340
+     - 00:00.330
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_dustcurves.py` (``../../examples/general/plot_dustcurves.py``)
      - 00:00.184

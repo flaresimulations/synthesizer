@@ -1,0 +1,128 @@
+synthesizer.load\_data.load\_eagle
+==================================
+
+.. automodule:: synthesizer.load_data.load_eagle
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+
+   .. autofunction:: apply_CGSUnits_conversion
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.apply_CGSUnits_conversion:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.apply_CGSUnits_conversion
+       :add-heading:
+
+   .. autofunction:: apply_PhotUnits
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.apply_PhotUnits:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.apply_PhotUnits
+       :add-heading:
+
+   .. autofunction:: apply_hfreeUnits_conversion
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.apply_hfreeUnits_conversion:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.apply_hfreeUnits_conversion
+       :add-heading:
+
+   .. autofunction:: apply_physicalUnits_conversion
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.apply_physicalUnits_conversion:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.apply_physicalUnits_conversion
+       :add-heading:
+
+   .. autofunction:: assign_galaxy_prop
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.assign_galaxy_prop:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.assign_galaxy_prop
+       :add-heading:
+
+   .. autofunction:: get_age
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.get_age:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.get_age
+       :add-heading:
+
+   .. autofunction:: get_files
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.get_files:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.get_files
+       :add-heading:
+
+   .. autofunction:: get_star_formation_time
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.get_star_formation_time:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.get_star_formation_time
+       :add-heading:
+
+   .. autofunction:: load_EAGLE
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.load_EAGLE:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.load_EAGLE
+       :add-heading:
+
+   .. autofunction:: load_EAGLE_shm
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.load_EAGLE_shm:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.load_EAGLE_shm
+       :add-heading:
+
+   .. autofunction:: np_shm_read
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.np_shm_read:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.np_shm_read
+       :add-heading:
+
+   .. autofunction:: read_array
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.read_array:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.read_array
+       :add-heading:
+
+   .. autofunction:: read_hdf5
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.read_hdf5:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.read_hdf5
+       :add-heading:
+
+   .. autofunction:: read_header
+   
+   .. _sphx_glr_backref_synthesizer.load_data.load_eagle.read_header:
+
+   .. minigallery:: synthesizer.load_data.load_eagle.read_header
+       :add-heading:
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

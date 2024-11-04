@@ -33,10 +33,6 @@ to each star particle
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1949: RuntimeWarning: invalid value encountered in divide
-      out_arr = func(
-    /home/runner/work/synthesizer/synthesizer/examples/cosmo/plot_test_los_spectra.py:22: FutureWarning: calculate_los_tau_v is deprecated and will be removed in a future version.
-      gals[1].calculate_los_tau_v(kappa=0.3, kernel=kernel.get_kernel())
 
     array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
            0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
@@ -105,7 +101,7 @@ to each star particle
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.085 seconds)
+   **Total running time of the script:** (0 minutes 1.100 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_test_los_spectra.py:

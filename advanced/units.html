@@ -327,6 +327,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -442,6 +443,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -568,6 +570,9 @@ x is now a unyt_quantity: type(x)= &lt;class &#39;unyt.array.unyt_quantity&#39;&
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
+Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
+running without emcee
 {&#39;lam&#39;: Å, &#39;obslam&#39;: Å, &#39;wavelength&#39;: Å, &#39;vacuum_wavelength&#39;: Å, &#39;original_lam&#39;: Å, &#39;lam_min&#39;: Å, &#39;lam_max&#39;: Å, &#39;lam_eff&#39;: Å, &#39;lam_fwhm&#39;: Å, &#39;mean_lams&#39;: Å, &#39;pivot_lams&#39;: Å, &#39;nu&#39;: Hz, &#39;obsnu&#39;: Hz, &#39;nuz&#39;: Hz, &#39;original_nu&#39;: Hz, &#39;luminosity&#39;: erg/s, &#39;luminosities&#39;: erg/s, &#39;bolometric_luminosity&#39;: erg/s, &#39;bolometric_luminosities&#39;: erg/s, &#39;lnu&#39;: erg/(Hz*s), &#39;llam&#39;: erg/(s*Å), &#39;continuum&#39;: erg/(Hz*s), &#39;flux&#39;: erg/(cm**2*s), &#39;fnu&#39;: nJy, &#39;flam&#39;: erg/(cm**2*s*Å), &#39;equivalent_width&#39;: Å, &#39;coordinates&#39;: Mpc, &#39;radii&#39;: Mpc, &#39;smoothing_lengths&#39;: Mpc, &#39;softening_length&#39;: Mpc, &#39;velocities&#39;: km/s, &#39;mass&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;masses&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;initial_masses&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;initial_mass&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;current_masses&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;dust_masses&#39;: unyt_quantity(1., &#39;Msun&#39;), &#39;ages&#39;: yr, &#39;accretion_rate&#39;: unyt_quantity(1., &#39;Msun/yr&#39;), &#39;accretion_rates&#39;: unyt_quantity(1., &#39;Msun/yr&#39;), &#39;bb_temperature&#39;: K, &#39;bb_temperatures&#39;: K, &#39;inclination&#39;: degree, &#39;inclinations&#39;: degree, &#39;resolution&#39;: Mpc, &#39;fov&#39;: Mpc, &#39;orig_resolution&#39;: Mpc, &#39;centre&#39;: Mpc, &#39;photo_lnu&#39;: erg/(Hz*s), &#39;photo_fnu&#39;: erg/(Hz*cm**2*s), &#39;softening_lengths&#39;: Mpc}
 </pre></div></div>
 </div>
@@ -692,7 +697,7 @@ softening_lengths:  Mpc
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -751,18 +756,6 @@ photo_lnu:          erg/(Hz*s)
 photo_fnu:          erg/(Hz*cm**2*s)
 softening_lengths:  Mpc
 
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/tmp/ipykernel_2615/3767886305.py:12: RuntimeWarning: Units are already set.
-Any modified units will not take effect.
-Units should be configured before running anything else...
-but you could (and shouldn&#39;t) force it: Units(new_units_dict, force=True).
-  units = Units(new_units)
 </pre></div></div>
 </div>
 <p>Something has gone wrong… but recall that the unit system will return the original if one exists, so actually this should be completely expected.</p>
@@ -934,8 +927,8 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.84391876 0.70136954 0.81669591 0.63360935 0.11808165 0.55040794
- 0.24647254 0.05690259 0.20191978 0.46470276] Msun
+[0.5184204  0.03543263 0.92654597 0.46119724 0.1432194  0.20964003
+ 0.94433966 0.66989287 0.97208408 0.1319551 ] Msun
 </pre></div></div>
 </div>
 <p>However, if we extract the values alone we get the values we expect in <span class="math notranslate nohighlight">\(M_\odot\)</span>.</p>
@@ -952,8 +945,8 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.84391876 0.70136954 0.81669591 0.63360935 0.11808165 0.55040794
- 0.24647254 0.05690259 0.20191978 0.46470276]
+[0.5184204  0.03543263 0.92654597 0.46119724 0.1432194  0.20964003
+ 0.94433966 0.66989287 0.97208408 0.1319551 ]
 </pre></div></div>
 </div>
 <p>Its worth keeping this in mind whenever extracting masses from synthesizer objects.</p>
@@ -993,10 +986,10 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-stars.initial_masses[0]= 0.3612736582598844 Msun = 0.36127365825988444 Msun
+stars.initial_masses[0]= 0.2839308446957709 Msun = 0.28393084469577096 Msun
 stars.ages[0]= 1000000.0 yr
-stars.coordinates[0]= [0.35170325 0.28346084 0.29410514] Mpc
-stars.smoothing_lengths[0]= 0.28487195747796856 Mpc
+stars.coordinates[0]= [0.16608587 0.25316779 0.33227541] Mpc
+stars.smoothing_lengths[0]= 0.1172902345972807 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -1076,7 +1069,7 @@ stars.smoothing_lengths[0]= 0.28487195747796856 Mpc
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

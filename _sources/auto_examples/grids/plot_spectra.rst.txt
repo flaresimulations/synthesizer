@@ -71,8 +71,6 @@ NOTE: this only works on 2D grids at the moment
     +---------------------------+---------------------------------------------------------------------+
     | wavelength (9244,)        | 1.30e-04 Å -> 2.99e+11 Å (Mean: 9.73e+09 Å)                         |
     +---------------------------+---------------------------------------------------------------------+
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: divide by zero encountered in log10
-      out_arr = func(np.asarray(inp), out=out_func, **kwargs)
     +-------------------------------------------------------------------------------------------------+
     |                                               SED                                               |
     +---------------------------+---------------------------------------------------------------------+
@@ -329,7 +327,7 @@ NOTE: this only works on 2D grids at the moment
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.462 seconds)
+   **Total running time of the script:** (0 minutes 0.441 seconds)
 
 
 .. _sphx_glr_download_auto_examples_grids_plot_spectra.py:

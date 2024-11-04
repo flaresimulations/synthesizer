@@ -33,21 +33,8 @@ Load SC-SAM example data into a list of galaxy objects.
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:120: RuntimeWarning: Current mass of stars not provided, setting stellar_mass_weighted_age to `None`
-      self.calculate_integrated_stellar_properties()
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: divide by zero encountered in log10
-      out_arr = func(np.asarray(inp), out=out_func, **kwargs)
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -160,7 +147,7 @@ Load SC-SAM example data into a list of galaxy objects.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.242 seconds)
+   **Total running time of the script:** (0 minutes 1.210 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_sc-sam.py:

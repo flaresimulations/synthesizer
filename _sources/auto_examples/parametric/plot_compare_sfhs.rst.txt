@@ -33,19 +33,8 @@ Example comparing different parametric star formation histories.
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/parametric/sf_hist.py:652: RuntimeWarning: divide by zero encountered in scalar power
-      term1 = (age / self.peak_age) ** self.alpha
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -110,7 +99,7 @@ Example comparing different parametric star formation histories.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.457 seconds)
+   **Total running time of the script:** (0 minutes 0.463 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parametric_plot_compare_sfhs.py:

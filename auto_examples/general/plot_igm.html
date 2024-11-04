@@ -326,6 +326,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -441,6 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -532,20 +534,7 @@ to download the full example code.</p>
 <section class="sphx-glr-example-title" id="igm-transmission-example">
 <span id="sphx-glr-auto-examples-general-plot-igm-py"></span><h1>IGM transmission example<a class="headerlink" href="#igm-transmission-example" title="Link to this heading">¶</a></h1>
 <p>Plot IGM transmission curves (Inoue+14 &amp; Madau+96</p>
-<img src="../../_images/sphx_glr_plot_igm_001.png" srcset="../../_images/sphx_glr_plot_igm_001.png" alt="plot igm" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/synthesizer/synthesizer/src/synthesizer/emission_models/attenuation/igm.py:269: RuntimeWarning: divide by zero encountered in power
-  * (lam_obs[cond0 &amp; ~cond1] / lam_l) ** (-0.3)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/emission_models/attenuation/igm.py:271: RuntimeWarning: divide by zero encountered in power
-  - 0.2905 * (lam_obs[cond0 &amp; ~cond1] / lam_l) ** (-0.3)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/emission_models/attenuation/igm.py:264: RuntimeWarning: invalid value encountered in cast
-  tau_lc_dla_value[cond0 &amp; ~cond1] = (
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/emission_models/attenuation/igm.py:382: RuntimeWarning: overflow encountered in exp
-  transmission = np.exp(-tau)
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cmasher</span> <span class="k">as</span> <span class="nn">cmr</span>
+<img src="../../_images/sphx_glr_plot_igm_001.png" srcset="../../_images/sphx_glr_plot_igm_001.png" alt="plot igm" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cmasher</span> <span class="k">as</span> <span class="nn">cmr</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -576,7 +565,7 @@ to download the full example code.</p>
 <span class="c1"># plt.savefig(&#39;../docs/source/images/img.png&#39;, bbox_inches=&#39;tight&#39;, dpi=200)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.804 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.833 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-general-plot-igm-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/9fcf87f3abd6e58f71307d36f9742d5e/plot_igm.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_igm.ipynb</span></code></a></p>
@@ -640,7 +629,7 @@ to download the full example code.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

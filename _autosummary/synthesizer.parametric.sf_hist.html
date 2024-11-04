@@ -326,6 +326,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -441,6 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -670,6 +672,21 @@ or an array for each age in age.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.Common.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/sf_hist.html#Common.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.sf_hist.Common.plot" title="Link to this definition">¶</a></dt>
+<dd><p>Plot the star formation history, returned by <cite>calculate_sfh</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>show</strong> (<em>bool</em>) – display plot to screen directly</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>string</em>) – if False, don’t save. If string, save to directory</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – key word arguments describing sfh</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.Common.plot_sfh">
 <span class="sig-name descname"><span class="pre">plot_sfh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">10000000000)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/sf_hist.html#Common.plot_sfh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.sf_hist.Common.plot_sfh" title="Link to this definition">¶</a></dt>
 <dd><p>Create a quick plot of the star formation history.</p>
@@ -696,6 +713,9 @@ or an array for each age in age.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Example comparing different parametric star formation histories."><img alt="" src="../_images/sphx_glr_plot_compare_sfhs_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html#sphx-glr-auto-examples-parametric-plot-compare-sfhs-py"><span class="std std-ref">Compare different parametric star formation history models</span></a></p>
   <div class="sphx-glr-thumbnail-title">Compare different parametric star formation history models</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates how to describe a SFZH in the dense basis formalism. It includes the following steps: - Builds and plots a parametric galaxy using a dense basis representation - Creates spectra from this object"><img alt="" src="../_images/sphx_glr_plot_dense_basis_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html#sphx-glr-auto-examples-parametric-plot-dense-basis-py"><span class="std std-ref">Demonstrate the dense basis approach for describing the SFZH</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Demonstrate the dense basis approach for describing the SFZH</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates how to generate delta_lambda from a provided grid. It includes the following steps: - Builds a parametric galaxy using make_sfzh. - Retrieves delta_lambda for the galaxy using the grid."><img alt="" src="../_images/sphx_glr_plot_delta_lambda_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html#sphx-glr-auto-examples-parametric-plot-delta-lambda-py"><span class="std std-ref">Plot delta_lambda for a grid.</span></a></p>
   <div class="sphx-glr-thumbnail-title">Plot delta_lambda for a grid.</div>
@@ -865,6 +885,49 @@ times.</p>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Example comparing different parametric star formation histories."><img alt="" src="../_images/sphx_glr_plot_compare_sfhs_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html#sphx-glr-auto-examples-parametric-plot-compare-sfhs-py"><span class="std std-ref">Compare different parametric star formation history models</span></a></p>
   <div class="sphx-glr-thumbnail-title">Compare different parametric star formation history models</div>
+</div></div><dl class="py class">
+<dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.DenseBasis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.sf_hist.</span></span><span class="sig-name descname"><span class="pre">DenseBasis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/sf_hist.html#DenseBasis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.sf_hist.DenseBasis" title="Link to this definition">¶</a></dt>
+<dd><p>Dense Basis representation of a SFH.</p>
+<p>See here for more details on the Dense Basis method.</p>
+<p><a class="reference external" href="https://dense-basis.readthedocs.io/en/latest/">https://dense-basis.readthedocs.io/en/latest/</a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.DenseBasis.db_tuple">
+<span class="sig-name descname"><span class="pre">db_tuple</span></span><a class="headerlink" href="#synthesizer.parametric.sf_hist.DenseBasis.db_tuple" title="Link to this definition">¶</a></dt>
+<dd><p>Dense basis parameters describing the SFH
+1) total mass formed
+2) SFR at the time of observation (see redshift)
+3) number of tx parameters
+4) times when the galaxy formed fractions of its mass,</p>
+<blockquote>
+<div><p>units of fraction of the age of the universe [0-1]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.DenseBasis.redshift">
+<span class="sig-name descname"><span class="pre">redshift</span></span><a class="headerlink" href="#synthesizer.parametric.sf_hist.DenseBasis.redshift" title="Link to this definition">¶</a></dt>
+<dd><p>redshift at which to scale the SFH</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="examples-using-synthesizer-parametric-sf-hist-densebasis">
+<span id="sphx-glr-backref-synthesizer-parametric-sf-hist-densebasis"></span><h2>Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.sf_hist.DenseBasis</span></code><a class="headerlink" href="#examples-using-synthesizer-parametric-sf-hist-densebasis" title="Link to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This script demonstrates how to describe a SFZH in the dense basis formalism. It includes the following steps: - Builds and plots a parametric galaxy using a dense basis representation - Creates spectra from this object"><img alt="" src="../_images/sphx_glr_plot_dense_basis_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html#sphx-glr-auto-examples-parametric-plot-dense-basis-py"><span class="std std-ref">Demonstrate the dense basis approach for describing the SFZH</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Demonstrate the dense basis approach for describing the SFZH</div>
 </div></div><dl class="py class">
 <dt class="sig sig-object py" id="synthesizer.parametric.sf_hist.DoublePowerLaw">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.sf_hist.</span></span><span class="sig-name descname"><span class="pre">DoublePowerLaw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">peak_age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(0,</span> <span class="pre">'yr')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_age</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_quantity(1.e+11,</span> <span class="pre">'yr')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/sf_hist.html#DoublePowerLaw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.sf_hist.DoublePowerLaw" title="Link to this definition">¶</a></dt>
@@ -1202,6 +1265,7 @@ the peak.</p>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.Common.calculate_moment"><code class="docutils literal notranslate"><span class="pre">Common.calculate_moment()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.Common.calculate_sfh"><code class="docutils literal notranslate"><span class="pre">Common.calculate_sfh()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.Common.get_sfr"><code class="docutils literal notranslate"><span class="pre">Common.get_sfr()</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.sf_hist.Common.plot"><code class="docutils literal notranslate"><span class="pre">Common.plot()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.Common.plot_sfh"><code class="docutils literal notranslate"><span class="pre">Common.plot_sfh()</span></code></a></li>
 </ul>
 </li>
@@ -1224,6 +1288,14 @@ the peak.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#examples-using-synthesizer-parametric-sf-hist-delayedexponential">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.sf_hist.DelayedExponential</span></code></a><ul>
+<li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DenseBasis"><code class="docutils literal notranslate"><span class="pre">DenseBasis</span></code></a><ul>
+<li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DenseBasis.db_tuple"><code class="docutils literal notranslate"><span class="pre">DenseBasis.db_tuple</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DenseBasis.redshift"><code class="docutils literal notranslate"><span class="pre">DenseBasis.redshift</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples-using-synthesizer-parametric-sf-hist-densebasis">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.sf_hist.DenseBasis</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DoublePowerLaw"><code class="docutils literal notranslate"><span class="pre">DoublePowerLaw</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DoublePowerLaw.peak_age"><code class="docutils literal notranslate"><span class="pre">DoublePowerLaw.peak_age</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.sf_hist.DoublePowerLaw.alpha"><code class="docutils literal notranslate"><span class="pre">DoublePowerLaw.alpha</span></code></a></li>
@@ -1283,7 +1355,7 @@ the peak.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

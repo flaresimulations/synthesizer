@@ -53,6 +53,14 @@ synthesizer.parametric.sf\_hist
    .. minigallery:: synthesizer.parametric.sf_hist.DelayedExponential
        :add-heading:
    
+   .. autoclass:: DenseBasis
+      :members:
+
+   .. _sphx_glr_backref_synthesizer.parametric.sf_hist.DenseBasis:
+
+   .. minigallery:: synthesizer.parametric.sf_hist.DenseBasis
+       :add-heading:
+   
    .. autoclass:: DoublePowerLaw
       :members:
 

@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Plot delta_lambda for a grid." href="plot_delta_lambda.html" /><link rel="prev" title="Parametric galaxy examples" href="index.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="Demonstrate the dense basis approach for describing the SFZH" href="plot_dense_basis.html" /><link rel="prev" title="Parametric galaxy examples" href="index.html" />
 
     <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
         <title>Compare different parametric star formation history models - Synthesizer</title>
@@ -326,6 +326,7 @@
 </li>
 <li class="toctree-l2 current has-children"><a class="reference internal" href="index.html">Parametric galaxy examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -441,6 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -532,14 +534,7 @@ to download the full example code.</p>
 <section class="sphx-glr-example-title" id="compare-different-parametric-star-formation-history-models">
 <span id="sphx-glr-auto-examples-parametric-plot-compare-sfhs-py"></span><h1>Compare different parametric star formation history models<a class="headerlink" href="#compare-different-parametric-star-formation-history-models" title="Link to this heading">¶</a></h1>
 <p>Example comparing different parametric star formation histories.</p>
-<img src="../../_images/sphx_glr_plot_compare_sfhs_001.png" srcset="../../_images/sphx_glr_plot_compare_sfhs_001.png" alt="plot compare sfhs" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/synthesizer/synthesizer/src/synthesizer/parametric/sf_hist.py:652: RuntimeWarning: divide by zero encountered in scalar power
-  term1 = (age / self.peak_age) ** self.alpha
-</pre></div>
-</div>
-<div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<img src="../../_images/sphx_glr_plot_compare_sfhs_001.png" srcset="../../_images/sphx_glr_plot_compare_sfhs_001.png" alt="plot compare sfhs" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Myr</span>
 
@@ -597,7 +592,7 @@ to download the full example code.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.457 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.463 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-parametric-plot-compare-sfhs-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/987f15a9fea7099617e38f45cbf4de8f/plot_compare_sfhs.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_compare_sfhs.ipynb</span></code></a></p>
@@ -617,12 +612,12 @@ to download the full example code.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="plot_delta_lambda.html">
+          <a class="next-page" href="plot_dense_basis.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Plot delta_lambda for a grid.</div>
+                <div class="title">Demonstrate the dense basis approach for describing the SFZH</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -661,7 +656,7 @@ to download the full example code.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -38,8 +38,6 @@ and plots some diagnostics.
 
  .. code-block:: none
 
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:123: RuntimeWarning: Star forming gas particle mask not provided, setting sf_gas_mass and sf_gas_metallicity to `None`
-      self.calculate_integrated_gas_properties()
 
     (<Figure size 350x500 with 1 Axes>, <Axes: xlabel='$\\lambda/[\\mathrm{\\AA}]$', ylabel='$L_{\\nu}/[\\mathrm{\\rm{erg} \\ / \\ \\rm{Hz \\cdot \\rm{s}}}]$'>)
 
@@ -198,7 +196,7 @@ and plots some diagnostics.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.130 seconds)
+   **Total running time of the script:** (0 minutes 2.096 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_los_spectra.py:

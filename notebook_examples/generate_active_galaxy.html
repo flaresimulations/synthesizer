@@ -327,6 +327,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -442,6 +443,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -554,10 +556,11 @@
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
+<div class="output_area docutils container">
 <div class="highlight"><pre>
-/tmp/ipykernel_5780/814718033.py:12: FutureWarning: The filters module has been moved to the instruments module. Please update your imports synthesizer.filters -&gt; synthesizer.instruments
-  from synthesizer.filters import UVJ
+sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
+Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
+running without emcee
 </pre></div></div>
 </div>
 <p>Let’s begin by defining the geometry of the images:</p>
@@ -734,7 +737,7 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -746,25 +749,14 @@
 +---------------+------------------------------------------------------------------------+
 | galaxy_type   | &#39;Parametric&#39;                                                           |
 +---------------+------------------------------------------------------------------------+
-| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7fb9ac2de680&gt;          |
+| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7fdd6f027fa0&gt;          |
 +---------------+------------------------------------------------------------------------+
-| black_holes   | &lt;synthesizer.parametric.blackholes.BlackHole object at 0x7fb960f4f100&gt; |
+| black_holes   | &lt;synthesizer.parametric.blackholes.BlackHole object at 0x7fdd6efaa170&gt; |
 +---------------+------------------------------------------------------------------------+
 | name          | &#39;parametric galaxy&#39;                                                    |
 +---------------+------------------------------------------------------------------------+
 | sfzh (51, 13) | 0.00e+00 -&gt; 5.01e+08 (Mean: 1.51e+07)                                  |
 +---------------+------------------------------------------------------------------------+
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
 </pre></div></div>
 </div>
 <p>And now we can get the spectra by passing the <code class="docutils literal notranslate"><span class="pre">EmissionModel</span></code> to the <code class="docutils literal notranslate"><span class="pre">get_spectra</span></code> method.</p>
@@ -776,24 +768,13 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: overflow encountered in exp
-  out_arr = func(np.asarray(inp), out=out_func, **kwargs)
-/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1949: RuntimeWarning: overflow encountered in multiply
-  out_arr = func(
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;synthesizer.sed.Sed at 0x7fb94f4d13f0&gt;
+&lt;synthesizer.sed.Sed at 0x7fdd5d605720&gt;
 </pre></div></div>
 </div>
 <p>Now we have a galaxy with spectra isolated to the components. To get the combined “total”, “emergent”, and “intrinsic” spectra from all components we can call the <code class="docutils literal notranslate"><span class="pre">galaxy.get_spectra_combined</span></code>.</p>
@@ -952,7 +933,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -327,6 +327,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -442,6 +443,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -593,6 +595,9 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
+Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
+running without emcee
 &lt;class &#39;synthesizer.parametric.stars.Stars&#39;&gt;
 &lt;class &#39;synthesizer.particle.stars.Stars&#39;&gt;
 </pre></div></div>
@@ -638,7 +643,7 @@ pipeline (e.g. effective radii).</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -650,7 +655,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | galaxy_type               | &#39;Particle&#39;                                                  |
 +---------------------------+-------------------------------------------------------------+
-| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f0f040e3700&gt; |
+| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7fc3885c3e20&gt; |
 +---------------------------+-------------------------------------------------------------+
 | redshift                  | 1                                                           |
 +---------------------------+-------------------------------------------------------------+
@@ -658,7 +663,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | stellar_mass              | 501187233.6272717 Msun                                      |
 +---------------------------+-------------------------------------------------------------+
-| stellar_mass_weighted_age | 49763186.21130944 yr                                        |
+| stellar_mass_weighted_age | 49587195.3927532 yr                                         |
 +---------------------------+-------------------------------------------------------------+
 | gas_half_mass_radius      | 10 kpc                                                      |
 +---------------------------+-------------------------------------------------------------+
@@ -672,7 +677,7 @@ pipeline (e.g. effective radii).</p>
 +--------------------------+---------------------------------------------------------------+
 | galaxy_type              | &#39;Parametric&#39;                                                  |
 +--------------------------+---------------------------------------------------------------+
-| stars                    | &lt;synthesizer.parametric.stars.Stars object at 0x7f0f046e18d0&gt; |
+| stars                    | &lt;synthesizer.parametric.stars.Stars object at 0x7fc39030ee60&gt; |
 +--------------------------+---------------------------------------------------------------+
 | redshift                 | 1                                                             |
 +--------------------------+---------------------------------------------------------------+
@@ -684,17 +689,6 @@ pipeline (e.g. effective radii).</p>
 +--------------------------+---------------------------------------------------------------+
 | stellar_half_mass_radius | 5 kpc                                                         |
 +--------------------------+---------------------------------------------------------------+
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
 </pre></div></div>
 </div>
 <p>Note, that you are also free to avoid the factory function abstraction and explictly instantiate the desired <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code> object directly.</p>
@@ -722,7 +716,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | galaxy_type               | &#39;Particle&#39;                                                  |
 +---------------------------+-------------------------------------------------------------+
-| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f0f040e3700&gt; |
+| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7fc3885c3e20&gt; |
 +---------------------------+-------------------------------------------------------------+
 | redshift                  | 1                                                           |
 +---------------------------+-------------------------------------------------------------+
@@ -730,7 +724,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | stellar_mass              | 501187233.6272717 Msun                                      |
 +---------------------------+-------------------------------------------------------------+
-| stellar_mass_weighted_age | 49763186.21130944 yr                                        |
+| stellar_mass_weighted_age | 49587195.3927532 yr                                         |
 +---------------------------+-------------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -759,7 +753,7 @@ pipeline (e.g. effective radii).</p>
 +---------------+---------------------------------------------------------------+
 | galaxy_type   | &#39;Parametric&#39;                                                  |
 +---------------+---------------------------------------------------------------+
-| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7f0f046e18d0&gt; |
+| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7fc39030ee60&gt; |
 +---------------+---------------------------------------------------------------+
 | redshift      | 1                                                             |
 +---------------+---------------------------------------------------------------+
@@ -844,7 +838,7 @@ pipeline (e.g. effective radii).</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

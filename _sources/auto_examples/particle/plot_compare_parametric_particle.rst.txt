@@ -34,21 +34,8 @@ numbers of particles
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: divide by zero encountered in log10
-      out_arr = func(np.asarray(inp), out=out_func, **kwargs)
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/particle/galaxy.py:120: RuntimeWarning: Current mass of stars not provided, setting stellar_mass_weighted_age to `None`
-      self.calculate_integrated_stellar_properties()
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -136,7 +123,7 @@ numbers of particles
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.451 seconds)
+   **Total running time of the script:** (0 minutes 0.442 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_compare_parametric_particle.py:

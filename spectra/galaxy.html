@@ -327,6 +327,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -442,6 +443,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -528,7 +530,7 @@
           <section id="Galaxy-Spectra">
 <h1>Galaxy Spectra<a class="headerlink" href="#Galaxy-Spectra" title="Link to this heading">¶</a></h1>
 <p>Unlike component spectra, galaxy level spectra are by definition integrated. These spectra can only be combinations of component spectra. To see how to define emission models for galaxy level spectra see the <a class="reference internal" href="../emission_models/combined_models.html"><span class="doc">combined emission</span></a> docs. Here we will demonstrate the usage of a combined model to generate spectra for a galaxy. First we define that combined model.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -621,6 +623,16 @@
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
+Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
+running without emcee
+</pre></div></div>
 </div>
 <p>This emission model is going to produce a lot of spectra. In reality we probably don’t want to carry around all these spectra on a galaxy or its components. Instead we can select exactly which spectra we want to save. This can either be done by setting the save flag to <code class="docutils literal notranslate"><span class="pre">False</span></code> on selected models like below.</p>
 <div class="nbinput docutils container">
@@ -746,24 +758,13 @@
 </div>
 </div>
 <p>Similarly to component spectra, to generate galaxy level spectra we call the <code class="docutils literal notranslate"><span class="pre">get_spectra</span></code> method on a <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code>, with the <code class="docutils literal notranslate"><span class="pre">EmissionModel</span></code>. There is no need to call the component methods; the <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code> level method will handle generating the component spectra automatically.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spectra</span> <span class="o">=</span> <span class="n">galaxy</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">gal_total</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1824: RuntimeWarning: overflow encountered in exp
-  out_arr = func(np.asarray(inp), out=out_func, **kwargs)
-/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1949: RuntimeWarning: overflow encountered in multiply
-  out_arr = func(
-</pre></div></div>
 </div>
 <p>Now we can plot the spectra we’ve generated using the <code class="docutils literal notranslate"><span class="pre">plot_spectra</span></code> method. Unlike the component versions of this method, we need to also flag which type of spectra we’d like to plot from the galaxy.</p>
 <p>We can plot only stellar spectra, only black hole spectra or the combined spectra. Below we show the combined.</p>
@@ -914,7 +915,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

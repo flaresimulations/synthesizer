@@ -37,19 +37,8 @@ on lookup grid resolution.
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/astropy/cosmology/flrw/base.py:1072: IntegrationWarning: The integral is probably divergent, or slowly convergent.
-      return quad(self._lookback_time_integrand_scalar, z, inf)[0]
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -93,7 +82,7 @@ on lookup grid resolution.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 45.639 seconds)
+   **Total running time of the script:** (0 minutes 45.281 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_test_age_lookup.py:

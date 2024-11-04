@@ -326,6 +326,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -441,6 +442,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -545,9 +547,7 @@ photometry.</p>
 <li><img src="../../_images/sphx_glr_plot_cosmo_example_008.png" srcset="../../_images/sphx_glr_plot_cosmo_example_008.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_plot_cosmo_example_009.png" srcset="../../_images/sphx_glr_plot_cosmo_example_009.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
 </ul>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/unyt/array.py:1949: RuntimeWarning: invalid value encountered in divide
-  out_arr = func(
-Loaded 10 galaxies
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loaded 10 galaxies
 --------------------------------------------------
 |               PHOTOMETRY (FLUX)                |
 |--------------------|---------------------------|
@@ -558,8 +558,6 @@ Loaded 10 galaxies
 | J (λ = 1.22e+04 Å) | 4.76e-12 erg/(Hz*cm**2*s) |
 --------------------------------------------------
 
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/emission_models/operations.py:123: RuntimeWarning: Age mask has filtered out all particles
-  generator_func(
 --------------------------------------------------
 |               PHOTOMETRY (FLUX)                |
 |--------------------|---------------------------|
@@ -570,8 +568,8 @@ Loaded 10 galaxies
 | J (λ = 1.22e+04 Å) | 3.94e-12 erg/(Hz*cm**2*s) |
 --------------------------------------------------
 
-Stellar luminosities available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;young_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_nebular&#39;, &#39;old_transmitted&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;old_reprocessed&#39;, &#39;young_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;intrinsic&#39;, &#39;young_attenuated_ism&#39;, &#39;emergent&#39;]
-Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;young_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_nebular&#39;, &#39;old_transmitted&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;old_reprocessed&#39;, &#39;young_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;intrinsic&#39;, &#39;young_attenuated_ism&#39;, &#39;emergent&#39;]
+Stellar luminosities available: [&#39;incident&#39;, &#39;young_incident&#39;, &#39;old_incident&#39;, &#39;nebular&#39;, &#39;linecont&#39;, &#39;nebular_continuum&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_nebular&#39;, &#39;old_transmitted&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_nebular&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated&#39;, &#39;young_attenuated_ism&#39;, &#39;intrinsic&#39;, &#39;emergent&#39;]
+Stellar fluxes available: [&#39;incident&#39;, &#39;young_incident&#39;, &#39;old_incident&#39;, &#39;nebular&#39;, &#39;linecont&#39;, &#39;nebular_continuum&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_nebular&#39;, &#39;old_transmitted&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_nebular&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated&#39;, &#39;young_attenuated_ism&#39;, &#39;intrinsic&#39;, &#39;emergent&#39;]
 </pre></div>
 </div>
 <div class="line-block">
@@ -877,7 +875,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stellar fluxes available:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">photo_fnu</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.512 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.458 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-cosmo-plot-cosmo-example-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6c14165308b7095676deb1b4468c6172/plot_cosmo_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_cosmo_example.ipynb</span></code></a></p>
@@ -941,7 +939,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

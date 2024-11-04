@@ -45,8 +45,6 @@ Example for generating a rest-frame physical scale image. This example will:
     min = 3.31e+03 Angstrom
     max = 1.33e+04 Angstrom
     FilterCollection.lam.size = 75014
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/components/component.py:150: RuntimeWarning: Filter wavelength grid is not the same as the SED wavelength grid.
-      self.photo_lnu[spectra] = self.spectra[spectra].get_photo_lnu(
     llllllllllllllll!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!llllllllllllllll
     llllll!!!!!!!!!!!!!!!!!!!!!!!!!!!!iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii!!!!!!!!!!!!!!!!!!!!!!!!!!!!llllll
     !!!!!!!!!!!!!!!!!!!!!!iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii!!!!!!!!!!!!!!!!!!!!!!
@@ -248,7 +246,7 @@ Example for generating a rest-frame physical scale image. This example will:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.643 seconds)
+   **Total running time of the script:** (0 minutes 2.830 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parametric_plot_create_image.py:

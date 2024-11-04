@@ -327,6 +327,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -442,6 +443,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -531,7 +533,7 @@
 <h2>Particle Stars<a class="headerlink" href="#Particle-Stars" title="Link to this heading">¶</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">particle.Stars</span></code>object is the core object in synthesizer for modelling stellar distributions described by discrete particles (e.g. in hydrodynamical simulations).</p>
 <p>To initialise one you need equal length arrays describing the ages, metallicities and initial masses of your star particles. These can then be provided directly to the Stars object on initialisation. In the example below, we make some mock data (with units) and load these into a particle <code class="docutils literal notranslate"><span class="pre">Stars</span></code> object:</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -553,6 +555,16 @@
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
+Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
+running without emcee
+</pre></div></div>
+</div>
 <p>The provided ages, metallicities and initial masses of the star particles describe the star formation and metal enrichment (SFZH) history. Some basic statistics of this object can be viewed by:</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
@@ -562,7 +574,7 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -584,29 +596,16 @@
 +---------------------------+------------------------------------------------------+
 | nstars                    | 100                                                  |
 +---------------------------+------------------------------------------------------+
-| ages (100,)               | 8.09e+05 yr -&gt; 9.97e+07 yr (Mean: 4.72e+07 yr)       |
+| ages (100,)               | 1.38e+04 yr -&gt; 9.94e+07 yr (Mean: 4.83e+07 yr)       |
 +---------------------------+------------------------------------------------------+
-| metallicities (100,)      | 1.81e-04 -&gt; 9.99e-03 (Mean: 5.15e-03)                |
+| metallicities (100,)      | 1.31e-05 -&gt; 9.94e-03 (Mean: 5.49e-03)                |
 +---------------------------+------------------------------------------------------+
 | initial_masses (100,)     | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +---------------------------+------------------------------------------------------+
-| log10ages (100,)          | 5.91e+00 -&gt; 8.00e+00 (Mean: 7.51e+00)                |
+| log10ages (100,)          | 4.14e+00 -&gt; 8.00e+00 (Mean: 7.54e+00)                |
 +---------------------------+------------------------------------------------------+
-| log10metallicities (100,) | -3.74e+00 -&gt; -2.00e+00 (Mean: -2.41e+00)             |
+| log10metallicities (100,) | -4.88e+00 -&gt; -2.00e+00 (Mean: -2.41e+00)             |
 +---------------------------+------------------------------------------------------+
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `particle_photo_fluxes` attribute is deprecated. Use `particle_photo_fnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `particle_photo_luminosities` attribute is deprecated. Use `particle_photo_lnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
 </pre></div></div>
 </div>
 <p>This can be visualised in synthesizer using a <code class="docutils literal notranslate"><span class="pre">Grid</span></code> object (see <a class="reference internal" href="../grids/grids.html"><span class="doc">here</span></a>), to assign these to SFZH bins.</p>
@@ -698,25 +697,25 @@
 +-------------------------------+------------------------------------------------------+
 | coordinates (100, 3)          | 5.00e+01 Mpc -&gt; 5.00e+01 Mpc (Mean: 5.00e+01 Mpc)    |
 +-------------------------------+------------------------------------------------------+
-| masses (100,)                 | 2.84e+03 Msun -&gt; 9.91e+05 Msun (Mean: 5.25e+05 Msun) |
+| masses (100,)                 | 8.20e+03 Msun -&gt; 9.98e+05 Msun (Mean: 5.43e+05 Msun) |
 +-------------------------------+------------------------------------------------------+
 | centre                        | [50 50 50] Mpc                                       |
 +-------------------------------+------------------------------------------------------+
-| tau_v (100,)                  | 5.64e-03 -&gt; 9.78e-01 (Mean: 4.88e-01)                |
+| tau_v (100,)                  | 1.46e-02 -&gt; 9.99e-01 (Mean: 4.44e-01)                |
 +-------------------------------+------------------------------------------------------+
-| ages (100,)                   | 8.09e+05 yr -&gt; 9.97e+07 yr (Mean: 4.72e+07 yr)       |
+| ages (100,)                   | 1.38e+04 yr -&gt; 9.94e+07 yr (Mean: 4.83e+07 yr)       |
 +-------------------------------+------------------------------------------------------+
-| metallicities (100,)          | 1.81e-04 -&gt; 9.99e-03 (Mean: 5.15e-03)                |
+| metallicities (100,)          | 1.31e-05 -&gt; 9.94e-03 (Mean: 5.49e-03)                |
 +-------------------------------+------------------------------------------------------+
 | initial_masses (100,)         | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +-------------------------------+------------------------------------------------------+
-| current_masses (100,)         | 2.84e+03 Msun -&gt; 9.91e+05 Msun (Mean: 5.25e+05 Msun) |
+| current_masses (100,)         | 8.20e+03 Msun -&gt; 9.98e+05 Msun (Mean: 5.43e+05 Msun) |
 +-------------------------------+------------------------------------------------------+
-| centered_coordinates (100, 3) | -1.37e-02 Mpc -&gt; 1.46e-02 Mpc (Mean: -2.87e-04 Mpc)  |
+| centered_coordinates (100, 3) | -1.49e-02 Mpc -&gt; 1.33e-02 Mpc (Mean: -1.53e-05 Mpc)  |
 +-------------------------------+------------------------------------------------------+
-| log10ages (100,)              | 5.91e+00 -&gt; 8.00e+00 (Mean: 7.51e+00)                |
+| log10ages (100,)              | 4.14e+00 -&gt; 8.00e+00 (Mean: 7.54e+00)                |
 +-------------------------------+------------------------------------------------------+
-| log10metallicities (100,)     | -3.74e+00 -&gt; -2.00e+00 (Mean: -2.41e+00)             |
+| log10metallicities (100,)     | -4.88e+00 -&gt; -2.00e+00 (Mean: -2.41e+00)             |
 +-------------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -738,7 +737,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.007554051761455726 Mpc
+0.0071533140120029915 Mpc
 </pre></div></div>
 </div>
 <p>Or use an aribtrary attribute for the radius weight. Here we’ll use the optical depth for a “half tau_V radius”.</p>
@@ -756,7 +755,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.007058840922111571 Mpc
+0.007065611969026093 Mpc
 </pre></div></div>
 </div>
 <p>We can also compute radii for different fractions by passing the fraction we want to calculate a radius for.</p>
@@ -775,7 +774,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.005318494394789077 Mpc 0.009665283044567693 Mpc
+0.004680494330683548 Mpc 0.009867623038900535 Mpc
 </pre></div></div>
 </div>
 <p>We can also calculate characteristic light radii from photometry. See the <a class="reference internal" href="../photometry/galaxy_phot.html"><span class="doc">photometry</span></a> documentation for more details.</p>
@@ -848,7 +847,7 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
@@ -884,15 +883,6 @@
 +--------------------------+------------------------------------------------+
 | log10metallicities (14,) | -5.00e+00 -&gt; -1.75e+00 (Mean: -3.38e+00)       |
 +--------------------------+------------------------------------------------+
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-  self.attributes[name] = getattr(obj, name)
 </pre></div></div>
 </div>
 <p>Or to probe the SFZH you can plot it using the provided helper function.</p>
@@ -1004,7 +994,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&#39;Constant&#39;, &#39;Gaussian&#39;, &#39;Exponential&#39;, &#39;TruncatedExponential&#39;, &#39;DecliningExponential&#39;, &#39;DelayedExponentialLogNormal&#39;, &#39;DoublePowerLaw&#39;)
+(&#39;Constant&#39;, &#39;Gaussian&#39;, &#39;Exponential&#39;, &#39;TruncatedExponential&#39;, &#39;DecliningExponential&#39;, &#39;DelayedExponentialLogNormal&#39;, &#39;DoublePowerLaw&#39;, &#39;DenseBasis&#39;)
 (&#39;DeltaConstant&#39;, &#39;Normal&#39;)
 </pre></div></div>
 </div>
@@ -1062,9 +1052,9 @@ mean age: 50.00 Myr
 +--------------------------+----------------------------------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                                                    |
 +--------------------------+----------------------------------------------------------------------------+
-| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.Constant object at 0x7f958c14ae30&gt;         |
+| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.Constant object at 0x7f9341f01f30&gt;         |
 +--------------------------+----------------------------------------------------------------------------+
-| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f958c14ab60&gt; |
+| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f9341f02260&gt; |
 +--------------------------+----------------------------------------------------------------------------+
 | metallicity_grid_type    | &#39;log10Z&#39;                                                                   |
 +--------------------------+----------------------------------------------------------------------------+
@@ -1336,9 +1326,9 @@ mean age: 250.00 Myr
 +--------------------------+------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                        |
 +--------------------------+------------------------------------------------+
-| sf_hist_func             | &lt;__main__.Constant object at 0x7f958bfaa9b0&gt;   |
+| sf_hist_func             | &lt;__main__.Constant object at 0x7f9341c9a680&gt;   |
 +--------------------------+------------------------------------------------+
-| metal_dist_func          | &lt;__main__.Normal object at 0x7f958bfaa8c0&gt;     |
+| metal_dist_func          | &lt;__main__.Normal object at 0x7f9341c9b010&gt;     |
 +--------------------------+------------------------------------------------+
 | metallicity_grid_type    | &#39;log10Z&#39;                                       |
 +--------------------------+------------------------------------------------+
@@ -1460,7 +1450,7 @@ mean age: 250.00 Myr
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

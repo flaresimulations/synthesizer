@@ -325,6 +325,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -440,6 +441,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -541,8 +543,10 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">dense_basis</span> <span class="k">as</span> <span class="nn">db</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">cumulative_trapezoid</span> <span class="k">as</span> <span class="n">cumtrapz</span>
 <span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">yr</span>
 
 <span class="kn">from</span> <span class="nn">synthesizer</span> <span class="kn">import</span> <span class="n">exceptions</span>
@@ -558,6 +562,7 @@
     <span class="s2">&quot;DecliningExponential&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DelayedExponential&quot;</span> <span class="s2">&quot;LogNormal&quot;</span><span class="p">,</span>
     <span class="s2">&quot;DoublePowerLaw&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DenseBasis&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 
 
@@ -739,6 +744,40 @@
             <span class="s2">&quot;https://github.com/flaresimulations/synthesizer/blob/main/&quot;</span>
             <span class="s2">&quot;docs/CONTRIBUTING.md&quot;</span>
         <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Common.plot">
+<a class="viewcode-back" href="../../../_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.Common.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the star formation history, returned by `calculate_sfh`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            show (bool)</span>
+<span class="sd">                display plot to screen directly</span>
+<span class="sd">            save (bool, string)</span>
+<span class="sd">                if False, don&#39;t save. If string, save to directory</span>
+<span class="sd">            kwargs (dict)</span>
+<span class="sd">                key word arguments describing sfh</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">t</span><span class="p">,</span> <span class="n">sfh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calculate_sfh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sfh</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;age (yr)&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;SFR ($\mathrm{M_{\odot} \,/\, yr}$)&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">save</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
     <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1215,13 +1254,136 @@
 <span class="sd">            age (float)</span>
 <span class="sd">                The age (in years) at which to evaluate the SFR.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="p">(</span><span class="n">age</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_age</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_age</span><span class="p">):</span>
             <span class="n">term1</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_age</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
             <span class="n">term2</span> <span class="o">=</span> <span class="p">(</span><span class="n">age</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">peak_age</span><span class="p">)</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">term1</span> <span class="o">+</span> <span class="n">term2</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span>
 
         <span class="k">return</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="DenseBasis">
+<a class="viewcode-back" href="../../../_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DenseBasis">[docs]</a>
+<span class="k">class</span> <span class="nc">DenseBasis</span><span class="p">(</span><span class="n">Common</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dense Basis representation of a SFH.</span>
+
+<span class="sd">    See here for more details on the Dense Basis method.</span>
+
+<span class="sd">    https://dense-basis.readthedocs.io/en/latest/</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        db_tuple (tuple)</span>
+<span class="sd">            Dense basis parameters describing the SFH</span>
+<span class="sd">            1) total mass formed</span>
+<span class="sd">            2) SFR at the time of observation (see redshift)</span>
+<span class="sd">            3) number of tx parameters</span>
+<span class="sd">            4) times when the galaxy formed fractions of its mass,</span>
+<span class="sd">                units of fraction of the age of the universe [0-1]</span>
+<span class="sd">        redshift (float)</span>
+<span class="sd">            redshift at which to scale the SFH</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_tuple</span><span class="p">,</span> <span class="n">redshift</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialise the parent and this parametrisation of the SFH.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            db_tuple (tuple)</span>
+<span class="sd">                Dense basis parameters describing the SFH</span>
+<span class="sd">                1) total mass formed</span>
+<span class="sd">                2) SFR at the time of observation (see redshift)</span>
+<span class="sd">                3) number of tx parameters</span>
+<span class="sd">                4) times when the galaxy formed fractions of its mass,</span>
+<span class="sd">                    units of fraction of the age of the universe [0-1]</span>
+<span class="sd">            redshift (float)</span>
+<span class="sd">                redshift at which to scale the SFH</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Initialise the parent</span>
+        <span class="n">Common</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DenseBasis&quot;</span><span class="p">,</span> <span class="n">db_tuple</span><span class="o">=</span><span class="n">db_tuple</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_tuple</span> <span class="o">=</span> <span class="n">db_tuple</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="o">=</span> <span class="n">redshift</span>
+
+        <span class="c1"># convert dense basis parameters (1db_tuple`) into SFH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_convert_db_to_sfh</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_convert_db_to_sfh</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">interpolator</span><span class="o">=</span><span class="s2">&quot;gp_george&quot;</span><span class="p">,</span> <span class="n">min_age</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="mf">10.3</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert dense basis representation to a binned SFH</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            interpolator (string)</span>
+<span class="sd">                Dense basis interpolator to use. Options:</span>
+<span class="sd">                [gp_george, gp_sklearn, linear, and pchip].</span>
+<span class="sd">                Note that gp_sklearn requires sklearn to be installed.</span>
+<span class="sd">            min_age (float)</span>
+<span class="sd">                minimum age of SFH grid</span>
+<span class="sd">            max_age (float)</span>
+<span class="sd">                maximum age of SFH grid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Convert the dense basis tuple arguments to sfh in mass fraction units</span>
+        <span class="n">tempsfh</span><span class="p">,</span> <span class="n">temptime</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">tuple_to_sfh</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">db_tuple</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="n">interpolator</span><span class="o">=</span><span class="n">interpolator</span><span class="p">,</span> <span class="n">vb</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Define a new finer grid, and time differences between steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_age</span><span class="p">,</span> <span class="n">max_age</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="n">tbw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span><span class="p">))</span>
+
+        <span class="c1"># define these intervals in log space</span>
+        <span class="n">finewidths</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span> <span class="o">+</span> <span class="n">tbw</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span> <span class="o">-</span> <span class="n">tbw</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Interpolate the SFH on to finer grid in units of SFR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intsfh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interp_sfh</span><span class="p">(</span>
+            <span class="n">tempsfh</span><span class="p">,</span> <span class="n">temptime</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span> <span class="o">/</span> <span class="mf">1e9</span>
+        <span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">finewidths</span> <span class="o">/</span> <span class="mf">1e9</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_interp_sfh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sfh</span><span class="p">,</span> <span class="n">tax</span><span class="p">,</span> <span class="n">newtax</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Helper method for interpolating a dense basis SFH</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sfh (array)</span>
+<span class="sd">                star formation history array</span>
+<span class="sd">            tax (array)</span>
+<span class="sd">                time axis</span>
+<span class="sd">            newtax (array)</span>
+<span class="sd">                new time axis</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sfh_interp (array)</span>
+<span class="sd">                array of interpolated sfh values</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sfh_cdf</span> <span class="o">=</span> <span class="n">cumtrapz</span><span class="p">(</span><span class="n">sfh</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">tax</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">cdf_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">newtax</span><span class="p">,</span> <span class="n">tax</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">sfh_cdf</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">sfh_interp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">cdf_interp</span><span class="p">)</span>
+        <span class="n">sfh_interp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">cdf_interp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sfh_interp</span>
+
+    <span class="k">def</span> <span class="nf">_sfr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return SFR at given `age`</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            age (float)</span>
+<span class="sd">                Age to query SFH, units of years</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sfr (float)</span>
+<span class="sd">                Star formation rate at `age`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sfr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">finegrid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">intsfh</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sfr</span></div>
 
 </pre></div>
         </article>
@@ -1255,7 +1417,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="../../../_static/documentation_options.js?v=6c8425b4"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -111,10 +111,6 @@ including photometry. This example will:
     Pacman model (no Ly-alpha escape, and no dust)
     Pacman model (complex)
     CF00 implemented within the Pacman model
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_fluxes` attribute is deprecated. Use `photo_fnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
-    /home/runner/work/synthesizer/synthesizer/src/synthesizer/utils/ascii_table.py:67: FutureWarning: The `photo_luminosities` attribute is deprecated. Use `photo_lnu` instead. Will be removed in v1.0.0
-      self.attributes[name] = getattr(obj, name)
     +-------------------------------------------------------------------------------+
     |                                    GALAXY                                     |
     +---------------+---------------------------------------------------------------+
@@ -122,7 +118,7 @@ including photometry. This example will:
     +---------------+---------------------------------------------------------------+
     | galaxy_type   | 'Parametric'                                                  |
     +---------------+---------------------------------------------------------------+
-    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f7c23eed3f0> |
+    | stars         | <synthesizer.parametric.stars.Stars object at 0x7f1ce33e6560> |
     +---------------+---------------------------------------------------------------+
     | name          | 'parametric galaxy'                                           |
     +---------------+---------------------------------------------------------------+
@@ -349,7 +345,7 @@ including photometry. This example will:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.082 seconds)
+   **Total running time of the script:** (0 minutes 3.078 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parametric_plot_sed.py:

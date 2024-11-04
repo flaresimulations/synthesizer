@@ -324,6 +324,7 @@
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
 <li class="toctree-l3"><a class="reference internal" href="auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -439,6 +440,7 @@
 <li class="toctree-l3"><a class="reference internal" href="_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
@@ -615,14 +617,14 @@
 </li>
         <li><a href="_autosummary/synthesizer.particle.particles.html#synthesizer.particle.particles.Particles.angular_momentum">angular_momentum (synthesizer.particle.particles.Particles property)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.conversions.html#synthesizer.conversions.angular_to_spatial_at_z">angular_to_spatial_at_z() (in module synthesizer.conversions)</a>
 </li>
         <li><a href="_autosummary/synthesizer.imaging.spectral_cube.html#synthesizer.imaging.spectral_cube.SpectralCube.animate_data_cube">animate_data_cube() (synthesizer.imaging.spectral_cube.SpectralCube method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.grid.html#synthesizer.grid.Grid.animate_grid">animate_grid() (synthesizer.grid.Grid method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.conversions.html#synthesizer.conversions.apparent_mag_to_fnu">apparent_mag_to_fnu() (in module synthesizer.conversions)</a>
 </li>
         <li><a href="_autosummary/synthesizer.line.html#synthesizer.line.Line.apply_attenuation">apply_attenuation() (synthesizer.line.Line method)</a>
@@ -631,6 +633,8 @@
           <li><a href="_autosummary/synthesizer.sed.html#synthesizer.sed.Sed.apply_attenuation">(synthesizer.sed.Sed method)</a>
 </li>
         </ul></li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.apply_CGSUnits_conversion">apply_CGSUnits_conversion() (in module synthesizer.load_data.load_eagle)</a>
+</li>
         <li><a href="_autosummary/synthesizer.emission_models.dust.emission.html#synthesizer.emission_models.dust.emission.EmissionBase.apply_cmb_heating">apply_cmb_heating() (synthesizer.emission_models.dust.emission.EmissionBase method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.emission_models.base_model.html#synthesizer.emission_models.base_model.EmissionModel.apply_dust_to">apply_dust_to (synthesizer.emission_models.base_model.EmissionModel attribute)</a>
@@ -647,6 +651,8 @@
         </ul></li>
         <li><a href="_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter.apply_filter">apply_filter() (synthesizer.instruments.filters.Filter method)</a>
 </li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.apply_hfreeUnits_conversion">apply_hfreeUnits_conversion() (in module synthesizer.load_data.load_eagle)</a>
+</li>
         <li><a href="_autosummary/synthesizer.imaging.image.html#synthesizer.imaging.image.Image.apply_noise_array">apply_noise_array() (synthesizer.imaging.image.Image method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.imaging.image_collection.html#synthesizer.imaging.image_collection.ImageCollection.apply_noise_arrays">apply_noise_arrays() (synthesizer.imaging.image_collection.ImageCollection method)</a>
@@ -658,6 +664,10 @@
         <li><a href="_autosummary/synthesizer.imaging.image.html#synthesizer.imaging.image.Image.apply_noise_from_std">apply_noise_from_std() (synthesizer.imaging.image.Image method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.imaging.image_collection.html#synthesizer.imaging.image_collection.ImageCollection.apply_noise_from_stds">apply_noise_from_stds() (synthesizer.imaging.image_collection.ImageCollection method)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.apply_PhotUnits">apply_PhotUnits() (in module synthesizer.load_data.load_eagle)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.apply_physicalUnits_conversion">apply_physicalUnits_conversion() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.imaging.image.html#synthesizer.imaging.image.Image.apply_psf">apply_psf() (synthesizer.imaging.image.Image method)</a>
 </li>
@@ -672,6 +682,8 @@
         <li><a href="_autosummary/synthesizer.utils.art.html#synthesizer.utils.art.Art">Art (class in synthesizer.utils.art)</a>
 </li>
         <li><a href="_autosummary/synthesizer.abundances.reference_abundance_patterns.html#synthesizer.abundances.reference_abundance_patterns.Asplund2009">Asplund2009 (class in synthesizer.abundances.reference_abundance_patterns)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.assign_galaxy_prop">assign_galaxy_prop() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.abundances.elements.html#synthesizer.abundances.elements.Elements.atomic_mass">atomic_mass (synthesizer.abundances.elements.Elements attribute)</a>
 </li>
@@ -1005,11 +1017,15 @@
 </li>
         <li><a href="_autosummary/synthesizer.imaging.spectral_cube.html#synthesizer.imaging.spectral_cube.SpectralCube.data_cube">data_cube (synthesizer.imaging.spectral_cube.SpectralCube property)</a>
 </li>
+        <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DenseBasis.db_tuple">db_tuple (synthesizer.parametric.sf_hist.DenseBasis attribute)</a>
+</li>
         <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DecliningExponential">DecliningExponential (class in synthesizer.parametric.sf_hist)</a>
 </li>
         <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DelayedExponential">DelayedExponential (class in synthesizer.parametric.sf_hist)</a>
 </li>
         <li><a href="_autosummary/synthesizer.parametric.metal_dist.html#synthesizer.parametric.metal_dist.DeltaConstant">DeltaConstant (class in synthesizer.parametric.metal_dist)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DenseBasis">DenseBasis (class in synthesizer.parametric.sf_hist)</a>
 </li>
         <li><a href="_autosummary/synthesizer.abundances.abundance_patterns.html#synthesizer.abundances.abundance_patterns.Abundances.depletion">depletion (synthesizer.abundances.abundance_patterns.Abundances attribute)</a>
 </li>
@@ -1063,10 +1079,10 @@
 </li>
         <li><a href="_autosummary/synthesizer.download_data.html#synthesizer.download_data.download_camels_data">download_camels_data() (in module synthesizer.download_data)</a>
 </li>
-        <li><a href="_autosummary/synthesizer.download_data.html#synthesizer.download_data.download_dust_grid">download_dust_grid() (in module synthesizer.download_data)</a>
-</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="_autosummary/synthesizer.download_data.html#synthesizer.download_data.download_dust_grid">download_dust_grid() (in module synthesizer.download_data)</a>
+</li>
         <li><a href="_autosummary/synthesizer.download_data.html#synthesizer.download_data.download_stellar_test_grids">download_stellar_test_grids() (in module synthesizer.download_data)</a>
 </li>
         <li><a href="_autosummary/synthesizer.download_data.html#synthesizer.download_data.download_test_grids">download_test_grids() (in module synthesizer.download_data)</a>
@@ -1431,6 +1447,8 @@
           <li><a href="_autosummary/synthesizer.emission_models.operations.html#synthesizer.emission_models.operations.Generation.generator">(synthesizer.emission_models.operations.Generation attribute)</a>
 </li>
         </ul></li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.get_age">get_age() (in module synthesizer.load_data.load_eagle)</a>
+</li>
         <li><a href="_autosummary/synthesizer.utils.ascii_table.html#synthesizer.utils.ascii_table.TableFormatter.get_array_rows">get_array_rows() (synthesizer.utils.ascii_table.TableFormatter method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.sed.html#synthesizer.sed.get_attenuation">get_attenuation() (in module synthesizer.sed)</a>
@@ -1478,6 +1496,8 @@
         <li><a href="_autosummary/synthesizer.parametric.metal_dist.html#synthesizer.parametric.metal_dist.Common.get_dist_weight">get_dist_weight() (synthesizer.parametric.metal_dist.Common method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.base_galaxy.html#synthesizer.base_galaxy.BaseGalaxy.get_equivalent_width">get_equivalent_width() (synthesizer.base_galaxy.BaseGalaxy method)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.get_files">get_files() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.line.html#synthesizer.line.Line.get_flux">get_flux() (synthesizer.line.Line method)</a>
 </li>
@@ -1644,6 +1664,8 @@
 </li>
         </ul></li>
         <li><a href="_autosummary/synthesizer.base_galaxy.html#synthesizer.base_galaxy.BaseGalaxy.get_spectra_combined">get_spectra_combined() (synthesizer.base_galaxy.BaseGalaxy method)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.get_star_formation_time">get_star_formation_time() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.particle.galaxy.html#synthesizer.particle.galaxy.Galaxy.get_stellar_los_tau_v">get_stellar_los_tau_v() (synthesizer.particle.galaxy.Galaxy method)</a>
 </li>
@@ -1983,14 +2005,14 @@
         </ul></li>
         <li><a href="_autosummary/synthesizer.grid.html#synthesizer.grid.Grid.lines_available">lines_available (synthesizer.grid.Grid property)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.sed.html#synthesizer.sed.Sed.llam">llam (synthesizer.sed.Sed property)</a>
 
         <ul>
           <li><a href="_autosummary/synthesizer.units.html#synthesizer.units.Units.llam">(synthesizer.units.Units attribute)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.conversions.html#synthesizer.conversions.llam_to_lnu">llam_to_lnu() (in module synthesizer.conversions)</a>
 </li>
         <li><a href="_autosummary/synthesizer.sed.html#synthesizer.sed.Sed.lnu">lnu (synthesizer.sed.Sed attribute)</a>
@@ -2012,6 +2034,10 @@
         <li><a href="_autosummary/synthesizer.load_data.load_camels.html#synthesizer.load_data.load_camels.load_CAMELS_Simba">load_CAMELS_Simba() (in module synthesizer.load_data.load_camels)</a>
 </li>
         <li><a href="_autosummary/synthesizer.load_data.load_camels.html#synthesizer.load_data.load_camels.load_CAMELS_SwiftEAGLE_subfind">load_CAMELS_SwiftEAGLE_subfind() (in module synthesizer.load_data.load_camels)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.load_EAGLE">load_EAGLE() (in module synthesizer.load_data.load_eagle)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.load_EAGLE_shm">load_EAGLE_shm() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.load_data.load_flares.html#synthesizer.load_data.load_flares.load_FLARES">load_FLARES() (in module synthesizer.load_data.load_flares)</a>
 </li>
@@ -2339,6 +2365,8 @@
 </li>
           <li><a href="_autosummary/synthesizer.load_data.load_camels.html#module-synthesizer.load_data.load_camels">synthesizer.load_data.load_camels</a>
 </li>
+          <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#module-synthesizer.load_data.load_eagle">synthesizer.load_data.load_eagle</a>
+</li>
           <li><a href="_autosummary/synthesizer.load_data.load_flares.html#module-synthesizer.load_data.load_flares">synthesizer.load_data.load_flares</a>
 </li>
           <li><a href="_autosummary/synthesizer.load_data.load_scsam.html#module-synthesizer.load_data.load_scsam">synthesizer.load_data.load_scsam</a>
@@ -2468,10 +2496,10 @@
           <li><a href="_autosummary/synthesizer.abundances.abundance_scalings.html#synthesizer.abundances.abundance_scalings.GalacticConcordance.nitrogen">(synthesizer.abundances.abundance_scalings.GalacticConcordance method)</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.abundances.abundance_scalings.html#synthesizer.abundances.abundance_scalings.GalacticConcordance.nitrogen_to_oxygen">nitrogen_to_oxygen() (synthesizer.abundances.abundance_scalings.GalacticConcordance method)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.emission_models.agn.unified_agn.html#synthesizer.emission_models.agn.unified_agn.UnifiedAGN.nlr">nlr (synthesizer.emission_models.agn.unified_agn.UnifiedAGN attribute)</a>
 </li>
         <li><a href="_autosummary/synthesizer.emission_models.agn.unified_agn.html#synthesizer.emission_models.agn.unified_agn.UnifiedAGN.nlr_transmitted">nlr_transmitted (synthesizer.emission_models.agn.unified_agn.UnifiedAGN attribute)</a>
@@ -2493,6 +2521,8 @@
         <li><a href="_autosummary/synthesizer.parametric.metal_dist.html#synthesizer.parametric.metal_dist.Normal">Normal (class in synthesizer.parametric.metal_dist)</a>
 </li>
         <li><a href="_autosummary/synthesizer.grid.html#synthesizer.grid.Template.normalisation">normalisation (synthesizer.grid.Template attribute)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.np_shm_read">np_shm_read() (in module synthesizer.load_data.load_eagle)</a>
 </li>
         <li><a href="_autosummary/synthesizer.particle.particles.html#synthesizer.particle.particles.Particles.nparticle">nparticle (synthesizer.particle.particles.Particles attribute)</a>
 </li>
@@ -2648,6 +2678,8 @@
 </li>
         <li><a href="_autosummary/synthesizer.utils.util_funcs.html#synthesizer.utils.util_funcs.planck">planck() (in module synthesizer.utils.util_funcs)</a>
 </li>
+        <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.Common.plot">plot() (synthesizer.parametric.sf_hist.Common method)</a>
+</li>
     </ul></td>
     <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.abundances.abundance_patterns.html#synthesizer.abundances.abundance_patterns.plot_abundance_pattern">plot_abundance_pattern() (in module synthesizer.abundances.abundance_patterns)</a>
@@ -2770,12 +2802,18 @@
           <li><a href="_autosummary/synthesizer.units.html#synthesizer.units.Units.radii">(synthesizer.units.Units attribute)</a>
 </li>
         </ul></li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.read_array">read_array() (in module synthesizer.load_data.load_eagle)</a>
+</li>
         <li><a href="_autosummary/synthesizer.photoionisation.cloudy17.html#synthesizer.photoionisation.cloudy17.read_continuum">read_continuum() (in module synthesizer.photoionisation.cloudy17)</a>
 
         <ul>
           <li><a href="_autosummary/synthesizer.photoionisation.cloudy23.html#synthesizer.photoionisation.cloudy23.read_continuum">(in module synthesizer.photoionisation.cloudy23)</a>
 </li>
         </ul></li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.read_hdf5">read_hdf5() (in module synthesizer.load_data.load_eagle)</a>
+</li>
+        <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#synthesizer.load_data.load_eagle.read_header">read_header() (in module synthesizer.load_data.load_eagle)</a>
+</li>
         <li><a href="_autosummary/synthesizer.photoionisation.cloudy17.html#synthesizer.photoionisation.cloudy17.read_linelist">read_linelist() (in module synthesizer.photoionisation.cloudy17)</a>
 
         <ul>
@@ -2807,17 +2845,19 @@
 </li>
           <li><a href="_autosummary/synthesizer.parametric.morphology.html#synthesizer.parametric.morphology.MorphologyBase.redshift">(synthesizer.parametric.morphology.MorphologyBase attribute)</a>
 </li>
+          <li><a href="_autosummary/synthesizer.parametric.sf_hist.html#synthesizer.parametric.sf_hist.DenseBasis.redshift">(synthesizer.parametric.sf_hist.DenseBasis attribute)</a>
+</li>
           <li><a href="_autosummary/synthesizer.particle.particles.html#synthesizer.particle.particles.Particles.redshift">(synthesizer.particle.particles.Particles attribute)</a>
 </li>
           <li><a href="_autosummary/synthesizer.sed.html#synthesizer.sed.Sed.redshift">(synthesizer.sed.Sed attribute)</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.abundances.abundance_patterns.html#synthesizer.abundances.abundance_patterns.Abundances.reference">reference (synthesizer.abundances.abundance_patterns.Abundances attribute)</a>
 </li>
         <li><a href="_autosummary/synthesizer.abundances.abundance_patterns.html#synthesizer.abundances.abundance_patterns.Abundances.reference_relative_abundance">reference_relative_abundance() (synthesizer.abundances.abundance_patterns.Abundances method)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="_autosummary/synthesizer.emission_models.base_model.html#synthesizer.emission_models.base_model.EmissionModel.relabel">relabel() (synthesizer.emission_models.base_model.EmissionModel method)</a>
 </li>
         <li><a href="_autosummary/synthesizer.emission_models.base_model.html#synthesizer.emission_models.base_model.EmissionModel.related_models">related_models (synthesizer.emission_models.base_model.EmissionModel attribute)</a>
@@ -3416,6 +3456,13 @@
 </li>
         </ul></li>
         <li>
+    synthesizer.load_data.load_eagle
+
+        <ul>
+          <li><a href="_autosummary/synthesizer.load_data.load_eagle.html#module-synthesizer.load_data.load_eagle">module</a>
+</li>
+        </ul></li>
+        <li>
     synthesizer.load_data.load_flares
 
         <ul>
@@ -3914,7 +3961,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=226bb2b1"></script>
+</div><script src="_static/documentation_options.js?v=6c8425b4"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
