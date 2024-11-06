@@ -530,7 +530,7 @@
           <section id="Galaxy-Spectra">
 <h1>Galaxy Spectra<a class="headerlink" href="#Galaxy-Spectra" title="Link to this heading">¶</a></h1>
 <p>Unlike component spectra, galaxy level spectra are by definition integrated. These spectra can only be combinations of component spectra. To see how to define emission models for galaxy level spectra see the <a class="reference internal" href="../emission_models/combined_models.html"><span class="doc">combined emission</span></a> docs. Here we will demonstrate the usage of a combined model to generate spectra for a galaxy. First we define that combined model.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -623,16 +623,6 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
-</pre></div></div>
 </div>
 <p>This emission model is going to produce a lot of spectra. In reality we probably don’t want to carry around all these spectra on a galaxy or its components. Instead we can select exactly which spectra we want to save. This can either be done by setting the save flag to <code class="docutils literal notranslate"><span class="pre">False</span></code> on selected models like below.</p>
 <div class="nbinput docutils container">
@@ -915,7 +905,7 @@ running without emcee
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

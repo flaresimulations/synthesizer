@@ -531,7 +531,7 @@
 <h1>Line of Sight Calculations<a class="headerlink" href="#Line-of-Sight-Calculations" title="Link to this heading">¶</a></h1>
 <p>For particle <code class="docutils literal notranslate"><span class="pre">Galaxies</span></code> its possible to compute line of sight column densities from the particle distribtions. These line of sight calculations will compute the line of sight column density for one particle component based on another. In this example we will show how to compute the column density of the gas component from the perspective of the star particles.</p>
 <p>Before demonstrating this we need to generate a galaxy to demonstrate with.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -649,16 +649,6 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
-</pre></div></div>
-</div>
 <section id="Atrbitrary-column-densities">
 <h2>Atrbitrary column densities<a class="headerlink" href="#Atrbitrary-column-densities" title="Link to this heading">¶</a></h2>
 <p>If we want the gas column density for the stellar component we can call <code class="docutils literal notranslate"><span class="pre">stars.get_los_column_density</span></code> with the gas component as the argument. This method requires a string giving the name of the attribute to use for the column density, here we’ll use the gas <code class="docutils literal notranslate"><span class="pre">&quot;masses&quot;</span></code>, and also requires an SPH kernel to describe the gas particles (defined in the <code class="docutils literal notranslate"><span class="pre">synthesizer.kernel_functions</span></code> module).</p>
@@ -714,7 +704,7 @@ running without emcee
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[ 138792.7174249   497981.40388593  154324.72930879 1635234.40035926]
+[  159868.26260714 14248765.24132748  7668993.37714081  7427208.5582863 ]
 </pre></div></div>
 </div>
 </section>
@@ -826,7 +816,7 @@ running without emcee
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

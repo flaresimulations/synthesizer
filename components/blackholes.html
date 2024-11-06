@@ -539,7 +539,7 @@
 <li><p>A <code class="docutils literal notranslate"><span class="pre">parametric.BlackHole</span></code>’s “position” (i.e. if making an image) is described by a <code class="docutils literal notranslate"><span class="pre">PointSource</span></code> morphology object rather than coordinates.</p></li>
 <li><p>A <code class="docutils literal notranslate"><span class="pre">parametric.BlackHole</span></code> exists in isolation, i.e. it does not interface directly with other parametric components.</p></li>
 </ul>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -553,16 +553,6 @@
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
-</pre></div></div>
 </div>
 <p>First we need to initialise our <code class="docutils literal notranslate"><span class="pre">BlackHole</span></code> object with the parameters that will be needed to compute spectra.</p>
 <div class="nbinput nblast docutils container">
@@ -619,7 +609,7 @@ running without emcee
 +--------------------------+--------------------------------------------------------------------------+
 | nbh                      | 1                                                                        |
 +--------------------------+--------------------------------------------------------------------------+
-| morphology               | &lt;synthesizer.parametric.morphology.PointSource object at 0x7fb409179b70&gt; |
+| morphology               | &lt;synthesizer.parametric.morphology.PointSource object at 0x7fd53879d4b0&gt; |
 +--------------------------+--------------------------------------------------------------------------+
 | mass                     | 100000000.0 Msun                                                         |
 +--------------------------+--------------------------------------------------------------------------+
@@ -969,7 +959,7 @@ Z_BH = [0.01 0.01 0.01 0.07]
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

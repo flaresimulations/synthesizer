@@ -530,7 +530,7 @@
           <section id="Grid-example">
 <h1><code class="docutils literal notranslate"><span class="pre">Grid</span></code> example<a class="headerlink" href="#Grid-example" title="Link to this heading">¶</a></h1>
 <p>In this example we load a HDF5 (test) grid file into a corresponding <code class="docutils literal notranslate"><span class="pre">Grid</span></code> object, and use the inbuilt functionality to explore the grid.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -541,16 +541,6 @@
 <span class="kn">from</span> <span class="nn">synthesizer.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
-</pre></div></div>
 </div>
 <p>This object takes the location of the grids on your system (<code class="docutils literal notranslate"><span class="pre">grid_dir</span></code>) and the name of the grid you wish to load <code class="docutils literal notranslate"><span class="pre">grid_name</span></code>). Here we load a simple test grid provided with the module (hence the relative path).</p>
 <div class="nbinput docutils container">
@@ -1232,7 +1222,7 @@ array([[0.99095578, 1.00851607, 1.00394175, 0.99979438, 0.94348793],
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -543,7 +543,9 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">dense_basis</span> <span class="k">as</span> <span class="nn">db</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">cumulative_trapezoid</span> <span class="k">as</span> <span class="n">cumtrapz</span>
@@ -552,6 +554,15 @@
 <span class="kn">from</span> <span class="nn">synthesizer</span> <span class="kn">import</span> <span class="n">exceptions</span>
 <span class="kn">from</span> <span class="nn">synthesizer.utils.stats</span> <span class="kn">import</span> <span class="n">weighted_mean</span><span class="p">,</span> <span class="n">weighted_median</span>
 <span class="kn">from</span> <span class="nn">synthesizer.warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+
+<span class="c1"># This import is in quarantine because it insists on printing</span>
+<span class="c1"># &quot;Starting dense_basis&quot; to the console on import! It can stay here until</span>
+<span class="c1"># a PR is raised to fix this.</span>
+<span class="n">original_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">dense_basis</span> <span class="k">as</span> <span class="nn">db</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">original_stdout</span>
 
 <span class="c1"># Define a list of the available parametrisations</span>
 <span class="n">parametrisations</span> <span class="o">=</span> <span class="p">(</span>
@@ -1300,7 +1311,6 @@
 <span class="sd">            redshift (float)</span>
 <span class="sd">                redshift at which to scale the SFH</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Initialise the parent</span>
         <span class="n">Common</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DenseBasis&quot;</span><span class="p">,</span> <span class="n">db_tuple</span><span class="o">=</span><span class="n">db_tuple</span><span class="p">,</span> <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span>
@@ -1328,7 +1338,6 @@
 <span class="sd">            max_age (float)</span>
 <span class="sd">                maximum age of SFH grid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Convert the dense basis tuple arguments to sfh in mass fraction units</span>
         <span class="n">tempsfh</span><span class="p">,</span> <span class="n">temptime</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">tuple_to_sfh</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">db_tuple</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="n">interpolator</span><span class="o">=</span><span class="n">interpolator</span><span class="p">,</span> <span class="n">vb</span><span class="o">=</span><span class="kc">False</span>
@@ -1350,7 +1359,7 @@
 
     <span class="k">def</span> <span class="nf">_interp_sfh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sfh</span><span class="p">,</span> <span class="n">tax</span><span class="p">,</span> <span class="n">newtax</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Helper method for interpolating a dense basis SFH</span>
+<span class="sd">        Interpolate a dense basis SFH.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sfh (array)</span>
@@ -1372,7 +1381,7 @@
 
     <span class="k">def</span> <span class="nf">_sfr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return SFR at given `age`</span>
+<span class="sd">        Return SFR at given `age`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            age (float)</span>
@@ -1417,7 +1426,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../../../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

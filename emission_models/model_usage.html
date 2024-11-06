@@ -578,7 +578,7 @@
 <section id="Getting-a-model">
 <h2>Getting a model<a class="headerlink" href="#Getting-a-model" title="Link to this heading">¶</a></h2>
 <p>For this demonstration we’ll load the <code class="docutils literal notranslate"><span class="pre">TotalEmission</span></code> premade stellar emisison model. We define a few key parameters when initialising the <code class="docutils literal notranslate"><span class="pre">EmissionModel</span></code>, such as the dust curve and the <span class="math notranslate nohighlight">\(V\)</span>-band optical depth.</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -596,16 +596,6 @@
 <span class="n">total</span> <span class="o">=</span> <span class="n">TotalEmission</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">dust_curve</span><span class="o">=</span><span class="n">PowerLaw</span><span class="p">(</span><span class="n">slope</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">tau_v</span><span class="o">=</span><span class="mf">0.67</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
-</pre></div></div>
 </div>
 <blockquote>
 <div><p>When using more complex <a class="reference internal" href="premade_models/premade_models.html"><span class="doc">premade models</span></a>, with a deeper “tree”, more parameters will be required to populate their “child” models deeper in the tree. This tree terminology will become clear later – don’t worry about the specifics here if you are just starting with synthesizer <code class="docutils literal notranslate"><span class="pre">EmissionModels</span></code>.</p>
@@ -691,7 +681,7 @@ running without emcee
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fd7781f7250&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fa744451270&gt;          |
 |  Apply dust to: reprocessed                                                                            |
 |  Optical depth (tau_v): [0.67]                                                                         |
 |  Save emission: True                                                                                   |
@@ -947,7 +937,7 @@ running without emcee
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

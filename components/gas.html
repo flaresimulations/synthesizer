@@ -556,9 +556,6 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-sklearn not available. The `gp_sklearn` interpolator will fail if chosen.
-Starting dense_basis. Failed to load FSPS, only GP-SFH module will be available.
-running without emcee
 +-----------------------------------------------------------------------------------+
 |                                        GAS                                        |
 +----------------------------+------------------------------------------------------+
@@ -574,11 +571,11 @@ running without emcee
 +----------------------------+------------------------------------------------------+
 | masses (1000,)             | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +----------------------------+------------------------------------------------------+
-| metallicities (1000,)      | 4.40e-05 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
+| metallicities (1000,)      | 2.72e-05 -&gt; 2.00e-02 (Mean: 1.00e-02)                |
 +----------------------------+------------------------------------------------------+
-| dust_masses (1000,)        | 1.32e+01 Msun -&gt; 5.99e+03 Msun (Mean: 3.03e+03 Msun) |
+| dust_masses (1000,)        | 8.15e+00 Msun -&gt; 6.00e+03 Msun (Mean: 3.01e+03 Msun) |
 +----------------------------+------------------------------------------------------+
-| log10metallicities (1000,) | -4.36e+00 -&gt; -1.70e+00 (Mean: -2.12e+00)             |
+| log10metallicities (1000,) | -4.57e+00 -&gt; -1.70e+00 (Mean: -2.12e+00)             |
 +----------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -618,23 +615,23 @@ running without emcee
 +--------------------------------+------------------------------------------------------+
 | dust_to_metal_ratio            | 0.25                                                 |
 +--------------------------------+------------------------------------------------------+
-| coordinates (1000, 3)          | 8.81e-04 Mpc -&gt; 1.00e+00 Mpc (Mean: 5.00e-01 Mpc)    |
+| coordinates (1000, 3)          | 1.17e-04 Mpc -&gt; 1.00e+00 Mpc (Mean: 5.05e-01 Mpc)    |
 +--------------------------------+------------------------------------------------------+
 | masses (1000,)                 | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +--------------------------------+------------------------------------------------------+
-| centre                         | [0.49687548 0.49526533 0.48860797] Mpc               |
+| centre                         | [0.51057606 0.4983918  0.50725673] Mpc               |
 +--------------------------------+------------------------------------------------------+
-| metallicities (1000,)          | 1.22e-05 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
+| metallicities (1000,)          | 2.59e-05 -&gt; 2.00e-02 (Mean: 9.78e-03)                |
 +--------------------------------+------------------------------------------------------+
-| dust_masses (1000,)            | 3.05e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.53e+03 Msun) |
+| dust_masses (1000,)            | 6.47e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.44e+03 Msun) |
 +--------------------------------+------------------------------------------------------+
-| hii_mass (1000,)               | 8.09e+29 kg -&gt; 1.99e+34 kg (Mean: 9.70e+33 kg)       |
+| hii_mass (1000,)               | 2.89e+30 kg -&gt; 1.99e+34 kg (Mean: 1.02e+34 kg)       |
 +--------------------------------+------------------------------------------------------+
-| hii_metallicity (1000,)        | 1.02e-05 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
+| hii_metallicity (1000,)        | 7.86e-06 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
 +--------------------------------+------------------------------------------------------+
-| centered_coordinates (1000, 3) | -4.95e-01 Mpc -&gt; 5.11e-01 Mpc (Mean: 6.05e-03 Mpc)   |
+| centered_coordinates (1000, 3) | -5.09e-01 Mpc -&gt; 5.01e-01 Mpc (Mean: -5.22e-04 Mpc)  |
 +--------------------------------+------------------------------------------------------+
-| log10metallicities (1000,)     | -4.91e+00 -&gt; -1.70e+00 (Mean: -2.13e+00)             |
+| log10metallicities (1000,)     | -4.59e+00 -&gt; -1.70e+00 (Mean: -2.15e+00)             |
 +--------------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -661,7 +658,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.47963325259433603 Mpc
+0.4926678809146555 Mpc
 </pre></div></div>
 </div>
 <p>Or use an aribtrary attribute for the radius weight. Here we’ll use the dust masses for a “half dust mass radius”.</p>
@@ -679,7 +676,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.47769468739432036 Mpc
+0.5019214709765333 Mpc
 </pre></div></div>
 </div>
 <p>We can also compute radii for different fractions by passing the fraction we want to calculate a radius for.</p>
@@ -698,7 +695,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.35284659370121485 Mpc 0.5957453067030404 Mpc
+0.36389190631577134 Mpc 0.5935689878995211 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -777,7 +774,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
+</div><script src="../_static/documentation_options.js?v=c48a724b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
