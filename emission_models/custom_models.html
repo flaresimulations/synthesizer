@@ -707,22 +707,22 @@ running without emcee
 <div class="highlight"><pre>
 |================ EmissionModel: nebular ===============|
 |-------------------------------------------------------|
-|  LINECONT (stellar)                                   |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: linecont                                |
-|  Escape fraction: 0.7                                 |
-|  Save emission: True                                  |
-|  Masks:                                               |
-|    - log10ages &lt; 7 dimensionless                      |
-|-------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                          |
 |-------------------------------------------------------|
 |Extraction model:                                      |
 |  Grid: test_grid                                      |
 |  Extract key: nebular_continuum                       |
 |  Escape fraction: None                                |
+|  Save emission: True                                  |
+|  Masks:                                               |
+|    - log10ages &lt; 7 dimensionless                      |
+|-------------------------------------------------------|
+|  LINECONT (stellar)                                   |
+|-------------------------------------------------------|
+|Extraction model:                                      |
+|  Grid: test_grid                                      |
+|  Extract key: linecont                                |
+|  Escape fraction: 0.7                                 |
 |  Save emission: True                                  |
 |  Masks:                                               |
 |    - log10ages &lt; 7 dimensionless                      |
@@ -761,22 +761,22 @@ running without emcee
 <div class="highlight"><pre>
 |====================================== EmissionModel: attenuated =======================================|
 |--------------------------------------------------------------------------------------------------------|
-|  LINECONT (stellar)                                                                                    |
-|--------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                       |
-|  Grid: test_grid                                                                                       |
-|  Extract key: linecont                                                                                 |
-|  Escape fraction: 0.7                                                                                  |
-|  Save emission: True                                                                                   |
-|  Masks:                                                                                                |
-|    - log10ages &lt; 7 dimensionless                                                                       |
-|--------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                           |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
 |  Extract key: nebular_continuum                                                                        |
 |  Escape fraction: None                                                                                 |
+|  Save emission: True                                                                                   |
+|  Masks:                                                                                                |
+|    - log10ages &lt; 7 dimensionless                                                                       |
+|--------------------------------------------------------------------------------------------------------|
+|  LINECONT (stellar)                                                                                    |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: linecont                                                                                 |
+|  Escape fraction: 0.7                                                                                  |
 |  Save emission: True                                                                                   |
 |  Masks:                                                                                                |
 |    - log10ages &lt; 7 dimensionless                                                                       |
@@ -790,7 +790,7 @@ running without emcee
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f28edf93970&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f250d13b850&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): [&#39;tau_v&#39;]                                                                      |
 |  Save emission: True                                                                                   |
@@ -819,22 +819,22 @@ running without emcee
 <div class="highlight"><pre>
 |====================================== EmissionModel: attenuated =======================================|
 |--------------------------------------------------------------------------------------------------------|
-|  LINECONT (stellar)                                                                                    |
-|--------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                       |
-|  Grid: test_grid                                                                                       |
-|  Extract key: linecont                                                                                 |
-|  Escape fraction: 0.7                                                                                  |
-|  Save emission: True                                                                                   |
-|  Masks:                                                                                                |
-|    - log10ages &lt; 7 dimensionless                                                                       |
-|--------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                           |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
 |  Extract key: nebular_continuum                                                                        |
 |  Escape fraction: None                                                                                 |
+|  Save emission: True                                                                                   |
+|  Masks:                                                                                                |
+|    - log10ages &lt; 7 dimensionless                                                                       |
+|--------------------------------------------------------------------------------------------------------|
+|  LINECONT (stellar)                                                                                    |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: linecont                                                                                 |
+|  Escape fraction: 0.7                                                                                  |
 |  Save emission: True                                                                                   |
 |  Masks:                                                                                                |
 |    - log10ages &lt; 7 dimensionless                                                                       |
@@ -848,7 +848,7 @@ running without emcee
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f28edf93910&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f250d13bf40&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                |
 |  Save emission: True                                                                                   |
@@ -883,7 +883,7 @@ running without emcee
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f2934d1fa90&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f250d13b340&gt;          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
 </pre></div></div>
@@ -920,7 +920,7 @@ running without emcee
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f28edf93e50&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f250d13b910&gt;          |
 |  Scale by: transmitted                                                                                              |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -948,13 +948,15 @@ running without emcee
 <div class="highlight"><pre>
 |========================================= EmissionModel: blackbody_emission =========================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                              |
+|  NEBULAR_CONTINUUM (stellar)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.3                                                                                               |
+|  Extract key: nebular_continuum                                                                                     |
+|  Escape fraction: None                                                                                              |
 |  Save emission: True                                                                                                |
+|  Masks:                                                                                                             |
+|    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |  LINECONT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -966,15 +968,13 @@ running without emcee
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
-|  NEBULAR_CONTINUUM (stellar)                                                                                        |
+|  TRANSMITTED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: nebular_continuum                                                                                     |
-|  Escape fraction: None                                                                                              |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.3                                                                                               |
 |  Save emission: True                                                                                                |
-|  Masks:                                                                                                             |
-|    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -985,7 +985,7 @@ running without emcee
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f28edf93910&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f250d13bf40&gt;                       |
 |  Apply dust to: nebular                                                                                             |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                             |
 |  Save emission: True                                                                                                |
@@ -993,7 +993,7 @@ running without emcee
 |  BLACKBODY_EMISSION (galaxy)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f28edf934f0&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f250d13bd90&gt;          |
 |  Dust luminosity: transmitted - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -1074,22 +1074,22 @@ running without emcee
 <div class="highlight"><pre>
 |================ EmissionModel: nebular ===============|
 |-------------------------------------------------------|
-|  LINECONT (stellar)                                   |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: linecont                                |
-|  Escape fraction: 0.7                                 |
-|  Save emission: True                                  |
-|  Masks:                                               |
-|    - log10ages &lt; 7 dimensionless                      |
-|-------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                          |
 |-------------------------------------------------------|
 |Extraction model:                                      |
 |  Grid: test_grid                                      |
 |  Extract key: nebular_continuum                       |
 |  Escape fraction: None                                |
+|  Save emission: True                                  |
+|  Masks:                                               |
+|    - log10ages &lt; 7 dimensionless                      |
+|-------------------------------------------------------|
+|  LINECONT (stellar)                                   |
+|-------------------------------------------------------|
+|Extraction model:                                      |
+|  Grid: test_grid                                      |
+|  Extract key: linecont                                |
+|  Escape fraction: 0.7                                 |
 |  Save emission: True                                  |
 |  Masks:                                               |
 |    - log10ages &lt; 7 dimensionless                      |
@@ -1388,16 +1388,6 @@ running without emcee
 |  Combine models: nebular, transmitted                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  OLD_ATTENUATED (stellar)                                                                                           |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;class &#39;synthesizer.emission_models.attenuation.dust.PowerLaw&#39;&gt;                                        |
-|  Apply dust to: reprocessed                                                                                         |
-|  Optical depth (tau_v): [&#39;tau_v&#39;]                                                                                   |
-|  Save emission: False                                                                                               |
-|  Masks:                                                                                                             |
-|    - log10ages &gt;= 7 dimensionless                                                                                   |
-|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_ATTENUATED (stellar)                                                                                         |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
@@ -1408,6 +1398,16 @@ running without emcee
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
+|  OLD_ATTENUATED (stellar)                                                                                           |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;class &#39;synthesizer.emission_models.attenuation.dust.PowerLaw&#39;&gt;                                        |
+|  Apply dust to: reprocessed                                                                                         |
+|  Optical depth (tau_v): [&#39;tau_v&#39;]                                                                                   |
+|  Save emission: False                                                                                               |
+|  Masks:                                                                                                             |
+|    - log10ages &gt;= 7 dimensionless                                                                                   |
+|---------------------------------------------------------------------------------------------------------------------|
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
@@ -1417,7 +1417,7 @@ running without emcee
 |  DUST_EMISSION (galaxy)                                                                                             |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f28edf938b0&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f24d7d68280&gt;          |
 |  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1518,7 +1518,7 @@ running without emcee
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=db025d82"></script>
+</div><script src="../_static/documentation_options.js?v=e7cca289"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
