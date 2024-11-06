@@ -110,7 +110,7 @@ when getting the emission from galaxy objects.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.611 seconds)
+   **Total running time of the script:** (0 minutes 0.614 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_test_aperture_mask.py:

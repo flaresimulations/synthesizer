@@ -121,8 +121,8 @@ photometry.
     | J (λ = 1.22e+04 Å) | 3.94e-12 erg/(Hz*cm**2*s) |
     --------------------------------------------------
 
-    Stellar luminosities available: ['incident', 'young_incident', 'old_incident', 'nebular', 'linecont', 'nebular_continuum', 'transmitted', 'reprocessed', 'attenuated', 'old_nebular', 'old_transmitted', 'young_transmitted', 'young_nebular', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_nebular', 'old_reprocessed', 'old_attenuated', 'young_attenuated', 'young_attenuated_ism', 'intrinsic', 'emergent']
-    Stellar fluxes available: ['incident', 'young_incident', 'old_incident', 'nebular', 'linecont', 'nebular_continuum', 'transmitted', 'reprocessed', 'attenuated', 'old_nebular', 'old_transmitted', 'young_transmitted', 'young_nebular', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_nebular', 'old_reprocessed', 'old_attenuated', 'young_attenuated', 'young_attenuated_ism', 'intrinsic', 'emergent']
+    Stellar luminosities available: ['incident', 'young_incident', 'old_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'old_transmitted', 'old_nebular', 'young_nebular', 'young_transmitted', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_ism', 'young_attenuated_nebular', 'intrinsic', 'young_attenuated', 'old_reprocessed', 'old_attenuated', 'emergent']
+    Stellar fluxes available: ['incident', 'young_incident', 'old_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'old_transmitted', 'old_nebular', 'young_nebular', 'young_transmitted', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_ism', 'young_attenuated_nebular', 'intrinsic', 'young_attenuated', 'old_reprocessed', 'old_attenuated', 'emergent']
 
 
 
@@ -436,7 +436,7 @@ photometry.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.458 seconds)
+   **Total running time of the script:** (0 minutes 3.402 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_cosmo_example.py:

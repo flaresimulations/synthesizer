@@ -629,15 +629,13 @@ running without emcee
 <div class="highlight"><pre>
 |================================================ EmissionModel: total ===============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  NEBULAR_CONTINUUM (stellar)                                                                                        |
+|  TRANSMITTED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: nebular_continuum                                                                                     |
-|  Escape fraction: 0.3                                                                                               |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.2                                                                                               |
 |  Save emission: True                                                                                                |
-|  Masks:                                                                                                             |
-|    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |  LINECONT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -649,13 +647,15 @@ running without emcee
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                              |
+|  NEBULAR_CONTINUUM (stellar)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.2                                                                                               |
+|  Extract key: nebular_continuum                                                                                     |
+|  Escape fraction: 0.3                                                                                               |
 |  Save emission: True                                                                                                |
+|  Masks:                                                                                                             |
+|    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |  ESCAPED (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -680,22 +680,22 @@ running without emcee
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f93dfaa3190&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f02ad90a320&gt;                       |
 |  Apply dust to: reprocessed                                                                                         |
 |  Optical depth (tau_v): [0.33]                                                                                      |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  DUST_EMISSION (stellar)                                                                                            |
-|---------------------------------------------------------------------------------------------------------------------|
-|Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f93dfaa30a0&gt;          |
-|  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  EMERGENT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: attenuated, escaped                                                                                |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  DUST_EMISSION (stellar)                                                                                            |
+|---------------------------------------------------------------------------------------------------------------------|
+|Generation model:                                                                                                    |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f02ad90b190&gt;          |
+|  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TOTAL (stellar)                                                                                                    |
@@ -910,7 +910,7 @@ running without emcee
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=6c8425b4"></script>
+</div><script src="../_static/documentation_options.js?v=db025d82"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

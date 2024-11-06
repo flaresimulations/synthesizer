@@ -168,7 +168,7 @@ including photometry. This example will:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.168 seconds)
+   **Total running time of the script:** (0 minutes 3.057 seconds)
 
 
 .. _sphx_glr_download_auto_examples_parametric_plot_observed_sed.py:
