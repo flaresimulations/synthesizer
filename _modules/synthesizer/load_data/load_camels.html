@@ -1169,7 +1169,7 @@
     <span class="c1"># Get subhalos with minimum number of star particles</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lentype</span><span class="p">[:,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_star_part</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># convert formation times to ages</span>
+    <span class="c1"># Convert formation times to ages</span>
     <span class="n">cosmo</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="n">H0</span><span class="o">=</span><span class="n">h</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">Om0</span><span class="o">=</span><span class="n">Om0</span><span class="p">)</span>
     <span class="n">universe_age</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">redshift</span><span class="p">)</span>
 
@@ -1212,7 +1212,7 @@
         <span class="n">g_coods</span><span class="p">,</span>
         <span class="n">g_hsml</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="n">gal</span> <span class="o">=</span> <span class="n">Galaxy</span><span class="p">()</span>
+        <span class="n">gal</span> <span class="o">=</span> <span class="n">Galaxy</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">idx</span><span class="p">)</span>
         <span class="n">gal</span><span class="o">.</span><span class="n">redshift</span> <span class="o">=</span> <span class="n">redshift</span>
         <span class="n">gal</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">kpc</span>
         <span class="n">gal</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">idx</span>
@@ -1361,7 +1361,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=c48a724b"></script>
+</div><script src="../../../_static/documentation_options.js?v=60f014f6"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
