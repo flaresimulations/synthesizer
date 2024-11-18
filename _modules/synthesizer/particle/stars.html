@@ -526,11 +526,11 @@
           <h1>Source code for synthesizer.particle.stars</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;A module for working with arrays of stellar particles.</span>
 
-<span class="sd">Contains the Stars class for use with particle based systems. This houses all</span>
+<span class="sd">Contains the Stars class for use with particle based systems. This contains all</span>
 <span class="sd">the data detailing collections of stellar particles. Each property is</span>
 <span class="sd">stored in (N_star, ) shaped arrays for efficiency.</span>
 
-<span class="sd">We also provide functions for creating &quot;fake&quot; stellar distributions by</span>
+<span class="sd">We also provide functions for creating &quot;fake&quot; stellar distributions, by</span>
 <span class="sd">sampling a SFZH.</span>
 
 <span class="sd">In both cases a myriad of extra optional properties can be set by providing</span>
@@ -540,7 +540,7 @@
 
 <span class="sd">    stars = Stars(initial_masses, ages, metallicities,</span>
 <span class="sd">                  redshift=redshift, current_masses=current_masses, ...)</span>
-<span class="sd">    stars = sample_sfhz(sfzh, n, total_initial_mass,</span>
+<span class="sd">    stars = sample_sfzh(sfzh, n, total_initial_mass,</span>
 <span class="sd">                        smoothing_lengths=smoothing_lengths,</span>
 <span class="sd">                        tau_v=tau_vs, coordinates=coordinates, ...)</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -560,7 +560,9 @@
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">Stars</span> <span class="k">as</span> <span class="n">Para_Stars</span>
 <span class="kn">from</span> <span class="nn">synthesizer.particle.particles</span> <span class="kn">import</span> <span class="n">Particles</span>
 <span class="kn">from</span> <span class="nn">synthesizer.units</span> <span class="kn">import</span> <span class="n">Quantity</span><span class="p">,</span> <span class="n">accepts</span>
+<span class="kn">from</span> <span class="nn">synthesizer.utils.ascii_table</span> <span class="kn">import</span> <span class="n">TableFormatter</span>
 <span class="kn">from</span> <span class="nn">synthesizer.utils.plt</span> <span class="kn">import</span> <span class="n">single_histxy</span>
+<span class="kn">from</span> <span class="nn">synthesizer.utils.util_funcs</span> <span class="kn">import</span> <span class="n">combine_arrays</span>
 <span class="kn">from</span> <span class="nn">synthesizer.warnings</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">warn</span>
 
 
@@ -660,7 +662,7 @@
         <span class="n">smoothing_lengths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">s_oxygen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">s_hydrogen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">softening_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">softening_lengths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">centre</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">metallicity_floor</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
@@ -697,7 +699,7 @@
 <span class="sd">                The fractional oxygen abundance.</span>
 <span class="sd">            s_hydrogen (array-like, float)</span>
 <span class="sd">                The fractional hydrogen abundance.</span>
-<span class="sd">            softening_length (float)</span>
+<span class="sd">            softening_lengths (float)</span>
 <span class="sd">                The gravitational softening lengths of each stellar</span>
 <span class="sd">                particle in simulation units</span>
 <span class="sd">            centre (array-like, float)</span>
@@ -715,7 +717,7 @@
             <span class="n">velocities</span><span class="o">=</span><span class="n">velocities</span><span class="p">,</span>
             <span class="n">masses</span><span class="o">=</span><span class="n">current_masses</span><span class="p">,</span>
             <span class="n">redshift</span><span class="o">=</span><span class="n">redshift</span><span class="p">,</span>
-            <span class="n">softening_length</span><span class="o">=</span><span class="n">softening_length</span><span class="p">,</span>
+            <span class="n">softening_lengths</span><span class="o">=</span><span class="n">softening_lengths</span><span class="p">,</span>
             <span class="n">nparticles</span><span class="o">=</span><span class="n">initial_masses</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
             <span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span>
             <span class="n">metallicity_floor</span><span class="o">=</span><span class="n">metallicity_floor</span><span class="p">,</span>
@@ -730,6 +732,31 @@
                 <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InconsistentArguments</span><span class="p">(</span>
                     <span class="s2">&quot;Ages cannot be negative.&quot;</span>
                 <span class="p">)</span>
+
+        <span class="c1"># Check for nan and inf on input</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">initial_masses</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;NaN or inf on `initial_masses` input, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;indices: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">initial_masses</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">ages</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;NaN or inf on `ages` input, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;indices: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">ages</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">metallicities</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;NaN or inf on `metallicities` input, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;indices: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">metallicities</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="c1"># Set always required stellar particle properties</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span> <span class="o">=</span> <span class="n">initial_masses</span>
@@ -758,6 +785,9 @@
         <span class="c1"># Intialise the flag for resampling</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">resampled</span> <span class="o">=</span> <span class="kc">False</span>
 
+        <span class="c1"># Initialise the flag for parametric young stars</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span> <span class="o">=</span> <span class="kc">False</span>
+
         <span class="c1"># Set a frontfacing clone of the number of particles</span>
         <span class="c1"># with clearer naming</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nstars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span>
@@ -768,6 +798,59 @@
         <span class="c1"># Particle stars can calculate and attach a SFZH analogous to a</span>
         <span class="c1"># parametric galaxy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sfzh</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Stars.get_sfr">
+<a class="viewcode-back" href="../../../_autosummary/synthesizer.particle.stars.html#synthesizer.particle.stars.Stars.get_sfr">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sfr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timescale</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Myr</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the star formation rate of the stellar particles.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            timescale (float)</span>
+<span class="sd">                The timescale over which to calculate the star formation rate.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            sfr (float)</span>
+<span class="sd">                The star formation rate of the stellar particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">age_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ages</span> <span class="o">&lt;</span> <span class="n">timescale</span>
+        <span class="n">sfr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">[</span><span class="n">age_mask</span><span class="p">])</span> <span class="o">/</span> <span class="n">timescale</span>  <span class="c1"># Msun / Myr</span>
+        <span class="k">return</span> <span class="n">sfr</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;Msun / yr&quot;</span><span class="p">)</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">total_mass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the total mass of the stellar particles.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            total_mass (float)</span>
+<span class="sd">                The total mass of the stellar particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">total_mass</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="c1"># Check if we&#39;re using parametric young stars</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="c1"># Grab the old particle masses and sum</span>
+            <span class="n">total_mass</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_old_stars</span><span class="o">.</span><span class="n">masses</span><span class="p">)</span>
+
+        <span class="c1"># Get current masses of particles (if parametric young</span>
+        <span class="c1"># stars are used, then the new star particles *should*</span>
+        <span class="c1"># have zero current mass)</span>
+        <span class="n">total_mass</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">total_mass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">log10ages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return stellar particle ages in log (base 10).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            log10ages (array)</span>
+<span class="sd">                log10 stellar ages</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ages</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_check_star_args</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -788,6 +871,226 @@
                         <span class="s2">&quot;Inconsistent stellar array sizes! (nparticles=</span><span class="si">%d</span><span class="s2">, &quot;</span>
                         <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">=</span><span class="si">%d</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">attr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                     <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a string representation of the stars object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            table (str)</span>
+<span class="sd">                A string representation of the particle object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Intialise the table formatter</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">TableFormatter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="s2">&quot;Stars&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_concatenate_stars_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a dictionary of attributes from two stars objects combined.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (Stars)</span>
+<span class="sd">                The other Stars object to add to this one.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            dict</span>
+<span class="sd">                A dictionary of all the attributes of the combined Stars</span>
+<span class="sd">                objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check the other object is the same type</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Stars</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InconsistentAddition</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot add Stars object to </span><span class="si">%s</span><span class="s2"> object&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Concatenate all the named arguments which need it (Nones are handled</span>
+        <span class="c1"># inside the combine_arrays function)</span>
+        <span class="n">initial_masses</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">initial_masses</span>
+        <span class="p">)</span>
+        <span class="n">ages</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ages</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">ages</span><span class="p">)</span>
+        <span class="n">metallicities</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metallicities</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">metallicities</span><span class="p">)</span>
+        <span class="n">alpha_enhancement</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_enhancement</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">alpha_enhancement</span>
+        <span class="p">)</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+        <span class="n">velocities</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">velocities</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">velocities</span><span class="p">)</span>
+        <span class="n">current_masses</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_masses</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">current_masses</span>
+        <span class="p">)</span>
+        <span class="n">smoothing_lengths</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_lengths</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">smoothing_lengths</span>
+        <span class="p">)</span>
+        <span class="n">s_oxygen</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s_oxygen</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">s_oxygen</span><span class="p">)</span>
+        <span class="n">s_hydrogen</span> <span class="o">=</span> <span class="n">combine_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s_hydrogen</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">s_hydrogen</span><span class="p">)</span>
+
+        <span class="c1"># Handle tau_v which can either be arrays or single values that need</span>
+        <span class="c1"># to be converted to arrays</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="p">):</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">)]</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">self_tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">)</span>
+            <span class="n">other_tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">tau_v</span><span class="p">)</span>
+            <span class="n">tau_v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">self_tau_v</span><span class="p">,</span> <span class="n">other_tau_v</span><span class="p">])</span>
+
+        <span class="c1"># Handle softening lengths which can be arrays or single values that</span>
+        <span class="c1"># need to be converted to arrays</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="p">):</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">),</span>
+                    <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">self_softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">softening_lengths</span>
+            <span class="p">)</span>
+            <span class="n">other_softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">softening_lengths</span>
+            <span class="p">)</span>
+            <span class="n">softening_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">self_softening_lengths</span><span class="p">,</span> <span class="n">other_softening_lengths</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Handle the redshifts which must be the same</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">redshift</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InconsistentAddition</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot add Stars objects with different redshifts&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">redshift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span>
+
+        <span class="c1"># Handle the metallicity floors where we take the minimum</span>
+        <span class="n">metallicity_floor</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metallicity_floor</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">metallicity_floor</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Handle the centre of the particles, this will be taken from the</span>
+        <span class="c1"># first object but warn if they differ (and are not None)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">centre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">centre</span><span class="p">):</span>
+                <span class="n">warn</span><span class="p">(</span>
+                    <span class="s2">&quot;Centres of the Stars objects differ. &quot;</span>
+                    <span class="s2">&quot;Using the centre of the first object.&quot;</span>
+                <span class="p">)</span>
+        <span class="n">centre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span>
+
+        <span class="c1"># Store everything we&#39;ve done in a dictionary</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;initial_masses&quot;</span><span class="p">:</span> <span class="n">initial_masses</span><span class="p">,</span>
+            <span class="s2">&quot;ages&quot;</span><span class="p">:</span> <span class="n">ages</span><span class="p">,</span>
+            <span class="s2">&quot;metallicities&quot;</span><span class="p">:</span> <span class="n">metallicities</span><span class="p">,</span>
+            <span class="s2">&quot;redshift&quot;</span><span class="p">:</span> <span class="n">redshift</span><span class="p">,</span>
+            <span class="s2">&quot;tau_v&quot;</span><span class="p">:</span> <span class="n">tau_v</span><span class="p">,</span>
+            <span class="s2">&quot;alpha_enhancement&quot;</span><span class="p">:</span> <span class="n">alpha_enhancement</span><span class="p">,</span>
+            <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="n">coordinates</span><span class="p">,</span>
+            <span class="s2">&quot;velocities&quot;</span><span class="p">:</span> <span class="n">velocities</span><span class="p">,</span>
+            <span class="s2">&quot;current_masses&quot;</span><span class="p">:</span> <span class="n">current_masses</span><span class="p">,</span>
+            <span class="s2">&quot;smoothing_lengths&quot;</span><span class="p">:</span> <span class="n">smoothing_lengths</span><span class="p">,</span>
+            <span class="s2">&quot;s_oxygen&quot;</span><span class="p">:</span> <span class="n">s_oxygen</span><span class="p">,</span>
+            <span class="s2">&quot;s_hydrogen&quot;</span><span class="p">:</span> <span class="n">s_hydrogen</span><span class="p">,</span>
+            <span class="s2">&quot;softening_lengths&quot;</span><span class="p">:</span> <span class="n">softening_lengths</span><span class="p">,</span>
+            <span class="s2">&quot;centre&quot;</span><span class="p">:</span> <span class="n">centre</span><span class="p">,</span>
+            <span class="s2">&quot;metallicity_floor&quot;</span><span class="p">:</span> <span class="n">metallicity_floor</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Handle the extra keyword arguments</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="c1"># Skip methods</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Skip any attributes which aren&#39;t on both objects</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="c1"># Combine the attributes, concatenate if arrays, copied if</span>
+                <span class="c1"># scalars and the same for both objects or added if different</span>
+                <span class="c1"># on each. If the attribute is None for one object and not the</span>
+                <span class="c1"># other we&#39;ll assume None overall because the combination is</span>
+                <span class="c1"># undefined.</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+                <span class="p">):</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                        <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">)]</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+                    <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+                    <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+                <span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">),</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add two Stars objects together.</span>
+
+<span class="sd">        This will correctly combine named arguments and create a new Stars</span>
+<span class="sd">        object with the combined particles. Any extra keyword arguments will</span>
+<span class="sd">        be either concatenated for arrays, summed for differing scalars or</span>
+<span class="sd">        copied if the same for both objects.</span>
+
+<span class="sd">        If either object carries None for an attribute the new instance will</span>
+<span class="sd">        also have None for that attribute.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (Stars)</span>
+<span class="sd">                The other Stars object to add to this one.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Stars</span>
+<span class="sd">                A new Stars object containing the combined particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_stars_arrays</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Stars</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_prepare_sed_args</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -904,8 +1207,6 @@
         <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">do_grid_check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">grid_assignment_method</span><span class="o">=</span><span class="s2">&quot;cic&quot;</span><span class="p">,</span>
-        <span class="n">parametric_young_stars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">parametric_sfh</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span>
         <span class="n">aperture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
@@ -942,14 +1243,6 @@
 <span class="sd">                point. Allowed methods are cic (cloud in cell) or nearest</span>
 <span class="sd">                grid point (ngp) or there uppercase equivalents (CIC, NGP).</span>
 <span class="sd">                Defaults to cic.</span>
-<span class="sd">            parametric_young_stars (bool/float)</span>
-<span class="sd">                If not None, specifies age in Myr below which we replace</span>
-<span class="sd">                individual star particles with a parametric SFH.</span>
-<span class="sd">            parametric_sfh (string)</span>
-<span class="sd">                Form of the parametric SFH to use for young stars.</span>
-<span class="sd">                Currently two are supported, `Constant` and</span>
-<span class="sd">                `TruncatedExponential`, selected using the keyword</span>
-<span class="sd">                arguments `constant` and `exponential`.</span>
 <span class="sd">            aperture (float)</span>
 <span class="sd">                If not None, specifies the radius of a spherical aperture</span>
 <span class="sd">                to apply to the particles.</span>
@@ -1038,13 +1331,20 @@
 
         <span class="c1"># Get particle age masks</span>
         <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masks</span><span class="p">(</span><span class="n">young</span><span class="p">,</span> <span class="n">old</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+
+        <span class="n">age_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masks</span><span class="p">(</span><span class="n">young</span><span class="p">,</span> <span class="n">old</span><span class="p">)</span>
 
         <span class="c1"># Ensure and warn that the masking hasn&#39;t removed everything</span>
         <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Age mask has filtered out all particles&quot;</span><span class="p">)</span>
-
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;`mask` has filtered out all particles&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">age_mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Age mask has filtered out all particles&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">age_mask</span>
 
         <span class="k">if</span> <span class="n">aperture</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Get aperture mask</span>
@@ -1057,30 +1357,6 @@
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">aperture_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">parametric_young_stars</span><span class="p">:</span>
-            <span class="c1"># Get mask for particles we&#39;re going to replace with parametric</span>
-            <span class="n">pmask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masks</span><span class="p">(</span><span class="n">parametric_young_stars</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
-            <span class="c1"># Check we have particles to replace</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pmask</span> <span class="o">&amp;</span> <span class="n">aperture_mask</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># Update the young/old mask to ignore those we&#39;re replacing</span>
-                <span class="n">mask</span><span class="p">[</span><span class="n">pmask</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-
-                <span class="n">lnu_parametric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parametric_young_stars</span><span class="p">(</span>
-                    <span class="n">pmask</span><span class="o">=</span><span class="n">pmask</span> <span class="o">&amp;</span> <span class="n">aperture_mask</span><span class="p">,</span>
-                    <span class="n">age</span><span class="o">=</span><span class="n">parametric_young_stars</span><span class="p">,</span>
-                    <span class="n">parametric_sfh</span><span class="o">=</span><span class="n">parametric_sfh</span><span class="p">,</span>
-                    <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
-                    <span class="n">spectra_name</span><span class="o">=</span><span class="n">spectra_name</span><span class="p">,</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Create a dummy empty array</span>
-                <span class="n">lnu_parametric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span> <span class="o">&amp;</span> <span class="n">aperture_mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;All particles replaced with parametric forms&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">lnu_parametric</span>
 
         <span class="kn">from</span> <span class="nn">..extensions.integrated_spectra</span> <span class="kn">import</span> <span class="n">compute_integrated_sed</span>
 
@@ -1097,30 +1373,68 @@
         <span class="c1"># Get the integrated spectra in grid units (erg / s / Hz)</span>
         <span class="n">lnu_particle</span> <span class="o">=</span> <span class="n">compute_integrated_sed</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">parametric_young_stars</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">lnu_particle</span> <span class="o">+</span> <span class="n">lnu_parametric</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">lnu_particle</span></div>
+        <span class="k">return</span> <span class="n">lnu_particle</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_parametric_young_stars</span><span class="p">(</span>
+    <span class="k">def</span> <span class="nf">_remove_stars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pmask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update stars attribute arrays based on a mask, `pmask`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pmask (array-like, bool)</span>
+<span class="sd">                A boolean mask to remove stars from the object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Remove the masked stars from this object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ages</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metallicities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metallicities</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">masses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_v</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_enhancement</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha_enhancement</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_enhancement</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_masses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_masses</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_oxygen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s_oxygen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_oxygen</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_hydrogen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s_hydrogen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s_hydrogen</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_lengths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">smoothing_lengths</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_lengths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smoothing_lengths</span><span class="p">[</span><span class="o">~</span><span class="n">pmask</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nstars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span>
+
+        <span class="c1"># Check the arguments we&#39;ve been given</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_star_args</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Stars.parametric_young_stars">
+<a class="viewcode-back" href="../../../_autosummary/synthesizer.particle.stars.html#synthesizer.particle.stars.Stars.parametric_young_stars">[docs]</a>
+    <span class="k">def</span> <span class="nf">parametric_young_stars</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">pmask</span><span class="p">,</span>
         <span class="n">age</span><span class="p">,</span>
         <span class="n">parametric_sfh</span><span class="p">,</span>
         <span class="n">grid</span><span class="p">,</span>
-        <span class="n">spectra_name</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Replace young stars with individual parametric SFH&#39;s. Can be either a</span>
-<span class="sd">        constant or truncated exponential, selected with the `parametric_sfh`</span>
-<span class="sd">        argument. Returns the emission from these replaced particles assuming</span>
-<span class="sd">        this SFH. The metallicity is set to the metallicity of the parent</span>
-<span class="sd">        star particle.</span>
+<span class="sd">        Replace young stars with individual parametric SFH&#39;s.</span>
+
+<span class="sd">        Can be either a constant or truncated exponential, selected with the</span>
+<span class="sd">        `parametric_sfh` argument. The metallicity is set to the metallicity</span>
+<span class="sd">        of the parent star particle.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            pmask (bool array)</span>
-<span class="sd">                Star particles to replace</span>
 <span class="sd">            age (float)</span>
 <span class="sd">                Age in Myr below which we replace Star particles.</span>
 <span class="sd">                Used to set the duration of parametric SFH</span>
@@ -1131,19 +1445,53 @@
 <span class="sd">                arguments `constant` and `exponential`.</span>
 <span class="sd">            grid (Grid)</span>
 <span class="sd">                The spectral grid object.</span>
-<span class="sd">            spectra_name (string)</span>
-<span class="sd">                The name of the target spectra inside the grid file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            numpy.ndarray:</span>
-<span class="sd">                Numpy array of integrated spectra in units of (erg / s / Hz).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;This Stars object has already replaced young stars.&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Parametrisation:&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span><span class="p">[</span><span class="s1">&#39;parametrisation&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Age: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">. </span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;Undoing before applying new parametric form...&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="n">pmask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masks</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">],</span> <span class="kc">None</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Remove the &#39;parametric&#39; stars from the object</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_stars</span><span class="p">(</span><span class="n">pmask</span><span class="p">)</span>
+
+            <span class="c1"># Add old stars back on to object</span>
+            <span class="n">concat_arrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_stars_arrays</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_old_stars</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">concat_arrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nstars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span>
+
+            <span class="c1"># Check the arguments we&#39;ve been given</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_star_args</span><span class="p">()</span>
+
+        <span class="c1"># Mask for particles below age</span>
+        <span class="n">pmask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_masks</span><span class="p">(</span><span class="n">age</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pmask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># initialise SFH object</span>
         <span class="k">if</span> <span class="n">parametric_sfh</span> <span class="o">==</span> <span class="s2">&quot;constant&quot;</span><span class="p">:</span>
-            <span class="n">sfh</span> <span class="o">=</span> <span class="n">SFH</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="n">age</span><span class="p">)</span>
+            <span class="n">sfh</span> <span class="o">=</span> <span class="n">SFH</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">max_age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">parametric_sfh</span> <span class="o">==</span> <span class="s2">&quot;exponential&quot;</span><span class="p">:</span>
-            <span class="n">sfh</span> <span class="o">=</span> <span class="n">SFH</span><span class="o">.</span><span class="n">TruncatedExponential</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="n">age</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="n">age</span><span class="p">)</span>
+            <span class="n">sfh</span> <span class="o">=</span> <span class="n">SFH</span><span class="o">.</span><span class="n">TruncatedExponential</span><span class="p">(</span>
+                <span class="n">tau</span><span class="o">=</span><span class="n">age</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">max_age</span><span class="o">=</span><span class="n">age</span><span class="p">,</span>
+                <span class="n">min_age</span><span class="o">=</span><span class="mf">0.0</span> <span class="o">*</span> <span class="n">Myr</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="p">(</span>
@@ -1172,8 +1520,58 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">stars</span> <span class="o">=</span> <span class="n">stars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># Get the spectra for this parametric form</span>
-        <span class="k">return</span> <span class="n">stars</span><span class="o">.</span><span class="n">generate_lnu</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">spectra_name</span><span class="o">=</span><span class="n">spectra_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parametric_young_stars</span> <span class="o">=</span> <span class="n">stars</span>
+
+        <span class="c1"># Create index pairs for the SFZH</span>
+        <span class="n">index_pairs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">metallicity</span><span class="p">))]</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">log10age</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Find the grid indexes on the parametric grid</span>
+        <span class="n">grid_indexes</span> <span class="o">=</span> <span class="n">index_pairs</span><span class="p">[</span><span class="n">stars</span><span class="o">.</span><span class="n">sfzh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Create new particle stars object from non-empty SFZH entries</span>
+        <span class="n">new_stars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="n">stars</span><span class="o">.</span><span class="n">sfzh</span><span class="p">[</span><span class="n">stars</span><span class="o">.</span><span class="n">sfzh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Msun</span><span class="p">,</span>
+            <span class="mi">10</span> <span class="o">**</span> <span class="n">grid</span><span class="o">.</span><span class="n">log10ages</span><span class="p">[</span><span class="n">grid_indexes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">yr</span><span class="p">,</span>
+            <span class="n">grid</span><span class="o">.</span><span class="n">metallicity</span><span class="p">[</span><span class="n">grid_indexes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]],</span>
+            <span class="n">redshift</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span>
+            <span class="n">masses</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">stars</span><span class="o">.</span><span class="n">sfzh</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">))</span> <span class="o">*</span> <span class="n">Msun</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Save the old stars privately</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_old_stars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">[</span><span class="n">pmask</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ages</span><span class="p">[</span><span class="n">pmask</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metallicities</span><span class="p">[</span><span class="n">pmask</span><span class="p">],</span>
+            <span class="n">redshift</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span>
+            <span class="n">current_masses</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="p">[</span><span class="n">pmask</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">masses</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_stars</span><span class="p">(</span><span class="n">pmask</span><span class="p">)</span>
+
+        <span class="c1"># Add to current stars object</span>
+        <span class="n">concat_arrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concatenate_stars_arrays</span><span class="p">(</span><span class="n">new_stars</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">concat_arrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial_masses</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nstars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nparticles</span>
+
+        <span class="c1"># Check the arguments we&#39;ve been given</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_star_args</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">young_stars_parametrisation</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parametrisation&quot;</span><span class="p">:</span> <span class="n">parametric_sfh</span><span class="p">,</span>
+            <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">age</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
 
     <span class="k">def</span> <span class="nf">_prepare_line_args</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -2309,10 +2707,10 @@
 
 
 
-<div class="viewcode-block" id="sample_sfhz">
-<a class="viewcode-back" href="../../../_autosummary/synthesizer.particle.stars.html#synthesizer.particle.stars.sample_sfhz">[docs]</a>
+<div class="viewcode-block" id="sample_sfzh">
+<a class="viewcode-back" href="../../../_autosummary/synthesizer.particle.stars.html#synthesizer.particle.stars.sample_sfzh">[docs]</a>
 <span class="nd">@accepts</span><span class="p">(</span><span class="n">initial_mass</span><span class="o">=</span><span class="n">Msun</span><span class="o">.</span><span class="n">in_base</span><span class="p">(</span><span class="s2">&quot;galactic&quot;</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">sample_sfhz</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">sample_sfzh</span><span class="p">(</span>
     <span class="n">sfzh</span><span class="p">,</span>
     <span class="n">log10ages</span><span class="p">,</span>
     <span class="n">log10metallicities</span><span class="p">,</span>
@@ -2340,7 +2738,6 @@
 <span class="sd">        stars (Stars)</span>
 <span class="sd">            An instance of Stars containing the fake stellar particles.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Normalise the sfhz to produce a histogram (binned in time) between 0</span>
     <span class="c1"># and 1.</span>
     <span class="n">hist</span> <span class="o">=</span> <span class="n">sfzh</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">sfzh</span><span class="p">)</span>
@@ -2408,7 +2805,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../../../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -16,6 +16,13 @@ synthesizer.utils.util\_funcs
       :nosignatures:
    
 
+   .. autofunction:: combine_arrays
+   
+   .. _sphx_glr_backref_synthesizer.utils.util_funcs.combine_arrays:
+
+   .. minigallery:: synthesizer.utils.util_funcs.combine_arrays
+       :add-heading:
+
    .. autofunction:: parse_grid_id
    
    .. _sphx_glr_backref_synthesizer.utils.util_funcs.parse_grid_id:

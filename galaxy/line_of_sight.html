@@ -546,7 +546,7 @@
 <span class="kn">from</span> <span class="nn">synthesizer.particle</span> <span class="kn">import</span> <span class="n">BlackHoles</span><span class="p">,</span> <span class="n">Galaxy</span>
 <span class="kn">from</span> <span class="nn">synthesizer.particle.gas</span> <span class="kn">import</span> <span class="n">Gas</span>
 <span class="kn">from</span> <span class="nn">synthesizer.particle.particles</span> <span class="kn">import</span> <span class="n">CoordinateGenerator</span>
-<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfhz</span>
+<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfzh</span>
 
 
 <span class="k">def</span> <span class="nf">calculate_smoothing_lengths</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="o">=</span><span class="mi">56</span><span class="p">):</span>
@@ -595,7 +595,7 @@
 
 <span class="c1"># Sample the parametric SFZH, producing a particle Stars object</span>
 <span class="c1"># we will also pass some keyword arguments for some example attributes</span>
-<span class="n">part_stars</span> <span class="o">=</span> <span class="n">sample_sfhz</span><span class="p">(</span>
+<span class="n">part_stars</span> <span class="o">=</span> <span class="n">sample_sfzh</span><span class="p">(</span>
     <span class="n">sfzh</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">sfzh</span><span class="p">,</span>
     <span class="n">log10ages</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">log10ages</span><span class="p">,</span>
     <span class="n">log10metallicities</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">log10metallicities</span><span class="p">,</span>
@@ -704,7 +704,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[9.49419265e+05 1.17268385e+07 7.38808232e+05 2.45645109e+03]
+[ 2003188.60864454   885074.37164299   922378.05164283 12687342.60868338]
 </pre></div></div>
 </div>
 </section>
@@ -816,7 +816,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

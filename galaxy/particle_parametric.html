@@ -546,7 +546,7 @@
 <span class="kn">from</span> <span class="nn">synthesizer.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">SFH</span><span class="p">,</span> <span class="n">ZDist</span>
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">Stars</span> <span class="k">as</span> <span class="n">ParametricStars</span>
-<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfhz</span>
+<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfzh</span>
 
 <span class="c1"># Define the grid</span>
 <span class="n">grid_name</span> <span class="o">=</span> <span class="s2">&quot;test_grid&quot;</span>
@@ -574,7 +574,7 @@
 
 <span class="c1"># Sample the parametric SFZH, producing a particle Stars object</span>
 <span class="c1"># we will also pass some keyword arguments for some example attributes</span>
-<span class="n">part_stars</span> <span class="o">=</span> <span class="n">sample_sfhz</span><span class="p">(</span>
+<span class="n">part_stars</span> <span class="o">=</span> <span class="n">sample_sfzh</span><span class="p">(</span>
     <span class="n">sfzh</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">sfzh</span><span class="p">,</span>
     <span class="n">log10ages</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">log10ages</span><span class="p">,</span>
     <span class="n">log10metallicities</span><span class="o">=</span><span class="n">param_stars</span><span class="o">.</span><span class="n">log10metallicities</span><span class="p">,</span>
@@ -652,7 +652,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | galaxy_type               | &#39;Particle&#39;                                                  |
 +---------------------------+-------------------------------------------------------------+
-| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f5778f180d0&gt; |
+| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f13dc5000a0&gt; |
 +---------------------------+-------------------------------------------------------------+
 | redshift                  | 1                                                           |
 +---------------------------+-------------------------------------------------------------+
@@ -660,7 +660,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | stellar_mass              | 501187233.6272717 Msun                                      |
 +---------------------------+-------------------------------------------------------------+
-| stellar_mass_weighted_age | 50142993.98098824 yr                                        |
+| stellar_mass_weighted_age | 50812114.453684136 yr                                       |
 +---------------------------+-------------------------------------------------------------+
 | gas_half_mass_radius      | 10 kpc                                                      |
 +---------------------------+-------------------------------------------------------------+
@@ -674,7 +674,7 @@ pipeline (e.g. effective radii).</p>
 +--------------------------+---------------------------------------------------------------+
 | galaxy_type              | &#39;Parametric&#39;                                                  |
 +--------------------------+---------------------------------------------------------------+
-| stars                    | &lt;synthesizer.parametric.stars.Stars object at 0x7f5784dd2d40&gt; |
+| stars                    | &lt;synthesizer.parametric.stars.Stars object at 0x7f13e4883040&gt; |
 +--------------------------+---------------------------------------------------------------+
 | redshift                 | 1                                                             |
 +--------------------------+---------------------------------------------------------------+
@@ -713,7 +713,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | galaxy_type               | &#39;Particle&#39;                                                  |
 +---------------------------+-------------------------------------------------------------+
-| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f5778f180d0&gt; |
+| stars                     | &lt;synthesizer.particle.stars.Stars object at 0x7f13dc5000a0&gt; |
 +---------------------------+-------------------------------------------------------------+
 | redshift                  | 1                                                           |
 +---------------------------+-------------------------------------------------------------+
@@ -721,7 +721,7 @@ pipeline (e.g. effective radii).</p>
 +---------------------------+-------------------------------------------------------------+
 | stellar_mass              | 501187233.6272717 Msun                                      |
 +---------------------------+-------------------------------------------------------------+
-| stellar_mass_weighted_age | 50142993.98098824 yr                                        |
+| stellar_mass_weighted_age | 50812114.453684136 yr                                       |
 +---------------------------+-------------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -750,7 +750,7 @@ pipeline (e.g. effective radii).</p>
 +---------------+---------------------------------------------------------------+
 | galaxy_type   | &#39;Parametric&#39;                                                  |
 +---------------+---------------------------------------------------------------+
-| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7f5784dd2d40&gt; |
+| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7f13e4883040&gt; |
 +---------------+---------------------------------------------------------------+
 | redshift      | 1                                                             |
 +---------------+---------------------------------------------------------------+
@@ -835,7 +835,7 @@ pipeline (e.g. effective radii).</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

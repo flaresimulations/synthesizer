@@ -544,7 +544,7 @@ spectra in the SPS grids.</p>
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">SFH</span><span class="p">,</span> <span class="n">ZDist</span>
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">Stars</span> <span class="k">as</span> <span class="n">ParametricStars</span>
 <span class="kn">from</span> <span class="nn">synthesizer.particle.galaxy</span> <span class="kn">import</span> <span class="n">Galaxy</span> <span class="k">as</span> <span class="n">ParticleGalaxy</span>
-<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfhz</span>
+<span class="kn">from</span> <span class="nn">synthesizer.particle.stars</span> <span class="kn">import</span> <span class="n">sample_sfzh</span>
 
 <span class="c1"># Define the grid</span>
 <span class="n">grid_name</span> <span class="o">=</span> <span class="s2">&quot;test_grid&quot;</span>
@@ -573,7 +573,7 @@ spectra in the SPS grids.</p>
 <span class="n">nstar</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span>
 
 <span class="c1"># Get the stars object</span>
-<span class="n">stars</span> <span class="o">=</span> <span class="n">sample_sfhz</span><span class="p">(</span>
+<span class="n">stars</span> <span class="o">=</span> <span class="n">sample_sfzh</span><span class="p">(</span>
     <span class="n">sfzh</span><span class="o">.</span><span class="n">sfzh</span><span class="p">,</span>
     <span class="n">sfzh</span><span class="o">.</span><span class="n">log10ages</span><span class="p">,</span>
     <span class="n">sfzh</span><span class="o">.</span><span class="n">log10metallicities</span><span class="p">,</span>
@@ -633,7 +633,7 @@ spectra in the SPS grids.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.610 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.609 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-particle-plot-compare-grid-assignment-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/bf94a082148b6c2a32b8c6e806c26058/plot_compare_grid_assignment.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_compare_grid_assignment.ipynb</span></code></a></p>
@@ -697,7 +697,7 @@ spectra in the SPS grids.</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

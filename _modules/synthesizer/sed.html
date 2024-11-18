@@ -1188,11 +1188,15 @@
                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
                         <span class="p">[</span>
                             <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">_lnu</span> <span class="o">*</span> <span class="n">transmission</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transmission</span><span class="p">)</span>
-                            <span class="k">for</span> <span class="n">_lnu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lnu</span>
+                            <span class="k">for</span> <span class="n">_lnu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lnu</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                                <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lnu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="p">)</span>
                         <span class="p">]</span>
                     <span class="p">)</span>
                     <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lnu</span><span class="o">.</span><span class="n">units</span>
                 <span class="p">)</span>
+
+                <span class="n">lnu</span> <span class="o">=</span> <span class="n">lnu</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lnu</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">lnu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lnu</span> <span class="o">*</span> <span class="n">transmission</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">transmission</span><span class="p">)</span>
@@ -1393,9 +1397,11 @@
                             <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lam</span><span class="p">[</span><span class="n">s</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">_lnu</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">s</span><span class="p">])</span>
                         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="o">-</span> <span class="mf">2.0</span>
-                        <span class="k">for</span> <span class="n">_lnu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lnu</span>
+                        <span class="k">for</span> <span class="n">_lnu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lnu</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lnu</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
                     <span class="p">]</span>
                 <span class="p">)</span>
+
+                <span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lnu</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">beta</span> <span class="o">=</span> <span class="p">(</span>
@@ -2641,7 +2647,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -546,6 +546,7 @@ photometry.</p>
 <li><img src="../../_images/sphx_glr_plot_cosmo_example_007.png" srcset="../../_images/sphx_glr_plot_cosmo_example_007.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_plot_cosmo_example_008.png" srcset="../../_images/sphx_glr_plot_cosmo_example_008.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
 <li><img src="../../_images/sphx_glr_plot_cosmo_example_009.png" srcset="../../_images/sphx_glr_plot_cosmo_example_009.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
+<li><img src="../../_images/sphx_glr_plot_cosmo_example_010.png" srcset="../../_images/sphx_glr_plot_cosmo_example_010.png" alt="plot cosmo example" class = "sphx-glr-multi-img"/></li>
 </ul>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Loaded 10 galaxies
 --------------------------------------------------
@@ -568,8 +569,8 @@ photometry.</p>
 | J (λ = 1.22e+04 Å) | 3.94e-12 erg/(Hz*cm**2*s) |
 --------------------------------------------------
 
-Stellar luminosities available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;young_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_transmitted&#39;, &#39;old_nebular&#39;, &#39;young_nebular&#39;, &#39;young_transmitted&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;intrinsic&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated_ism&#39;, &#39;emergent&#39;]
-Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;young_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;old_transmitted&#39;, &#39;old_nebular&#39;, &#39;young_nebular&#39;, &#39;young_transmitted&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;intrinsic&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;young_attenuated_ism&#39;, &#39;emergent&#39;]
+Stellar luminosities available: [&#39;incident&#39;, &#39;young_incident&#39;, &#39;old_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_transmitted&#39;, &#39;old_nebular&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;intrinsic&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_ism&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;emergent&#39;]
+Stellar fluxes available: [&#39;incident&#39;, &#39;young_incident&#39;, &#39;old_incident&#39;, &#39;nebular&#39;, &#39;nebular_continuum&#39;, &#39;linecont&#39;, &#39;transmitted&#39;, &#39;reprocessed&#39;, &#39;attenuated&#39;, &#39;young_transmitted&#39;, &#39;young_nebular&#39;, &#39;old_transmitted&#39;, &#39;old_nebular&#39;, &#39;young_intrinsic&#39;, &#39;young_emergent&#39;, &#39;old_intrinsic&#39;, &#39;old_emergent&#39;, &#39;intrinsic&#39;, &#39;young_reprocessed&#39;, &#39;young_attenuated_ism&#39;, &#39;young_attenuated_nebular&#39;, &#39;young_attenuated&#39;, &#39;old_reprocessed&#39;, &#39;old_attenuated&#39;, &#39;emergent&#39;]
 </pre></div>
 </div>
 <div class="line-block">
@@ -592,7 +593,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
 <span class="kn">from</span> <span class="nn">synthesizer.filters</span> <span class="kn">import</span> <span class="n">UVJ</span>
 <span class="kn">from</span> <span class="nn">synthesizer.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
 <span class="kn">from</span> <span class="nn">synthesizer.load_data.load_camels</span> <span class="kn">import</span> <span class="n">load_CAMELS_IllustrisTNG</span>
-<span class="kn">from</span> <span class="nn">synthesizer.sed</span> <span class="kn">import</span> <span class="n">Sed</span>
+<span class="kn">from</span> <span class="nn">synthesizer.sed</span> <span class="kn">import</span> <span class="n">Sed</span><span class="p">,</span> <span class="n">plot_spectra</span>
 
 <span class="c1"># Get the grid</span>
 <span class="n">grid_dir</span> <span class="o">=</span> <span class="s2">&quot;../../tests/test_grid&quot;</span>
@@ -679,7 +680,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
     <span class="n">label</span><span class="o">=</span><span class="s2">&quot;incident&quot;</span><span class="p">,</span>
     <span class="n">combine</span><span class="o">=</span><span class="p">(</span><span class="n">young_incident</span><span class="p">,</span> <span class="n">old_incident</span><span class="p">),</span>
 <span class="p">)</span>
-<span class="n">spec</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">combined_incident</span><span class="p">)</span>
+<span class="n">combined_spec</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">combined_incident</span><span class="p">)</span>
 
 <span class="c1"># Once again we can plot them all</span>
 <span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">plot_spectra</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -694,27 +695,23 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
 <span class="c1">#</span>
 <span class="c1"># To mitigate this, we provide a method for smoothing the recent star</span>
 <span class="c1"># formation history of a particle galaxy by replacing each young star</span>
-<span class="c1"># particle with a parametric SFH. An example is provided [here](../sed.ipynb).</span>
+<span class="c1"># particle with a parametric SFH.</span>
 <span class="c1">#</span>
-<span class="c1"># This functionality can be enabled by setting the argument `parametric_</span>
-<span class="c1"># young_stars` on any `get_spectra_*` methods. This should be set to the</span>
-<span class="c1"># age at which you wish to smooth the SFH. The default form of the SFH is</span>
-<span class="c1"># constant, but this can also be modified by providing a parametric SFH</span>
-<span class="c1"># object to the `parametric_sfh` argument.</span>
-<span class="n">parametric_spec</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span>
-    <span class="n">incident</span><span class="p">,</span> <span class="n">parametric_young_stars</span><span class="o">=</span><span class="mi">500</span> <span class="o">*</span> <span class="n">Myr</span>
+<span class="c1"># This by calling parametric_young_stars on the Stars object. This method</span>
+<span class="c1"># will replace the young star particles with particles sampled from a</span>
+<span class="c1"># parametric SFH. The method requires the age below which to replace the</span>
+<span class="c1"># particles, the parametric SFH to use, and the grid to use for the</span>
+<span class="c1"># parametric SFH.</span>
+<span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">parametric_young_stars</span><span class="p">(</span>
+    <span class="n">age</span><span class="o">=</span><span class="mi">500</span> <span class="o">*</span> <span class="n">Myr</span><span class="p">,</span>
+    <span class="n">parametric_sfh</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span>
+    <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">lam</span><span class="p">,</span> <span class="n">spec</span><span class="o">.</span><span class="n">lnu</span> <span class="o">+</span> <span class="n">spec</span><span class="o">.</span><span class="n">lnu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Particle&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span>
-    <span class="n">parametric_spec</span><span class="o">.</span><span class="n">lam</span><span class="p">,</span> <span class="n">parametric_spec</span><span class="o">.</span><span class="n">lnu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Parametric + Particle&quot;</span>
+<span class="n">parametric_spec</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">incident</span><span class="p">)</span>
+<span class="n">plot_spectra</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;Particle&quot;</span><span class="p">:</span> <span class="n">spec</span><span class="p">,</span> <span class="s2">&quot;Parametric + Particle&quot;</span><span class="p">:</span> <span class="n">parametric_spec</span><span class="p">},</span>
+    <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">lambda </span><span class="se">\\</span><span class="s2">,/</span><span class="se">\\</span><span class="s2">, </span><span class="se">\\</span><span class="s2">AA$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$L_{</span><span class="se">\\</span><span class="s2">nu} </span><span class="se">\\</span><span class="s2">,/</span><span class="se">\\</span><span class="s2">, </span><span class="se">\\</span><span class="s2">mathrm{erg </span><span class="se">\\</span><span class="s2">; s^{-1} </span><span class="se">\\</span><span class="s2">; Hz^{-1}}$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mf">22.0</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">29.0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">5.2</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
 <span class="c1"># ## Nebular emission</span>
@@ -875,7 +872,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stellar fluxes available:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">photo_fnu</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.397 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.507 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-cosmo-plot-cosmo-example-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6c14165308b7095676deb1b4468c6172/plot_cosmo_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_cosmo_example.ipynb</span></code></a></p>
@@ -939,7 +936,7 @@ Stellar fluxes available: [&#39;incident&#39;, &#39;old_incident&#39;, &#39;youn
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

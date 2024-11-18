@@ -542,6 +542,32 @@ rebin_1d(arr, 10, func=np.sum)</p>
 </table>
 </div>
 <dl class="py function">
+<dt class="sig sig-object py" id="synthesizer.utils.util_funcs.combine_arrays">
+<span class="sig-prename descclassname"><span class="pre">synthesizer.utils.util_funcs.</span></span><span class="sig-name descname"><span class="pre">combine_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arr1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/utils/util_funcs.html#combine_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.utils.util_funcs.combine_arrays" title="Link to this definition">¶</a></dt>
+<dd><p>Combine two arrays into a single array.</p>
+<p>This function is a helper used to combine two arrays of the same length
+into a single array while abstracting some checks and handling improper
+combinations.</p>
+<p>If both arrays are None then None is returned. If one array is None and
+the other is not then None is returned along with a warning.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arr1</strong> (<em>array-like</em>) – The first array to combine.</p></li>
+<li><p><strong>arr2</strong> (<em>array-like</em>) – The second array to combine.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>array-like</dt><dd><p>The combined array.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="sphx-glr-backref-synthesizer-utils-util-funcs-combine-arrays">
 <dt class="sig sig-object py" id="synthesizer.utils.util_funcs.parse_grid_id">
 <span class="sig-prename descclassname"><span class="pre">synthesizer.utils.util_funcs.</span></span><span class="sig-name descname"><span class="pre">parse_grid_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/utils/util_funcs.html#parse_grid_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.utils.util_funcs.parse_grid_id" title="Link to this definition">¶</a></dt>
 <dd><p>Parse a grid name for the properties of the grid.</p>
@@ -727,6 +753,7 @@ None use final nearest visible colour.</p></li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">synthesizer.utils.util_funcs</a><ul>
+<li><a class="reference internal" href="#synthesizer.utils.util_funcs.combine_arrays"><code class="docutils literal notranslate"><span class="pre">combine_arrays()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.utils.util_funcs.parse_grid_id"><code class="docutils literal notranslate"><span class="pre">parse_grid_id()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.utils.util_funcs.planck"><code class="docutils literal notranslate"><span class="pre">planck()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.utils.util_funcs.rebin_1d"><code class="docutils literal notranslate"><span class="pre">rebin_1d()</span></code></a></li>
@@ -744,7 +771,7 @@ None use final nearest visible colour.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=60f014f6"></script>
+</div><script src="../_static/documentation_options.js?v=98063cfd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

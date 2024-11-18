@@ -16,11 +16,11 @@ synthesizer.particle.stars
       :nosignatures:
    
 
-   .. autofunction:: sample_sfhz
+   .. autofunction:: sample_sfzh
    
-   .. _sphx_glr_backref_synthesizer.particle.stars.sample_sfhz:
+   .. _sphx_glr_backref_synthesizer.particle.stars.sample_sfzh:
 
-   .. minigallery:: synthesizer.particle.stars.sample_sfhz
+   .. minigallery:: synthesizer.particle.stars.sample_sfzh
        :add-heading:
    
    

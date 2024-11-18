@@ -40,7 +40,7 @@ the simple loop method with the complex tree method.
 
     LOS calculation with tree took 0.0004 seconds for nstar=100 and ngas=1000
     LOS calculation with loop took 0.0007 seconds for nstar=100 and ngas=1000
-    Ratio in wallclock: Time_loop/Time_tree=1.9023
+    Ratio in wallclock: Time_loop/Time_tree=1.7877
     Tree gave=3.73e-06 Loop gave=3.73e-06 Normalised residual=0.0000
 
 
@@ -68,7 +68,7 @@ the simple loop method with the complex tree method.
     from synthesizer.particle.galaxy import Galaxy
     from synthesizer.particle.gas import Gas
     from synthesizer.particle.particles import CoordinateGenerator
-    from synthesizer.particle.stars import sample_sfhz
+    from synthesizer.particle.stars import sample_sfzh
 
 
     def calculate_smoothing_lengths(positions, num_neighbors=56):
@@ -145,7 +145,7 @@ the simple loop method with the complex tree method.
     # Sample the SFZH, producing a Stars object
     # we will also pass some keyword arguments for attributes
     # we will need for imaging
-    stars = sample_sfhz(
+    stars = sample_sfzh(
         param_stars.sfzh,
         param_stars.log10ages,
         param_stars.log10metallicities,
@@ -238,7 +238,7 @@ the simple loop method with the complex tree method.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.067 seconds)
+   **Total running time of the script:** (0 minutes 1.012 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_get_los_attenutation.py:

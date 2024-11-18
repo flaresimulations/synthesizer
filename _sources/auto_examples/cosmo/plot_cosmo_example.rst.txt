@@ -25,7 +25,7 @@ Use test cosmological simulation data (from the [CAMELS simulations](
 https://www.camel-simulations.org/)) to generate spectra and calculate
 photometry.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-308
+.. GENERATED FROM PYTHON SOURCE LINES 9-304
 
 
 
@@ -95,6 +95,13 @@ photometry.
          :srcset: /auto_examples/cosmo/images/sphx_glr_plot_cosmo_example_009.png
          :class: sphx-glr-multi-img
 
+    *
+
+      .. image-sg:: /auto_examples/cosmo/images/sphx_glr_plot_cosmo_example_010.png
+         :alt: plot cosmo example
+         :srcset: /auto_examples/cosmo/images/sphx_glr_plot_cosmo_example_010.png
+         :class: sphx-glr-multi-img
+
 
 .. rst-class:: sphx-glr-script-out
 
@@ -121,8 +128,8 @@ photometry.
     | J (λ = 1.22e+04 Å) | 3.94e-12 erg/(Hz*cm**2*s) |
     --------------------------------------------------
 
-    Stellar luminosities available: ['incident', 'old_incident', 'young_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'old_transmitted', 'old_nebular', 'young_nebular', 'young_transmitted', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_nebular', 'young_attenuated', 'intrinsic', 'old_reprocessed', 'old_attenuated', 'young_attenuated_ism', 'emergent']
-    Stellar fluxes available: ['incident', 'old_incident', 'young_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'old_transmitted', 'old_nebular', 'young_nebular', 'young_transmitted', 'old_intrinsic', 'old_emergent', 'young_intrinsic', 'young_emergent', 'young_reprocessed', 'young_attenuated_nebular', 'young_attenuated', 'intrinsic', 'old_reprocessed', 'old_attenuated', 'young_attenuated_ism', 'emergent']
+    Stellar luminosities available: ['incident', 'young_incident', 'old_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'young_transmitted', 'young_nebular', 'old_transmitted', 'old_nebular', 'young_intrinsic', 'young_emergent', 'old_intrinsic', 'old_emergent', 'intrinsic', 'young_reprocessed', 'young_attenuated_ism', 'young_attenuated_nebular', 'young_attenuated', 'old_reprocessed', 'old_attenuated', 'emergent']
+    Stellar fluxes available: ['incident', 'young_incident', 'old_incident', 'nebular', 'nebular_continuum', 'linecont', 'transmitted', 'reprocessed', 'attenuated', 'young_transmitted', 'young_nebular', 'old_transmitted', 'old_nebular', 'young_intrinsic', 'young_emergent', 'old_intrinsic', 'old_emergent', 'intrinsic', 'young_reprocessed', 'young_attenuated_ism', 'young_attenuated_nebular', 'young_attenuated', 'old_reprocessed', 'old_attenuated', 'emergent']
 
 
 
@@ -151,7 +158,7 @@ photometry.
     from synthesizer.filters import UVJ
     from synthesizer.grid import Grid
     from synthesizer.load_data.load_camels import load_CAMELS_IllustrisTNG
-    from synthesizer.sed import Sed
+    from synthesizer.sed import Sed, plot_spectra
 
     # Get the grid
     grid_dir = "../../tests/test_grid"
@@ -238,7 +245,7 @@ photometry.
         label="incident",
         combine=(young_incident, old_incident),
     )
-    spec = g.stars.get_spectra(combined_incident)
+    combined_spec = g.stars.get_spectra(combined_incident)
 
     # Once again we can plot them all
     g.stars.plot_spectra(show=True)
@@ -253,27 +260,23 @@ photometry.
     #
     # To mitigate this, we provide a method for smoothing the recent star
     # formation history of a particle galaxy by replacing each young star
-    # particle with a parametric SFH. An example is provided [here](../sed.ipynb).
+    # particle with a parametric SFH.
     #
-    # This functionality can be enabled by setting the argument `parametric_
-    # young_stars` on any `get_spectra_*` methods. This should be set to the
-    # age at which you wish to smooth the SFH. The default form of the SFH is
-    # constant, but this can also be modified by providing a parametric SFH
-    # object to the `parametric_sfh` argument.
-    parametric_spec = g.stars.get_spectra(
-        incident, parametric_young_stars=500 * Myr
+    # This by calling parametric_young_stars on the Stars object. This method
+    # will replace the young star particles with particles sampled from a
+    # parametric SFH. The method requires the age below which to replace the
+    # particles, the parametric SFH to use, and the grid to use for the
+    # parametric SFH.
+    g.stars.parametric_young_stars(
+        age=500 * Myr,
+        parametric_sfh="constant",
+        grid=grid,
     )
-
-    plt.loglog(spec.lam, spec.lnu + spec.lnu, label="Particle")
-    plt.loglog(
-        parametric_spec.lam, parametric_spec.lnu, label="Parametric + Particle"
+    parametric_spec = g.stars.get_spectra(incident)
+    plot_spectra(
+        {"Particle": spec, "Parametric + Particle": parametric_spec},
+        show=True,
     )
-    plt.legend()
-    plt.xlabel("$\\lambda \\,/\\, \\AA$")
-    plt.ylabel("$L_{\\nu} \\,/\\, \\mathrm{erg \\; s^{-1} \\; Hz^{-1}}$")
-    plt.ylim(10**22.0, 10**29.0)
-    plt.xlim(10**2.0, 10**5.2)
-    plt.show()
 
 
     # ## Nebular emission
@@ -436,7 +439,7 @@ photometry.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 3.397 seconds)
+   **Total running time of the script:** (0 minutes 3.507 seconds)
 
 
 .. _sphx_glr_download_auto_examples_cosmo_plot_cosmo_example.py:

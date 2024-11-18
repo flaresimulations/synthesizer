@@ -49,7 +49,7 @@ spectra in the SPS grids.
     from synthesizer.parametric import SFH, ZDist
     from synthesizer.parametric import Stars as ParametricStars
     from synthesizer.particle.galaxy import Galaxy as ParticleGalaxy
-    from synthesizer.particle.stars import sample_sfhz
+    from synthesizer.particle.stars import sample_sfzh
 
     # Define the grid
     grid_name = "test_grid"
@@ -78,7 +78,7 @@ spectra in the SPS grids.
     nstar = 10**5
 
     # Get the stars object
-    stars = sample_sfhz(
+    stars = sample_sfzh(
         sfzh.sfzh,
         sfzh.log10ages,
         sfzh.log10metallicities,
@@ -140,7 +140,7 @@ spectra in the SPS grids.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.610 seconds)
+   **Total running time of the script:** (0 minutes 0.609 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_compare_grid_assignment.py:
