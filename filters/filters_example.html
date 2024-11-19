@@ -753,7 +753,6 @@ Calculated wavelength array:
 min = 5.93e+03 Angstrom
 max = 5.11e+04 Angstrom
 FilterCollection.lam.size = 26891
-InconsistentWavelengths: Interpolated transmission curve has no non-zero values. Consider removing this filter or extending the wavelength range.
 </pre></div></div>
 </div>
 <section id="Helper-methods">
@@ -916,7 +915,7 @@ True
 Filter containing rest_frame_lam=2.50e+04 Angstrom: JWST/NIRCam.F250M
 Filter containing rest_frame_lam=2.50e+04 Angstrom: JWST/NIRCam.F250M
 Filter containing rest_frame_lam=2.50e+04 Angstrom: generic_filter3
-Filter containing rest_frame_lam=1.00e+03 Angstrom (with observed wavelength=8.00e+03 Angstrom): top_hat/filter.2
+Filter containing rest_frame_lam=1.00e+03 Angstrom (with observed wavelength=8.00e+03 Angstrom): JWST/NIRCam.F090W
 </pre></div></div>
 </div>
 <p>Note that the method will produce an error if the transmission of all <code class="docutils literal notranslate"><span class="pre">Filter</span></code> objects in the <code class="docutils literal notranslate"><span class="pre">FilterCollection</span></code> is 0 at the desired wavelength. In certain circumstances <code class="docutils literal notranslate"><span class="pre">&quot;pivot&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;mean&quot;</span></code> can fail when the wavelength falls inside a wide band filter.</p>
@@ -1061,7 +1060,7 @@ The wavelength (rest_frame_lam=2.00e+03 Å Angstrom, observed_lam=3.20e+04 Å An
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=c4e6ff54"></script>
+</div><script src="../_static/documentation_options.js?v=699a49f0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

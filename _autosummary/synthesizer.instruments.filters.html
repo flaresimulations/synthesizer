@@ -556,8 +556,7 @@ without a grid object.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.UVJ">
 <span class="sig-prename descclassname"><span class="pre">synthesizer.instruments.filters.</span></span><span class="sig-name descname"><span class="pre">UVJ</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#UVJ"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.UVJ" title="Link to this definition">¶</a></dt>
-<dd><p>Helper function to produce a FilterCollection containing
-UVJ tophat filters.</p>
+<dd><p>Return a FilterCollection of UVJ top hat filters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>new_lam</strong> (<em>array-like</em><em>, </em><em>float</em>) – The wavelength array for which each filter’s transmission curve is
@@ -583,8 +582,8 @@ defined.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.instruments.filters.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmission</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_fwhm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hdf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter" title="Link to this definition">¶</a></dt>
-<dd><p>A class holding a filter’s transmission curve and wavelength array.
-A filter can either be retrieved from the
+<dd><p>A container for a filter’s transmission curve and wavelength array.</p>
+<p>A filter can either be retrieved from the
 <a class="reference external" href="http://svo2.cab.inta-csic.es/svo/theory/fps3/">SVO database</a>,
 made from specific top hat filter properties, or made from a generic
 filter transmission curve and wavelength array.</p>
@@ -776,8 +775,8 @@ self.original_t == self.t.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.Tpeak">
 <span class="sig-name descname"><span class="pre">Tpeak</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.Tpeak"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.Tpeak" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the peak transmission
-For an SVO filter this uses the transmission from the database.</p>
+<dd><p>Calculate the peak transmission.</p>
+<p>For an SVO filter this uses the transmission from the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
@@ -841,8 +840,8 @@ and summed along the wavelength axis.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.bandw">
 <span class="sig-name descname"><span class="pre">bandw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.bandw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.bandw" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the bandwidth.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the bandwidth.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -858,7 +857,7 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.clip_transmission">
 <span class="sig-name descname"><span class="pre">clip_transmission</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.clip_transmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.clip_transmission" title="Link to this definition">¶</a></dt>
-<dd><p>Clips transmission curve between 0 and 1.</p>
+<dd><p>Clip transmission curve between 0 and 1.</p>
 <p>Some transmission curves from SVO can come with strange
 upper limits, the way we use them requires the maxiumum of a
 transmission curve is at most 1. So for one final check lets
@@ -868,8 +867,8 @@ clip the transmission curve between 0 and 1</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.fwhm">
 <span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.fwhm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.fwhm" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the FWHM.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the FWHM.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -885,8 +884,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.max">
 <span class="sig-name descname"><span class="pre">max</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.max" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the longest wavelength where the transmission is still &gt;0.01
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the longest wavelength with transmission &gt;0.01.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -902,8 +901,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.meanwv">
 <span class="sig-name descname"><span class="pre">meanwv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.meanwv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.meanwv" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the mean wavelength.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the mean wavelength.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -919,8 +918,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.min">
 <span class="sig-name descname"><span class="pre">min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.min" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the shortest wavelength where the transmission is still &gt;0.01
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the shortest wavelength with transmission &gt;0.01.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -936,8 +935,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.mnmx">
 <span class="sig-name descname"><span class="pre">mnmx</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.mnmx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.mnmx" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the minimum and maximum wavelengths.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the minimum and maximum wavelengths.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -955,8 +954,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.pivT">
 <span class="sig-name descname"><span class="pre">pivT</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.pivT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.pivT" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the transmission at the pivot wavelength.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the transmission at the pivot wavelength.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -972,8 +971,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.pivwv">
 <span class="sig-name descname"><span class="pre">pivwv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.pivwv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.pivwv" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the pivot wavelength.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the pivot wavelength.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -989,8 +988,8 @@ the database.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.Filter.rectw">
 <span class="sig-name descname"><span class="pre">rectw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#Filter.rectw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.Filter.rectw" title="Link to this definition">¶</a></dt>
-<dd><p>Calculate the rectangular width.
-For an SVO filter this uses the wavelength and transmission from
+<dd><p>Calculate the rectangular width.</p>
+<p>For an SVO filter this uses the wavelength and transmission from
 the database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1014,7 +1013,8 @@ the database.</p>
 <dl class="py class" id="sphx-glr-backref-synthesizer-instruments-filters-filter">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.FilterCollection">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.instruments.filters.</span></span><span class="sig-name descname"><span class="pre">FilterCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filter_codes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tophat_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generic_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_lam</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fill_gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#FilterCollection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.FilterCollection" title="Link to this definition">¶</a></dt>
-<dd><p>Holds a collection of filters (<cite>Filter</cite> objects) and enables various
+<dd><p>A container for multiple Filter objects.</p>
+<p>Holds a collection of filters (<cite>Filter</cite> objects) and enables various
 quality of life operations such as plotting, adding, looping, len,
 and comparisons as if the collection was a simple list.</p>
 <p>Filters can be derived from the
@@ -1099,8 +1099,7 @@ defined.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.FilterCollection.calc_mean_lams">
 <span class="sig-name descname"><span class="pre">calc_mean_lams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#FilterCollection.calc_mean_lams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.FilterCollection.calc_mean_lams" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the rest frame mean wavelengths of all filters in this
-FilterCollection.</p>
+<dd><p>Calculate the mean wavelengths of all filters in the FilterCollection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
@@ -1116,8 +1115,7 @@ filter in the same order as self.filter_codes.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.FilterCollection.calc_pivot_lams">
 <span class="sig-name descname"><span class="pre">calc_pivot_lams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#FilterCollection.calc_pivot_lams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.FilterCollection.calc_pivot_lams" title="Link to this definition">¶</a></dt>
-<dd><p>Calculates the rest frame pivot wavelengths of all filters in this
-FilterCollection.</p>
+<dd><p>Calculate the pivot wavelengths of all filters in the FilterCollection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><dl class="simple">
@@ -1195,8 +1193,7 @@ of this filter is also printed.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.instruments.filters.FilterCollection.plot_transmission_curves">
 <span class="sig-name descname"><span class="pre">plot_transmission_curves</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/instruments/filters.html#FilterCollection.plot_transmission_curves"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.instruments.filters.FilterCollection.plot_transmission_curves" title="Link to this definition">¶</a></dt>
-<dd><p>Create a filter transmission curve plot of all Filters in the
-FilterCollection.</p>
+<dd><p>Plot the transmission curves of all filters in the FilterCollection.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>show</strong> (<em>bool</em>) – Are we showing the output?</p>
@@ -1400,7 +1397,7 @@ intensive, but slower. Defaults to False.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=c4e6ff54"></script>
+</div><script src="../_static/documentation_options.js?v=699a49f0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

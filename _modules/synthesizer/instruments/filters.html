@@ -567,8 +567,7 @@
 <span class="nd">@accepts</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">angstrom</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">UVJ</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function to produce a FilterCollection containing</span>
-<span class="sd">    UVJ tophat filters.</span>
+<span class="sd">    Return a FilterCollection of UVJ top hat filters.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        new_lam (array-like, float)</span>
@@ -579,7 +578,6 @@
 <span class="sd">        FilterCollection</span>
 <span class="sd">            A FilterCollection containing top hat UVJ filters.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Define the UVJ filters dictionary.</span>
     <span class="n">tophat_dict</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;lam_eff&quot;</span><span class="p">:</span> <span class="mi">3650</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span> <span class="s2">&quot;lam_fwhm&quot;</span><span class="p">:</span> <span class="mi">660</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">},</span>
@@ -595,6 +593,8 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.FilterCollection">[docs]</a>
 <span class="k">class</span> <span class="nc">FilterCollection</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A container for multiple Filter objects.</span>
+
 <span class="sd">    Holds a collection of filters (`Filter` objects) and enables various</span>
 <span class="sd">    quality of life operations such as plotting, adding, looping, len,</span>
 <span class="sd">    and comparisons as if the collection was a simple list.</span>
@@ -729,6 +729,7 @@
             <span class="ow">and</span> <span class="n">generic_dict</span> <span class="ow">is</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="n">filters</span> <span class="ow">is</span> <span class="kc">None</span>
         <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">return</span>
 
         <span class="k">else</span><span class="p">:</span>
@@ -760,7 +761,7 @@
         <span class="c1"># it. NOTE: this can also be done for a loaded FilterCollection</span>
         <span class="c1"># so we just do it here outside the logic</span>
         <span class="k">if</span> <span class="n">new_lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">resample_filters</span><span class="p">(</span><span class="n">new_lam</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resample_filters</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">new_lam</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
 
         <span class="c1"># Calculate mean and pivot wavelengths for each filter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mean_lams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_mean_lams</span><span class="p">()</span>
@@ -846,7 +847,6 @@
         <span class="n">fc</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">=</span> <span class="n">hdf</span><span class="p">[</span><span class="s2">&quot;Header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;nfilters&quot;</span><span class="p">]</span>
         <span class="n">fc</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">unyt_array</span><span class="p">(</span><span class="n">hdf</span><span class="p">[</span><span class="s2">&quot;Header&quot;</span><span class="p">][</span><span class="s2">&quot;Wavelengths&quot;</span><span class="p">][:],</span> <span class="n">lam_units</span><span class="p">)</span>
         <span class="n">fc</span><span class="o">.</span><span class="n">filter_codes</span> <span class="o">=</span> <span class="n">hdf</span><span class="p">[</span><span class="s2">&quot;Header&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;filter_codes&quot;</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">fc</span><span class="o">.</span><span class="n">filter_codes</span><span class="p">)</span>
 
         <span class="c1"># Loop over the groups and make the filters</span>
         <span class="k">for</span> <span class="n">filter_code</span> <span class="ow">in</span> <span class="n">fc</span><span class="o">.</span><span class="n">filter_codes</span><span class="p">:</span>
@@ -956,8 +956,7 @@
 
     <span class="k">def</span> <span class="nf">_include_synthesizer_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Populate the `FilterCollection` with a list of individual</span>
-<span class="sd">        `Filter` objects.</span>
+<span class="sd">        Populate the `FilterCollection` from a list of `Filter` objects.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filter_codes (list, string)</span>
@@ -972,7 +971,9 @@
 
     <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_filters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Enable the addition of FilterCollections and Filters with</span>
+<span class="sd">        Add together two FilterCollections or a FilterCollection and a Filter.</span>
+
+<span class="sd">        Enables the addition of FilterCollections and Filters with</span>
 <span class="sd">        filtercollection1 + filtercollection2 or filtercollection + filter</span>
 <span class="sd">        syntax.</span>
 
@@ -981,7 +982,6 @@
 <span class="sd">                This filter collection containing the filter/filters from</span>
 <span class="sd">                other_filters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Are we adding a collection or a single filter?</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other_filters</span><span class="p">,</span> <span class="n">FilterCollection</span><span class="p">):</span>
             <span class="c1"># Loop over the filters in other_filters</span>
@@ -1005,6 +1005,21 @@
         <span class="c1"># Update the number of filters we have</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_codes</span><span class="p">)</span>
 
+        <span class="c1"># Get a combined wavelength array (we resample filters before</span>
+        <span class="c1"># applying them to spectra so the actual resolution doesn&#39;t matter)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+                <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">min</span><span class="p">()),</span>
+                <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_lam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span>
+        <span class="k">elif</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_lam</span> <span class="o">=</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">lam</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_lam</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="c1"># Now resample the filters onto the filter collection&#39;s wavelength</span>
         <span class="c1"># array,</span>
         <span class="c1"># NOTE: If the new filter extends beyond the filter collection&#39;s</span>
@@ -1013,18 +1028,18 @@
         <span class="c1"># filter collection&#39;s wavelength array modified, if that were</span>
         <span class="c1"># to happen it could become inconsistent with Sed wavelength arrays</span>
         <span class="c1"># and photometry would be impossible.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resample_filters</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resample_filters</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">new_lam</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Overload the len operator to return how many filters there are.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return how many filters there are.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over the filters in the collection.</span>
+
 <span class="sd">        Overload iteration to allow simple looping over filter objects,</span>
 <span class="sd">        combined with __next__ this enables for f in FilterCollection syntax</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1032,10 +1047,11 @@
 
     <span class="k">def</span> <span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the next filter in the collection.</span>
+
 <span class="sd">        Overload iteration to allow simple looping over filter objects,</span>
 <span class="sd">        combined with __iter__ this enables for f in FilterCollection syntax</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Check we haven&#39;t finished</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_ind</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_current_ind</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1049,6 +1065,8 @@
 
     <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_filters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if two FilterCollections are not equal.</span>
+
 <span class="sd">        Enables the != comparison of two filter collections. If the filter</span>
 <span class="sd">        collections contain the same filter codes they are guaranteed to</span>
 <span class="sd">        be identical.</span>
@@ -1061,7 +1079,6 @@
 <span class="sd">            True/False (bool)</span>
 <span class="sd">                Are the FilterCollections the same?</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Do they have the same number of filters?</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">!=</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">nfilters</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -1077,6 +1094,8 @@
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_filters</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Test if two FilterCollections are equal.</span>
+
 <span class="sd">        Enables the == comparison of two filter collections. If the filter</span>
 <span class="sd">        collections contain the same filter codes they are guaranteed to</span>
 <span class="sd">        be identical.</span>
@@ -1089,7 +1108,6 @@
 <span class="sd">            True/False (bool)</span>
 <span class="sd">                Are the FilterCollections the same?</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Do they have the same number of filters?</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">!=</span> <span class="n">other_filters</span><span class="o">.</span><span class="n">nfilters</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -1105,6 +1123,8 @@
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the Filter object with the given filter code.</span>
+
 <span class="sd">        Enables the extraction of filter objects from the FilterCollection by</span>
 <span class="sd">        getitem syntax (FilterCollection[key] rather than</span>
 <span class="sd">        FilterCollection.filters[key]).</span>
@@ -1233,13 +1253,17 @@
                 <span class="n">diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">new_lam</span><span class="p">)</span>
                 <span class="n">min_res_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">new_lam</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">new_lam</span>
+        <span class="k">return</span> <span class="n">new_lam</span> <span class="o">*</span> <span class="n">piv_lams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">units</span>
 
 <div class="viewcode-block" id="FilterCollection.resample_filters">
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.FilterCollection.resample_filters">[docs]</a>
     <span class="nd">@accepts</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">angstrom</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">resample_filters</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lam_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill_gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">new_lam</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">lam_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fill_gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resample all filters onto a single wavelength array.</span>
@@ -1284,7 +1308,9 @@
             <span class="c1"># Are we making an array with a fixed size?</span>
             <span class="k">if</span> <span class="n">lam_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Create wavelength array</span>
-                <span class="n">new_lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_lam</span><span class="p">,</span> <span class="n">max_lam</span><span class="p">,</span> <span class="n">lam_size</span><span class="p">)</span>
+                <span class="n">new_lam</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_lam</span><span class="p">,</span> <span class="n">max_lam</span><span class="p">,</span> <span class="n">lam_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_lam</span><span class="o">.</span><span class="n">units</span>
+                <span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Ok, we are trying to be clever, merge the filter wavelength</span>
@@ -1299,16 +1325,16 @@
                     <span class="o">+</span> <span class="s2">&quot;FilterCollection.lam.size = </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">new_lam</span><span class="o">.</span><span class="n">size</span>
                 <span class="p">)</span>
 
-        <span class="c1"># Set the wavelength array</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">new_lam</span>
-
         <span class="c1"># Loop over filters unifying them onto this wavelength array</span>
         <span class="c1"># NOTE: Filters already on self.lam will be uneffected but doing a</span>
         <span class="c1"># np.all condition to check for matches and skip them is more expensive</span>
         <span class="c1"># than just doing the interpolation for all filters</span>
         <span class="k">for</span> <span class="n">fcode</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="n">fcode</span><span class="p">]</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">_interpolate_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span></div>
+            <span class="n">f</span><span class="o">.</span><span class="n">_interpolate_wavelength</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">new_lam</span><span class="p">)</span>
+
+        <span class="c1"># Set the wavelength array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">new_lam</span></div>
 
 
 <div class="viewcode-block" id="FilterCollection.unify_with_grid">
@@ -1359,8 +1385,7 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a filter transmission curve plot of all Filters in the</span>
-<span class="sd">        FilterCollection.</span>
+<span class="sd">        Plot the transmission curves of all filters in the FilterCollection.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            show (bool)</span>
@@ -1407,15 +1432,13 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.FilterCollection.calc_pivot_lams">[docs]</a>
     <span class="k">def</span> <span class="nf">calc_pivot_lams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the rest frame pivot wavelengths of all filters in this</span>
-<span class="sd">        FilterCollection.</span>
+<span class="sd">        Calculate the pivot wavelengths of all filters in the FilterCollection.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            pivot_lams (ndarray, float)</span>
 <span class="sd">                An array containing the rest frame pivot wavelengths of each</span>
 <span class="sd">                filter in the same order as self.filter_codes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Calculate each filters pivot wavelength</span>
         <span class="n">pivot_lams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1428,15 +1451,13 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.FilterCollection.calc_mean_lams">[docs]</a>
     <span class="k">def</span> <span class="nf">calc_mean_lams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates the rest frame mean wavelengths of all filters in this</span>
-<span class="sd">        FilterCollection.</span>
+<span class="sd">        Calculate the mean wavelengths of all filters in the FilterCollection.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            mean_lams (ndarray, float)</span>
 <span class="sd">                An array containing the rest frame mean wavelengths of each</span>
 <span class="sd">                filter in the same order as self.filter_codes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Calculate each filters pivot wavelength</span>
         <span class="n">mean_lams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1662,7 +1683,8 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter">[docs]</a>
 <span class="k">class</span> <span class="nc">Filter</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A class holding a filter&#39;s transmission curve and wavelength array.</span>
+<span class="sd">    A container for a filter&#39;s transmission curve and wavelength array.</span>
+
 <span class="sd">    A filter can either be retrieved from the</span>
 <span class="sd">    `SVO database &lt;http://svo2.cab.inta-csic.es/svo/theory/fps3/&gt;`__,</span>
 <span class="sd">    made from specific top hat filter properties, or made from a generic</span>
@@ -1767,7 +1789,6 @@
 <span class="sd">                The HDF5 root group of a HDF5 file from which to load the</span>
 <span class="sd">                filter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Metadata of this filter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span> <span class="o">=</span> <span class="n">filter_code</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">observatory</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1987,14 +2008,13 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter.clip_transmission">[docs]</a>
     <span class="k">def</span> <span class="nf">clip_transmission</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clips transmission curve between 0 and 1.</span>
+<span class="sd">        Clip transmission curve between 0 and 1.</span>
 
 <span class="sd">        Some transmission curves from SVO can come with strange</span>
 <span class="sd">        upper limits, the way we use them requires the maxiumum of a</span>
 <span class="sd">        transmission curve is at most 1. So for one final check lets</span>
 <span class="sd">        clip the transmission curve between 0 and 1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Warn the user we are are doing this</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">warn</span><span class="p">(</span>
@@ -2006,35 +2026,56 @@
 
 
     <span class="k">def</span> <span class="nf">_make_top_hat_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Make a top hat filter from the Filter&#39;s attributes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a top hat filter from the Filter&#39;s attributes.&quot;&quot;&quot;</span>
         <span class="c1"># Define the type of this filter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="s2">&quot;TopHat&quot;</span>
 
         <span class="c1"># If filter has been defined with an effective wavelength and FWHM</span>
         <span class="c1"># calculate the minimum and maximum wavelength.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_eff</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_fwhm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lam_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_eff</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_fwhm</span> <span class="o">/</span> <span class="mf">2.0</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lam_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_eff</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_fwhm</span> <span class="o">/</span> <span class="mf">2.0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lam_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_eff</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam_fwhm</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lam_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_eff</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam_fwhm</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span>
 
         <span class="c1"># Otherwise, use the explict min and max</span>
 
         <span class="c1"># Define this top hat filters wavelength array (+/- 1000 Angstrom)</span>
         <span class="c1"># if it hasn&#39;t been provided</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
-                <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lam_min</span> <span class="o">-</span> <span class="mi">1000</span><span class="p">]),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lam_max</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span>
-            <span class="p">)</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lam_min</span> <span class="o">-</span> <span class="mi">1000</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lam_max</span> <span class="o">+</span> <span class="mi">1000</span><span class="p">,</span>
+            <span class="mi">1000</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Define the transmission curve (1 inside, 0 outside)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_max</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lam</span><span class="p">))</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">lam</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">lam</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam_max</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+        <span class="c1"># Ensure we actually have some transmission</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InconsistentArguments</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span><span class="si">}</span><span class="s2"> has no non-zero transmission &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(lam_min=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lam_min</span><span class="si">}</span><span class="s2">, lam_max=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lam_max</span><span class="si">}</span><span class="s2">). &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Consider removing this filter (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="s2">&quot;or extending the wavelength range.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Set the original arrays to the current arrays (they are the same</span>
+        <span class="c1"># for a top hat filter)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span> <span class="o">=</span> <span class="n">lam</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+
+        <span class="c1"># Do we have a new wavelength array to interpolate onto?</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lam</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_interpolate_wavelength</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_t</span>
 
     <span class="k">def</span> <span class="nf">_make_svo_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intialise a Filter from the SVO database.</span>
+
 <span class="sd">        Retrieve a filter&#39;s data from the SVO database based on the Filter&#39;s</span>
 <span class="sd">        attributes.</span>
 
@@ -2043,7 +2084,6 @@
 <span class="sd">                If a filter code cannot be matched to a database entry or a</span>
 <span class="sd">                connection cannot be made to the database and error is thrown.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Define the type of this filter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_type</span> <span class="o">=</span> <span class="s2">&quot;SVO&quot;</span>
 
@@ -2095,8 +2135,7 @@
     <span class="nd">@accepts</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">angstrom</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_interpolate_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Interpolates a filter transmission curve onto the Filter&#39;s wavelength</span>
-<span class="sd">        array.</span>
+<span class="sd">        Interpolate a the transmission curve onto the a wavelength array.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            new_lam (array-like, float)</span>
@@ -2107,16 +2146,15 @@
 <span class="sd">            array-like (float)</span>
 <span class="sd">                Transmission curve interpolated onto the new wavelength array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># If we&#39;ve been handed a wavelength array we must overwrite the</span>
         <span class="c1"># current one</span>
         <span class="k">if</span> <span class="n">new_lam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Warn the user if we&#39;re about to truncate the existing wavelength</span>
             <span class="c1"># array</span>
             <span class="n">truncated</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="n">new_lam</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">new_lam</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">():</span>
                 <span class="n">truncated</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">if</span> <span class="n">new_lam</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">new_lam</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">():</span>
                 <span class="n">truncated</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">truncated</span><span class="p">:</span>
                 <span class="n">warn</span><span class="p">(</span>
@@ -2140,8 +2178,8 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">InconsistentWavelengths</span><span class="p">(</span>
                 <span class="s2">&quot;Interpolated transmission curve has no non-zero values. &quot;</span>
-                <span class="s2">&quot;Consider removing this filter or extending the wavelength &quot;</span>
-                <span class="s2">&quot;range.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Consider removing this filter (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span><span class="si">}</span><span class="s2">), &quot;</span>
+                <span class="s2">&quot;extending the wavelength range or increasing the wavelength.&quot;</span>
             <span class="p">)</span>
 
         <span class="c1"># And ensure transmission is in expected range</span>
@@ -2314,6 +2352,7 @@
     <span class="k">def</span> <span class="nf">pivwv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the pivot wavelength.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2321,7 +2360,6 @@
 <span class="sd">            float</span>
 <span class="sd">                Pivot wavelength.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span>
@@ -2340,6 +2378,7 @@
     <span class="k">def</span> <span class="nf">pivT</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the transmission at the pivot wavelength.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2347,7 +2386,6 @@
 <span class="sd">            float</span>
 <span class="sd">                Transmission at pivot wavelength.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pivwv</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_lam</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_t</span>
         <span class="p">)</span></div>
@@ -2358,6 +2396,7 @@
     <span class="k">def</span> <span class="nf">meanwv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the mean wavelength.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2365,7 +2404,6 @@
 <span class="sd">            float</span>
 <span class="sd">                Mean wavelength.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
                 <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span>
@@ -2387,6 +2425,7 @@
     <span class="k">def</span> <span class="nf">bandw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the bandwidth.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2394,7 +2433,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The bandwidth.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># Calculate the left and right hand side.</span>
         <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span>
@@ -2419,6 +2457,7 @@
     <span class="k">def</span> <span class="nf">fwhm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the FWHM.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2426,7 +2465,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The FWHM of the filter.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">8.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandw</span><span class="p">()</span></div>
 
 
@@ -2434,14 +2472,14 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter.Tpeak">[docs]</a>
     <span class="k">def</span> <span class="nf">Tpeak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the peak transmission</span>
+<span class="sd">        Calculate the peak transmission.</span>
+
 <span class="sd">        For an SVO filter this uses the transmission from the database.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            float</span>
 <span class="sd">                The peak transmission.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span><span class="p">)</span></div>
 
 
@@ -2450,6 +2488,7 @@
     <span class="k">def</span> <span class="nf">rectw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the rectangular width.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2457,7 +2496,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The rectangular width.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">trapz</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_lam</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Tpeak</span><span class="p">()</span></div>
 
 
@@ -2465,7 +2503,8 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter.max">[docs]</a>
     <span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the longest wavelength where the transmission is still &gt;0.01</span>
+<span class="sd">        Calculate the longest wavelength with transmission &gt;0.01.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2473,7 +2512,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The maximum wavelength at which transmission is nonzero.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">&gt;</span> <span class="mf">1e-2</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
 
 
@@ -2481,7 +2519,8 @@
 <a class="viewcode-back" href="../../../_autosummary/synthesizer.instruments.filters.html#synthesizer.instruments.filters.Filter.min">[docs]</a>
     <span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the shortest wavelength where the transmission is still &gt;0.01</span>
+<span class="sd">        Calculate the shortest wavelength with transmission &gt;0.01.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2489,7 +2528,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The minimum wavelength at which transmission is nonzero.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">&gt;</span> <span class="mf">1e-2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span></div>
 
 
@@ -2498,6 +2536,7 @@
     <span class="k">def</span> <span class="nf">mnmx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the minimum and maximum wavelengths.</span>
+
 <span class="sd">        For an SVO filter this uses the wavelength and transmission from</span>
 <span class="sd">        the database.</span>
 
@@ -2507,7 +2546,6 @@
 <span class="sd">            float</span>
 <span class="sd">                The maximum wavelength.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span><span class="o">.</span><span class="n">max</span><span class="p">())</span></div>
 </div>
 
@@ -2543,7 +2581,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=c4e6ff54"></script>
+</div><script src="../../../_static/documentation_options.js?v=699a49f0"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

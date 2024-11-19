@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:07.817** total execution time for 7 files **from auto_examples/particle**:
+**00:07.851** total execution time for 7 files **from auto_examples/particle**:
 
 .. container::
 
@@ -33,23 +33,23 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_particle_plot_rotated_galaxy.py` (``plot_rotated_galaxy.py``)
-     - 00:02.752
+     - 00:02.764
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_los_spectra.py` (``plot_los_spectra.py``)
-     - 00:02.018
+     - 00:02.021
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_get_los_attenutation.py` (``plot_get_los_attenutation.py``)
-     - 00:01.018
+     - 00:01.021
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_single_star_test.py` (``plot_single_star_test.py``)
-     - 00:00.631
+     - 00:00.641
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_compare_grid_assignment.py` (``plot_compare_grid_assignment.py``)
-     - 00:00.603
+     - 00:00.604
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_compare_parametric_particle.py` (``plot_compare_parametric_particle.py``)
-     - 00:00.422
+     - 00:00.423
      - 0.0
    * - :ref:`sphx_glr_auto_examples_particle_plot_create_sampled_sed.py` (``plot_create_sampled_sed.py``)
-     - 00:00.374
+     - 00:00.376
      - 0.0
