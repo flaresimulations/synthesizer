@@ -46,9 +46,9 @@ with constant star formation.
     +--------------------------+----------------------------------------------------------------------------+
     | component_type           | 'Stars'                                                                    |
     +--------------------------+----------------------------------------------------------------------------+
-    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7fcf18a65ea0>         |
+    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7f2461ad9720>         |
     +--------------------------+----------------------------------------------------------------------------+
-    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7fcf18a65ae0> |
+    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f2461ad9a20> |
     +--------------------------+----------------------------------------------------------------------------+
     | metallicity_grid_type    | 'log10Z'                                                                   |
     +--------------------------+----------------------------------------------------------------------------+
@@ -158,7 +158,7 @@ with constant star formation.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.377 seconds)
+   **Total running time of the script:** (0 minutes 0.394 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_create_sampled_sed.py:

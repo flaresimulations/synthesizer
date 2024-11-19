@@ -588,15 +588,15 @@
 +-----------------------------+------------------------------------------------------+
 | nstars                      | 100                                                  |
 +-----------------------------+------------------------------------------------------+
-| ages (100,)                 | 1.84e+06 yr -&gt; 9.98e+07 yr (Mean: 4.94e+07 yr)       |
+| ages (100,)                 | 1.24e+06 yr -&gt; 1.00e+08 yr (Mean: 5.32e+07 yr)       |
 +-----------------------------+------------------------------------------------------+
-| metallicities (100,)        | 8.52e-05 -&gt; 9.93e-03 (Mean: 5.21e-03)                |
+| metallicities (100,)        | 4.34e-05 -&gt; 9.96e-03 (Mean: 5.90e-03)                |
 +-----------------------------+------------------------------------------------------+
 | initial_masses (100,)       | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +-----------------------------+------------------------------------------------------+
-| log10ages (100,)            | 6.26e+00 -&gt; 8.00e+00 (Mean: 7.57e+00)                |
+| log10ages (100,)            | 6.09e+00 -&gt; 8.00e+00 (Mean: 7.62e+00)                |
 +-----------------------------+------------------------------------------------------+
-| log10metallicities (100,)   | -4.07e+00 -&gt; -2.00e+00 (Mean: -2.42e+00)             |
+| log10metallicities (100,)   | -4.36e+00 -&gt; -2.00e+00 (Mean: -2.32e+00)             |
 +-----------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -691,27 +691,27 @@
 +-------------------------------+------------------------------------------------------+
 | coordinates (100, 3)          | 5.00e+01 Mpc -&gt; 5.00e+01 Mpc (Mean: 5.00e+01 Mpc)    |
 +-------------------------------+------------------------------------------------------+
-| masses (100,)                 | 1.03e+03 Msun -&gt; 9.92e+05 Msun (Mean: 5.03e+05 Msun) |
+| masses (100,)                 | 4.98e+03 Msun -&gt; 9.84e+05 Msun (Mean: 4.96e+05 Msun) |
 +-------------------------------+------------------------------------------------------+
 | centre                        | [50 50 50] Mpc                                       |
 +-------------------------------+------------------------------------------------------+
-| tau_v (100,)                  | 3.99e-03 -&gt; 9.98e-01 (Mean: 5.15e-01)                |
+| tau_v (100,)                  | 8.53e-04 -&gt; 9.95e-01 (Mean: 4.87e-01)                |
 +-------------------------------+------------------------------------------------------+
-| ages (100,)                   | 1.84e+06 yr -&gt; 9.98e+07 yr (Mean: 4.94e+07 yr)       |
+| ages (100,)                   | 1.24e+06 yr -&gt; 1.00e+08 yr (Mean: 5.32e+07 yr)       |
 +-------------------------------+------------------------------------------------------+
-| metallicities (100,)          | 8.52e-05 -&gt; 9.93e-03 (Mean: 5.21e-03)                |
+| metallicities (100,)          | 4.34e-05 -&gt; 9.96e-03 (Mean: 5.90e-03)                |
 +-------------------------------+------------------------------------------------------+
 | initial_masses (100,)         | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +-------------------------------+------------------------------------------------------+
-| current_masses (100,)         | 1.03e+03 Msun -&gt; 9.92e+05 Msun (Mean: 5.03e+05 Msun) |
+| current_masses (100,)         | 4.98e+03 Msun -&gt; 9.84e+05 Msun (Mean: 4.96e+05 Msun) |
 +-------------------------------+------------------------------------------------------+
-| centered_coordinates (100, 3) | -1.41e-02 Mpc -&gt; 1.62e-02 Mpc (Mean: -1.49e-04 Mpc)  |
+| centered_coordinates (100, 3) | -1.53e-02 Mpc -&gt; 1.42e-02 Mpc (Mean: 7.03e-05 Mpc)   |
 +-------------------------------+------------------------------------------------------+
-| log10ages (100,)              | 6.26e+00 -&gt; 8.00e+00 (Mean: 7.57e+00)                |
+| log10ages (100,)              | 6.09e+00 -&gt; 8.00e+00 (Mean: 7.62e+00)                |
 +-------------------------------+------------------------------------------------------+
-| log10metallicities (100,)     | -4.07e+00 -&gt; -2.00e+00 (Mean: -2.42e+00)             |
+| log10metallicities (100,)     | -4.36e+00 -&gt; -2.00e+00 (Mean: -2.32e+00)             |
 +-------------------------------+------------------------------------------------------+
-| total_mass                    | 50292146.137398124 Msun                              |
+| total_mass                    | 49599129.07119331 Msun                               |
 +-------------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -733,7 +733,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.007668305532354719 Mpc
+0.008306686413319483 Mpc
 </pre></div></div>
 </div>
 <p>Or use an aribtrary attribute for the radius weight. Here we’ll use the optical depth for a “half tau_V radius”.</p>
@@ -751,7 +751,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.006880551774623395 Mpc
+0.007917152722644547 Mpc
 </pre></div></div>
 </div>
 <p>We can also compute radii for different fractions by passing the fraction we want to calculate a radius for.</p>
@@ -770,7 +770,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.00510012320852929 Mpc 0.00996001474622163 Mpc
+0.0052993543145754204 Mpc 0.010350285417434369 Mpc
 </pre></div></div>
 </div>
 <p>We can also calculate characteristic light radii from photometry. See the <a class="reference internal" href="../photometry/galaxy_phot.html"><span class="doc">photometry</span></a> documentation for more details.</p>
@@ -1048,9 +1048,9 @@ mean age: 50.00 Myr
 +--------------------------+----------------------------------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                                                    |
 +--------------------------+----------------------------------------------------------------------------+
-| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.Constant object at 0x7f527b53ded0&gt;         |
+| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.Constant object at 0x7fae392ca200&gt;         |
 +--------------------------+----------------------------------------------------------------------------+
-| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f527b53df00&gt; |
+| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7fae392ca140&gt; |
 +--------------------------+----------------------------------------------------------------------------+
 | metallicity_grid_type    | &#39;log10Z&#39;                                                                   |
 +--------------------------+----------------------------------------------------------------------------+
@@ -1322,9 +1322,9 @@ mean age: 250.00 Myr
 +--------------------------+------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                        |
 +--------------------------+------------------------------------------------+
-| sf_hist_func             | &lt;__main__.Constant object at 0x7f527b53dea0&gt;   |
+| sf_hist_func             | &lt;__main__.Constant object at 0x7fae3918b580&gt;   |
 +--------------------------+------------------------------------------------+
-| metal_dist_func          | &lt;__main__.Normal object at 0x7f527b53e530&gt;     |
+| metal_dist_func          | &lt;__main__.Normal object at 0x7fae39188040&gt;     |
 +--------------------------+------------------------------------------------+
 | metallicity_grid_type    | &#39;log10Z&#39;                                       |
 +--------------------------+------------------------------------------------+
@@ -1446,7 +1446,7 @@ mean age: 250.00 Myr
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=5a4752d1"></script>
+</div><script src="../_static/documentation_options.js?v=05d73652"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
