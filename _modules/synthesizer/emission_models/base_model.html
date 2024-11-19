@@ -3380,6 +3380,10 @@
                         <span class="p">)</span>
                     <span class="p">)</span>
 
+            <span class="c1"># Skip if we didn&#39;t save this model</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">this_model</span><span class="o">.</span><span class="n">save</span><span class="p">:</span>
+                <span class="k">continue</span>
+
             <span class="c1"># Skip models for a different emitters</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">this_model</span><span class="o">.</span><span class="n">emitter</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">emitters</span>
@@ -3400,44 +3404,58 @@
 
             <span class="c1"># Call the appropriate method to generate the image for this model</span>
             <span class="k">if</span> <span class="n">this_model</span><span class="o">.</span><span class="n">_is_combining</span><span class="p">:</span>
-                <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_images</span><span class="p">(</span>
-                    <span class="n">images</span><span class="p">,</span>
-                    <span class="n">this_model</span><span class="p">,</span>
-                    <span class="n">resolution</span><span class="p">,</span>
-                    <span class="n">fov</span><span class="p">,</span>
-                    <span class="n">img_type</span><span class="p">,</span>
-                    <span class="n">do_flux</span><span class="p">,</span>
-                    <span class="n">emitters</span><span class="p">,</span>
-                    <span class="n">kernel</span><span class="p">,</span>
-                    <span class="n">kernel_threshold</span><span class="p">,</span>
-                    <span class="n">nthreads</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_combine_images</span><span class="p">(</span>
+                        <span class="n">images</span><span class="p">,</span>
+                        <span class="n">this_model</span><span class="p">,</span>
+                        <span class="n">resolution</span><span class="p">,</span>
+                        <span class="n">fov</span><span class="p">,</span>
+                        <span class="n">img_type</span><span class="p">,</span>
+                        <span class="n">do_flux</span><span class="p">,</span>
+                        <span class="n">emitters</span><span class="p">,</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">kernel_threshold</span><span class="p">,</span>
+                        <span class="n">nthreads</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in </span><span class="si">{</span><span class="n">this_model</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
             <span class="k">elif</span> <span class="n">this_model</span><span class="o">.</span><span class="n">_is_dust_attenuating</span><span class="p">:</span>
-                <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attenuate_images</span><span class="p">(</span>
-                    <span class="n">resolution</span><span class="p">,</span>
-                    <span class="n">fov</span><span class="p">,</span>
-                    <span class="n">this_model</span><span class="p">,</span>
-                    <span class="n">img_type</span><span class="p">,</span>
-                    <span class="n">do_flux</span><span class="p">,</span>
-                    <span class="n">emitter</span><span class="p">,</span>
-                    <span class="n">images</span><span class="p">,</span>
-                    <span class="n">kernel</span><span class="p">,</span>
-                    <span class="n">kernel_threshold</span><span class="p">,</span>
-                    <span class="n">nthreads</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attenuate_images</span><span class="p">(</span>
+                        <span class="n">resolution</span><span class="p">,</span>
+                        <span class="n">fov</span><span class="p">,</span>
+                        <span class="n">this_model</span><span class="p">,</span>
+                        <span class="n">img_type</span><span class="p">,</span>
+                        <span class="n">do_flux</span><span class="p">,</span>
+                        <span class="n">emitter</span><span class="p">,</span>
+                        <span class="n">images</span><span class="p">,</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">kernel_threshold</span><span class="p">,</span>
+                        <span class="n">nthreads</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in </span><span class="si">{</span><span class="n">this_model</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
             <span class="k">elif</span> <span class="n">this_model</span><span class="o">.</span><span class="n">_is_dust_emitting</span> <span class="ow">or</span> <span class="n">this_model</span><span class="o">.</span><span class="n">_is_generating</span><span class="p">:</span>
-                <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_images</span><span class="p">(</span>
-                    <span class="n">resolution</span><span class="p">,</span>
-                    <span class="n">fov</span><span class="p">,</span>
-                    <span class="n">this_model</span><span class="p">,</span>
-                    <span class="n">img_type</span><span class="p">,</span>
-                    <span class="n">do_flux</span><span class="p">,</span>
-                    <span class="n">emitter</span><span class="p">,</span>
-                    <span class="n">images</span><span class="p">,</span>
-                    <span class="n">kernel</span><span class="p">,</span>
-                    <span class="n">kernel_threshold</span><span class="p">,</span>
-                    <span class="n">nthreads</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_images</span><span class="p">(</span>
+                        <span class="n">resolution</span><span class="p">,</span>
+                        <span class="n">fov</span><span class="p">,</span>
+                        <span class="n">this_model</span><span class="p">,</span>
+                        <span class="n">img_type</span><span class="p">,</span>
+                        <span class="n">do_flux</span><span class="p">,</span>
+                        <span class="n">emitter</span><span class="p">,</span>
+                        <span class="n">images</span><span class="p">,</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">kernel_threshold</span><span class="p">,</span>
+                        <span class="n">nthreads</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error in </span><span class="si">{</span><span class="n">this_model</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">e</span>
 
         <span class="k">return</span> <span class="n">images</span></div>
 
@@ -3549,7 +3567,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=699a49f0"></script>
+</div><script src="../../../_static/documentation_options.js?v=5a4752d1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

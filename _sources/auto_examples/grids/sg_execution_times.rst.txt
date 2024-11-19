@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:04.913** total execution time for 5 files **from auto_examples/grids**:
+**00:04.908** total execution time for 5 files **from auto_examples/grids**:
 
 .. container::
 
@@ -33,17 +33,17 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_grids_plot_lines.py` (``plot_lines.py``)
-     - 00:03.025
+     - 00:03.021
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_line_cont.py` (``plot_line_cont.py``)
-     - 00:00.537
+     - 00:00.536
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_spectra_by_age.py` (``plot_spectra_by_age.py``)
      - 00:00.503
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_spectra.py` (``plot_spectra.py``)
-     - 00:00.438
+     - 00:00.440
      - 0.0
    * - :ref:`sphx_glr_auto_examples_grids_plot_log10Q.py` (``plot_log10Q.py``)
-     - 00:00.410
+     - 00:00.409
      - 0.0

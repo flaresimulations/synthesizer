@@ -1576,6 +1576,11 @@
             <span class="s2">&quot;Did you not save the spectra or produce the photometry?&quot;</span>
         <span class="p">)</span>
 
+    <span class="c1"># If the emitter is a particle BlackHoles object we can only make a hist</span>
+    <span class="c1"># image</span>
+    <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">emitter</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Black Holes&quot;</span><span class="p">:</span>
+        <span class="n">img_type</span> <span class="o">=</span> <span class="s2">&quot;hist&quot;</span>
+
     <span class="c1"># Instantiate the Image colection ready to make the image.</span>
     <span class="n">imgs</span> <span class="o">=</span> <span class="n">ImageCollection</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">fov</span><span class="o">=</span><span class="n">fov</span><span class="p">)</span>
 
@@ -1655,7 +1660,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=699a49f0"></script>
+</div><script src="../../../_static/documentation_options.js?v=5a4752d1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

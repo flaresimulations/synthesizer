@@ -827,6 +827,10 @@
             <span class="k">if</span> <span class="n">limit_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">label</span> <span class="o">!=</span> <span class="n">limit_to</span><span class="p">:</span>
                 <span class="k">continue</span>
 
+            <span class="c1"># Also skip any models we didn&#39;t save</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models</span><span class="p">[</span><span class="n">label</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">:</span>
+                <span class="k">continue</span>
+
             <span class="c1"># Get the model</span>
             <span class="n">this_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_models</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
 
@@ -834,18 +838,22 @@
             <span class="n">emitter</span> <span class="o">=</span> <span class="n">emitters</span><span class="p">[</span><span class="n">this_model</span><span class="o">.</span><span class="n">emitter</span><span class="p">]</span>
 
             <span class="c1"># Store the resulting image collection</span>
-            <span class="n">images</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">_generate_image_collection_generic</span><span class="p">(</span>
-                <span class="n">resolution</span><span class="p">,</span>
-                <span class="n">fov</span><span class="p">,</span>
-                <span class="n">img_type</span><span class="p">,</span>
-                <span class="n">do_flux</span><span class="p">,</span>
-                <span class="n">this_model</span><span class="o">.</span><span class="n">per_particle</span><span class="p">,</span>
-                <span class="n">kernel</span><span class="p">,</span>
-                <span class="n">kernel_threshold</span><span class="p">,</span>
-                <span class="n">nthreads</span><span class="p">,</span>
-                <span class="n">label</span><span class="p">,</span>
-                <span class="n">emitter</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">images</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">_generate_image_collection_generic</span><span class="p">(</span>
+                    <span class="n">resolution</span><span class="p">,</span>
+                    <span class="n">fov</span><span class="p">,</span>
+                    <span class="n">img_type</span><span class="p">,</span>
+                    <span class="n">do_flux</span><span class="p">,</span>
+                    <span class="n">this_model</span><span class="o">.</span><span class="n">per_particle</span><span class="p">,</span>
+                    <span class="n">kernel</span><span class="p">,</span>
+                    <span class="n">kernel_threshold</span><span class="p">,</span>
+                    <span class="n">nthreads</span><span class="p">,</span>
+                    <span class="n">label</span><span class="p">,</span>
+                    <span class="n">emitter</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to generate image for </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">e</span>
 
         <span class="k">return</span> <span class="n">images</span>
 
@@ -1616,24 +1624,41 @@
 <span class="sd">            this_model (EmissionModel):</span>
 <span class="sd">                The model defining the combination.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check we saved the models we are combining</span>
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">label</span>
+            <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">this_model</span><span class="o">.</span><span class="n">combine</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">images</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">MissingSpectraType</span><span class="p">(</span>
+                <span class="s2">&quot;The following models weren&#39;t saved when generating spectra: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;To make an image for </span><span class="si">{</span><span class="n">this_model</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2"> these must be saved.&quot;</span>
+            <span class="p">)</span>
+
         <span class="c1"># Get the image for each model we are combining</span>
         <span class="n">combine_labels</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">combine_images</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">this_model</span><span class="o">.</span><span class="n">combine</span><span class="p">:</span>
             <span class="c1"># If the image hasn&#39;t been made try to generate it</span>
             <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
-                <span class="n">img</span> <span class="o">=</span> <span class="n">_generate_image_collection_generic</span><span class="p">(</span>
-                    <span class="n">resolution</span><span class="p">,</span>
-                    <span class="n">fov</span><span class="p">,</span>
-                    <span class="n">img_type</span><span class="p">,</span>
-                    <span class="n">do_flux</span><span class="p">,</span>
-                    <span class="n">model</span><span class="o">.</span><span class="n">per_particle</span><span class="p">,</span>
-                    <span class="n">kernel</span><span class="p">,</span>
-                    <span class="n">kernel_threshold</span><span class="p">,</span>
-                    <span class="n">nthreads</span><span class="p">,</span>
-                    <span class="n">model</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
-                    <span class="n">emitters</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">emitter</span><span class="p">],</span>
-                <span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">_generate_image_collection_generic</span><span class="p">(</span>
+                        <span class="n">resolution</span><span class="p">,</span>
+                        <span class="n">fov</span><span class="p">,</span>
+                        <span class="n">img_type</span><span class="p">,</span>
+                        <span class="n">do_flux</span><span class="p">,</span>
+                        <span class="n">model</span><span class="o">.</span><span class="n">per_particle</span><span class="p">,</span>
+                        <span class="n">kernel</span><span class="p">,</span>
+                        <span class="n">kernel_threshold</span><span class="p">,</span>
+                        <span class="n">nthreads</span><span class="p">,</span>
+                        <span class="n">model</span><span class="o">.</span><span class="n">label</span><span class="p">,</span>
+                        <span class="n">emitters</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">emitter</span><span class="p">],</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to generate image for </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">e</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">img</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">label</span><span class="p">]</span>
             <span class="n">combine_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
@@ -1698,7 +1723,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=699a49f0"></script>
+</div><script src="../../../_static/documentation_options.js?v=5a4752d1"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

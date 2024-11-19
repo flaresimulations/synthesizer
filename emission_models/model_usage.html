@@ -640,6 +640,16 @@
 <div class="highlight"><pre>
 |====================================== EmissionModel: young_total ======================================|
 |--------------------------------------------------------------------------------------------------------|
+|  ESCAPED (stellar)                                                                                     |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: transmitted                                                                              |
+|  Escape fraction: 1.0                                                                                  |
+|  Save emission: True                                                                                   |
+|  Masks:                                                                                                |
+|    - ages &lt; 10 Myr                                                                                     |
+|--------------------------------------------------------------------------------------------------------|
 |  TRANSMITTED (stellar)                                                                                 |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
@@ -660,16 +670,6 @@
 |  Masks:                                                                                                |
 |    - ages &lt; 10 Myr                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                     |
-|--------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                       |
-|  Grid: test_grid                                                                                       |
-|  Extract key: transmitted                                                                              |
-|  Escape fraction: 1.0                                                                                  |
-|  Save emission: True                                                                                   |
-|  Masks:                                                                                                |
-|    - ages &lt; 10 Myr                                                                                     |
-|--------------------------------------------------------------------------------------------------------|
 |  REPROCESSED (stellar)                                                                                 |
 |--------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                      |
@@ -681,7 +681,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f17603d7b50&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f132c2b56f0&gt;          |
 |  Apply dust to: reprocessed                                                                            |
 |  Optical depth (tau_v): [0.67]                                                                         |
 |  Save emission: True                                                                                   |
@@ -937,7 +937,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=699a49f0"></script>
+</div><script src="../_static/documentation_options.js?v=5a4752d1"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
