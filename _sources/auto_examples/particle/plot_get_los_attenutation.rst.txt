@@ -40,7 +40,7 @@ the simple loop method with the complex tree method.
 
     LOS calculation with tree took 0.0004 seconds for nstar=100 and ngas=1000
     LOS calculation with loop took 0.0007 seconds for nstar=100 and ngas=1000
-    Ratio in wallclock: Time_loop/Time_tree=1.7877
+    Ratio in wallclock: Time_loop/Time_tree=1.7475
     Tree gave=3.73e-06 Loop gave=3.73e-06 Normalised residual=0.0000
 
 
@@ -238,7 +238,7 @@ the simple loop method with the complex tree method.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.012 seconds)
+   **Total running time of the script:** (0 minutes 1.018 seconds)
 
 
 .. _sphx_glr_download_auto_examples_particle_plot_get_los_attenutation.py:
