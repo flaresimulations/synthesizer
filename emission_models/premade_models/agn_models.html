@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -861,20 +862,20 @@
 |  Escape fraction: 0.7                                      |
 |  Save emission: True                                       |
 |------------------------------------------------------------|
-|  BLR_TRANSMITTED (blackhole)                               |
-|------------------------------------------------------------|
-|Extraction model:                                           |
-|  Grid: test_grid_agn-blr                                   |
-|  Extract key: transmitted                                  |
-|  Escape fraction: 0.2                                      |
-|  Save emission: True                                       |
-|------------------------------------------------------------|
 |  NLR_TRANSMITTED (blackhole)                               |
 |------------------------------------------------------------|
 |Extraction model:                                           |
 |  Grid: test_grid_agn-nlr                                   |
 |  Extract key: transmitted                                  |
 |  Escape fraction: 0.1                                      |
+|  Save emission: True                                       |
+|------------------------------------------------------------|
+|  BLR_TRANSMITTED (blackhole)                               |
+|------------------------------------------------------------|
+|Extraction model:                                           |
+|  Grid: test_grid_agn-blr                                   |
+|  Extract key: transmitted                                  |
+|  Escape fraction: 0.2                                      |
 |  Save emission: True                                       |
 |------------------------------------------------------------|
 |  DISC_TRANSMITTED (blackhole)                              |
@@ -942,7 +943,7 @@
 |  TORUS (blackhole)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f2c903b2f50&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f5b18ecf580&gt;          |
 |  Scale by: disc_incident                                                                                            |
 |  Save emission: True                                                                                                |
 |  Scaling by:                                                                                                        |
@@ -979,12 +980,12 @@
 <div class="highlight"><pre>
 |============================================== EmissionModel: intrinsic =============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  NLR_TRANSMITTED (blackhole)                                                                                        |
+|  DISC_ESCAPED (blackhole)                                                                                           |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid_agn-nlr                                                                                            |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.1                                                                                               |
+|  Extract key: incident                                                                                              |
+|  Escape fraction: 0.7                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  BLR_TRANSMITTED (blackhole)                                                                                        |
@@ -995,12 +996,12 @@
 |  Escape fraction: 0.2                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  DISC_ESCAPED (blackhole)                                                                                           |
+|  NLR_TRANSMITTED (blackhole)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid_agn-nlr                                                                                            |
-|  Extract key: incident                                                                                              |
-|  Escape fraction: 0.7                                                                                               |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.1                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  DISC_INCIDENT (blackhole)                                                                                          |
@@ -1026,7 +1027,7 @@
 |  TORUS (blackhole)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f2bfb0d5030&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f5ad1121bd0&gt;          |
 |  Scale by: disc_incident                                                                                            |
 |  Save emission: True                                                                                                |
 |  Scaling by:                                                                                                        |
@@ -1092,18 +1093,6 @@
 <div class="highlight"><pre>
 |============================================== EmissionModel: intrinsic =============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  BLR (blackhole)                                                                                                    |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid_agn-blr                                                                                            |
-|  Extract key: nebular                                                                                               |
-|  Escape fraction: 0.9                                                                                               |
-|  Save emission: True                                                                                                |
-|  Fixed parameters:                                                                                                  |
-|    - cosine_inclination: 0.5                                                                                        |
-|  Masks:                                                                                                             |
-|    - _torus_edgeon_cond &lt; 90 degree                                                                                 |
-|---------------------------------------------------------------------------------------------------------------------|
 |  NLR (blackhole)                                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
@@ -1114,22 +1103,12 @@
 |  Fixed parameters:                                                                                                  |
 |    - cosine_inclination: 0.5                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
-|  DISC_INCIDENT_ISOTROPIC (blackhole)                                                                                |
+|  DISC_TRANSMITTED_BLR (blackhole)                                                                                   |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
-|  Grid: test_grid_agn-nlr                                                                                            |
-|  Extract key: incident                                                                                              |
-|  Escape fraction: None                                                                                              |
-|  Save emission: True                                                                                                |
-|  Fixed parameters:                                                                                                  |
-|    - cosine_inclination: 0.5                                                                                        |
-|---------------------------------------------------------------------------------------------------------------------|
-|  DISC_ESCAPED (blackhole)                                                                                           |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid_agn-nlr                                                                                            |
-|  Extract key: incident                                                                                              |
-|  Escape fraction: 0.2                                                                                               |
+|  Grid: test_grid_agn-blr                                                                                            |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.9                                                                                               |
 |  Save emission: True                                                                                                |
 |  Masks:                                                                                                             |
 |    - _torus_edgeon_cond &lt; 90 degree                                                                                 |
@@ -1144,15 +1123,37 @@
 |  Masks:                                                                                                             |
 |    - _torus_edgeon_cond &lt; 90 degree                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
-|  DISC_TRANSMITTED_BLR (blackhole)                                                                                   |
+|  DISC_ESCAPED (blackhole)                                                                                           |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
-|  Grid: test_grid_agn-blr                                                                                            |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.9                                                                                               |
+|  Grid: test_grid_agn-nlr                                                                                            |
+|  Extract key: incident                                                                                              |
+|  Escape fraction: 0.2                                                                                               |
 |  Save emission: True                                                                                                |
 |  Masks:                                                                                                             |
 |    - _torus_edgeon_cond &lt; 90 degree                                                                                 |
+|---------------------------------------------------------------------------------------------------------------------|
+|  BLR (blackhole)                                                                                                    |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid_agn-blr                                                                                            |
+|  Extract key: nebular                                                                                               |
+|  Escape fraction: 0.9                                                                                               |
+|  Save emission: True                                                                                                |
+|  Fixed parameters:                                                                                                  |
+|    - cosine_inclination: 0.5                                                                                        |
+|  Masks:                                                                                                             |
+|    - _torus_edgeon_cond &lt; 90 degree                                                                                 |
+|---------------------------------------------------------------------------------------------------------------------|
+|  DISC_INCIDENT_ISOTROPIC (blackhole)                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid_agn-nlr                                                                                            |
+|  Extract key: incident                                                                                              |
+|  Escape fraction: None                                                                                              |
+|  Save emission: True                                                                                                |
+|  Fixed parameters:                                                                                                  |
+|    - cosine_inclination: 0.5                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |  DISC_INCIDENT (blackhole)                                                                                          |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1161,15 +1162,6 @@
 |  Extract key: incident                                                                                              |
 |  Escape fraction: None                                                                                              |
 |  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  TORUS (blackhole)                                                                                                  |
-|---------------------------------------------------------------------------------------------------------------------|
-|Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f2c903b0be0&gt;          |
-|  Scale by: disc_incident_isotropic                                                                                  |
-|  Save emission: True                                                                                                |
-|  Scaling by:                                                                                                        |
-|    - torus_fraction                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |  DISC_TRANSMITTED (blackhole)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1182,6 +1174,15 @@
 |Combination model:                                                                                                   |
 |  Combine models: disc_transmitted, disc_escaped                                                                     |
 |  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  TORUS (blackhole)                                                                                                  |
+|---------------------------------------------------------------------------------------------------------------------|
+|Generation model:                                                                                                    |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f5b18eceec0&gt;          |
+|  Scale by: disc_incident_isotropic                                                                                  |
+|  Save emission: True                                                                                                |
+|  Scaling by:                                                                                                        |
+|    - torus_fraction                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |  INTRINSIC (blackhole)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1287,7 +1288,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -640,12 +641,12 @@
 <div class="highlight"><pre>
 |====================================== EmissionModel: young_total ======================================|
 |--------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                     |
+|  NEBULAR (stellar)                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
-|  Extract key: transmitted                                                                              |
-|  Escape fraction: 1.0                                                                                  |
+|  Extract key: nebular                                                                                  |
+|  Escape fraction: 0.0                                                                                  |
 |  Save emission: True                                                                                   |
 |  Masks:                                                                                                |
 |    - ages &lt; 10 Myr                                                                                     |
@@ -660,12 +661,12 @@
 |  Masks:                                                                                                |
 |    - ages &lt; 10 Myr                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
-|  NEBULAR (stellar)                                                                                     |
+|  ESCAPED (stellar)                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
-|  Extract key: nebular                                                                                  |
-|  Escape fraction: 0.0                                                                                  |
+|  Extract key: transmitted                                                                              |
+|  Escape fraction: 1.0                                                                                  |
 |  Save emission: True                                                                                   |
 |  Masks:                                                                                                |
 |    - ages &lt; 10 Myr                                                                                     |
@@ -681,7 +682,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fa6f8b2f9a0&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f189c1131f0&gt;          |
 |  Apply dust to: reprocessed                                                                            |
 |  Optical depth (tau_v): [0.67]                                                                         |
 |  Save emission: True                                                                                   |
@@ -937,7 +938,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

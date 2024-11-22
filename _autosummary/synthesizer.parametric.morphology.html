@@ -327,6 +327,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -552,6 +553,84 @@ provide the functionality for the Sersic profile and point sources.</p>
 </table>
 </div>
 <dl class="py class">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.morphology.</span></span><span class="sig-name descname"><span class="pre">Gaussian2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stddev_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stddev_y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Gaussian2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D" title="Link to this definition">¶</a></dt>
+<dd><p>A class holding a 2-dimensional Gaussian distribution.</p>
+<p>This is a morphology where a 2-dimensional Gaussian density grid is
+populated based on provided x and y values.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.x_mean">
+<span class="sig-name descname"><span class="pre">x_mean</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.x_mean" title="Link to this definition">¶</a></dt>
+<dd><p>(float)
+The mean of the Gaussian along the x-axis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.y_mean">
+<span class="sig-name descname"><span class="pre">y_mean</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.y_mean" title="Link to this definition">¶</a></dt>
+<dd><p>(float)
+The mean of the Gaussian along the y-axis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.stddev_x">
+<span class="sig-name descname"><span class="pre">stddev_x</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.stddev_x" title="Link to this definition">¶</a></dt>
+<dd><p>(float)
+The standard deviation along the x-axis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.stddev_y">
+<span class="sig-name descname"><span class="pre">stddev_y</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.stddev_y" title="Link to this definition">¶</a></dt>
+<dd><p>(float)
+The standard deviation along the y-axis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.rho">
+<span class="sig-name descname"><span class="pre">rho</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.rho" title="Link to this definition">¶</a></dt>
+<dd><p>(float)
+The population correlation coefficient between x and y.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Gaussian2D.compute_density_grid">
+<span class="sig-name descname"><span class="pre">compute_density_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Gaussian2D.compute_density_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Gaussian2D.compute_density_grid" title="Link to this definition">¶</a></dt>
+<dd><p>Compute density grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – array-like (float)
+A 1D array of x values.</p></li>
+<li><p><strong>y</strong> – array-like (float)
+A 1D array of y values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>np.ndarray:</dt><dd><p>A 2D array representing the Gaussian density values at each
+(x, y) point.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>g_2d_mat</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If either x or y is None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="examples-using-synthesizer-parametric-morphology-gaussian2d">
+<span id="sphx-glr-backref-synthesizer-parametric-morphology-gaussian2d"></span><h2>Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.morphology.Gaussian2D</span></code><a class="headerlink" href="#examples-using-synthesizer-parametric-morphology-gaussian2d" title="Link to this heading">¶</a></h2>
+<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Examples for generating morphology profiles for parametric galaxies. This example demonstrates: - Defining a resolution and grid for storing binned luminosity values. - Calculating a density grid for a 2 dimensional Gaussian profile. - Calculating a density grid for a point source. - Calculating a density grid for a 2 dimensional Sersic profile."><img alt="" src="../_images/sphx_glr_plot_morphology_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html#sphx-glr-auto-examples-parametric-plot-morphology-py"><span class="std std-ref">Generate parametric morphology profile</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Generate parametric morphology profile</div>
+</div></div><dl class="py class">
 <dt class="sig sig-object py" id="synthesizer.parametric.morphology.MorphologyBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.morphology.</span></span><span class="sig-name descname"><span class="pre">MorphologyBase</span></span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#MorphologyBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.MorphologyBase" title="Link to this definition">¶</a></dt>
 <dd><p>A base class holding common methods for parametric morphology descriptions.</p>
@@ -656,8 +735,8 @@ kpc.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="synthesizer.parametric.morphology.MorphologyBase.compute_density_grid_from_arrays">
-<span class="sig-name descname"><span class="pre">compute_density_grid_from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#MorphologyBase.compute_density_grid_from_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.MorphologyBase.compute_density_grid_from_arrays" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.MorphologyBase.compute_density_grid">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_density_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#MorphologyBase.compute_density_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.MorphologyBase.compute_density_grid" title="Link to this definition">¶</a></dt>
 <dd><p>Compute the density grid from coordinate grids.</p>
 <p>This is a place holder method to be overwritten by child classes.</p>
 </dd></dl>
@@ -680,41 +759,77 @@ kpc.</p>
 <dt class="sig sig-object py" id="synthesizer.parametric.morphology.MorphologyBase.plot_density_grid">
 <span class="sig-name descname"><span class="pre">plot_density_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#MorphologyBase.plot_density_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.MorphologyBase.plot_density_grid" title="Link to this definition">¶</a></dt>
 <dd><p>Make a quick density plot.</p>
-<dl class="simple">
-<dt>Arguments</dt><dd><dl class="simple">
-<dt>resolution (float)</dt><dd><p>The resolution (in the same units provded to the child class).</p>
-</dd>
-<dt>npix (int)</dt><dd><p>The number of pixels.</p>
-</dd>
-</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolution</strong> (<em>float</em>) – The resolution (in the same units provded to the child class).</p></li>
+<li><p><strong>npix</strong> (<em>int</em>) – The number of pixels.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
+</section>
 <section id="examples-using-synthesizer-parametric-morphology-morphologybase">
 <span id="sphx-glr-backref-synthesizer-parametric-morphology-morphologybase"></span><h2>Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.morphology.MorphologyBase</span></code><a class="headerlink" href="#examples-using-synthesizer-parametric-morphology-morphologybase" title="Link to this heading">¶</a></h2>
 <div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="An example of how to do image addition and testing error functionality."><img alt="" src="../_images/sphx_glr_plot_image_addition_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/imaging/plot_image_addition.html#sphx-glr-auto-examples-imaging-plot-image-addition-py"><span class="std std-ref">Image addition example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Image addition example</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Examples for generating morphology profiles for parametric galaxies. This example demonstrates: - Defining a resolution and grid for storing binned luminosity values. - Calculating a density grid for a 2 dimensional Gaussian profile. - Calculating a density grid for a point source. - Calculating a density grid for a 2 dimensional Sersic profile."><img alt="" src="../_images/sphx_glr_plot_morphology_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html#sphx-glr-auto-examples-parametric-plot-morphology-py"><span class="std std-ref">Generate parametric morphology profile</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Generate parametric morphology profile</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Example for generating a rest-frame physical scale image. This example will: - Build a parametric galaxy (see make_sfzh and make_sed) - Define its morphology - Calculate rest-frame luminosities for the UVJ bands - Make an image of the galaxy, including an RGB image."><img alt="" src="../_images/sphx_glr_plot_create_image_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html#sphx-glr-auto-examples-parametric-plot-create-image-py"><span class="std std-ref">Create image example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Create image example</div>
 </div></div><dl class="py class">
 <dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.morphology.</span></span><span class="sig-name descname"><span class="pre">PointSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">unyt_array([0.,</span> <span class="pre">0.],</span> <span class="pre">'kpc')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosmo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#PointSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource" title="Link to this definition">¶</a></dt>
-<dd><p>A class holding the Sersic2D profile. This is a wrapper around the
-astropy.models.Sersic2D class.</p>
+<dd><p>A class holding a PointSource profile.</p>
+<p>This is a morphology where a single cell of the density grid is populated.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource.cosmo">
+<span class="sig-name descname"><span class="pre">cosmo</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource.cosmo" title="Link to this definition">¶</a></dt>
+<dd><p>The cosmology object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>astropy.cosmology</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource.redshift">
+<span class="sig-name descname"><span class="pre">redshift</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource.redshift" title="Link to this definition">¶</a></dt>
+<dd><p>The redshift.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource.offset_kpc">
+<span class="sig-name descname"><span class="pre">offset_kpc</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource.offset_kpc" title="Link to this definition">¶</a></dt>
+<dd><p>The offset of the point source relative to the centre of the
+image in kpc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource.compute_density_grid_from_arrays">
-<span class="sig-name descname"><span class="pre">compute_density_grid_from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">kpc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#PointSource.compute_density_grid_from_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource.compute_density_grid_from_arrays" title="Link to this definition">¶</a></dt>
-<dd><p>Compute the density grid defined by this morphology as a function of
-the input coordinate grids.</p>
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.PointSource.compute_density_grid">
+<span class="sig-name descname"><span class="pre">compute_density_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">kpc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#PointSource.compute_density_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.PointSource.compute_density_grid" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the density grid.</p>
 <p>This acts as a wrapper to astropy functionality (defined above) which
 only work in units of kpc or milliarcseconds (mas)</p>
 <dl class="simple">
-<dt>Arguments</dt><dd><dl class="simple">
+<dt>Args</dt><dd><dl class="simple">
 <dt>xx: array-like (float)</dt><dd><p>x values on a 2D grid.</p>
 </dd>
 <dt>yy: array-like (float)</dt><dd><p>y values on a 2D grid.</p>
@@ -735,28 +850,114 @@ only work in units of kpc or milliarcseconds (mas)</p>
 
 <dl class="py class" id="sphx-glr-backref-synthesizer-parametric-morphology-pointsource">
 <dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.morphology.</span></span><span class="sig-name descname"><span class="pre">Sersic2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_eff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sersic_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipticity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosmo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Sersic2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D" title="Link to this definition">¶</a></dt>
-<dd><p>A class holding the Sersic2D profile. This is a wrapper around the
-astropy.models.Sersic2D class.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.compute_density_grid_from_arrays">
-<span class="sig-name descname"><span class="pre">compute_density_grid_from_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">kpc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Sersic2D.compute_density_grid_from_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.compute_density_grid_from_arrays" title="Link to this definition">¶</a></dt>
-<dd><p>Compute the density grid defined by this morphology as a function of
-the input coordinate grids.</p>
-<p>This acts as a wrapper to astropy functionality (defined above) which
-only work in units of kpc or milliarcseconds (mas)</p>
-<dl class="simple">
-<dt>Arguments</dt><dd><dl class="simple">
-<dt>xx: array-like (float)</dt><dd><p>x values on a 2D grid.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.parametric.morphology.</span></span><span class="sig-name descname"><span class="pre">Sersic2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r_eff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sersic_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ellipticity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosmo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redshift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Sersic2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D" title="Link to this definition">¶</a></dt>
+<dd><p>A class holding a 2D Sersic profile.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.r_eff_kpc">
+<span class="sig-name descname"><span class="pre">r_eff_kpc</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.r_eff_kpc" title="Link to this definition">¶</a></dt>
+<dd><p>The effective radius in kpc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
-<dt>yy: array-like (float)</dt><dd><p>y values on a 2D grid.</p>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.r_eff_mas">
+<span class="sig-name descname"><span class="pre">r_eff_mas</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.r_eff_mas" title="Link to this definition">¶</a></dt>
+<dd><p>The effective radius in milliarcseconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.sersic_index">
+<span class="sig-name descname"><span class="pre">sersic_index</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.sersic_index" title="Link to this definition">¶</a></dt>
+<dd><p>The Sersic index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.ellipticity">
+<span class="sig-name descname"><span class="pre">ellipticity</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.ellipticity" title="Link to this definition">¶</a></dt>
+<dd><p>The ellipticity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.theta">
+<span class="sig-name descname"><span class="pre">theta</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.theta" title="Link to this definition">¶</a></dt>
+<dd><p>The rotation angle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.cosmo">
+<span class="sig-name descname"><span class="pre">cosmo</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.cosmo" title="Link to this definition">¶</a></dt>
+<dd><p>The cosmology object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>astropy.cosmology</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.redshift">
+<span class="sig-name descname"><span class="pre">redshift</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.redshift" title="Link to this definition">¶</a></dt>
+<dd><p>The redshift.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.model_kpc">
+<span class="sig-name descname"><span class="pre">model_kpc</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.model_kpc" title="Link to this definition">¶</a></dt>
+<dd><p>The 2D Sersic model in kpc.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.model_mas">
+<span class="sig-name descname"><span class="pre">model_mas</span></span><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.model_mas" title="Link to this definition">¶</a></dt>
+<dd><p>The 2D Sersic model in milliarcseconds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.parametric.morphology.Sersic2D.compute_density_grid">
+<span class="sig-name descname"><span class="pre">compute_density_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">kpc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/parametric/morphology.html#Sersic2D.compute_density_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.parametric.morphology.Sersic2D.compute_density_grid" title="Link to this definition">¶</a></dt>
+<dd><p>Compute the density grid.</p>
+<dl class="simple">
+<dt>Args</dt><dd><dl class="simple">
+<dt>x: array-like (float)</dt><dd><p>x values on a 2D grid.</p>
+</dd>
+<dt>y: array-like (float)</dt><dd><p>y values on a 2D grid.</p>
 </dd>
 <dt>units<span class="classifier">unyt.unit</span></dt><dd><p>The units in which the coordinate grids are defined.</p>
 </dd>
 </dl>
 </dd>
 <dt>Returns</dt><dd><dl class="simple">
-<dt>density_grid<span class="classifier">np.ndarray</span></dt><dd><p>The density grid produced</p>
+<dt>density_grid<span class="classifier">np.ndarray</span></dt><dd><p>The density grid produced from either
+the kpc or mas Sersic profile.</p>
 </dd>
 </dl>
 </dd>
@@ -824,6 +1025,16 @@ only work in units of kpc or milliarcseconds (mas)</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">synthesizer.parametric.morphology</a><ul>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D"><code class="docutils literal notranslate"><span class="pre">Gaussian2D</span></code></a><ul>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.x_mean"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.x_mean</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.y_mean"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.y_mean</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.stddev_x"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.stddev_x</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.stddev_y"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.stddev_y</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.rho"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.rho</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Gaussian2D.compute_density_grid"><code class="docutils literal notranslate"><span class="pre">Gaussian2D.compute_density_grid()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples-using-synthesizer-parametric-morphology-gaussian2d">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.morphology.Gaussian2D</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase"><code class="docutils literal notranslate"><span class="pre">MorphologyBase</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.r_eff_kpc"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.r_eff_kpc</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.r_eff_mas"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.r_eff_mas</span></code></a></li>
@@ -834,18 +1045,32 @@ only work in units of kpc or milliarcseconds (mas)</p>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.redshift"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.redshift</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.model_kpc"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.model_kpc</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.model_mas"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.model_mas</span></code></a></li>
-<li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.compute_density_grid_from_arrays"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.compute_density_grid_from_arrays()</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.compute_density_grid"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.compute_density_grid()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.get_density_grid"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.get_density_grid()</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.MorphologyBase.plot_density_grid"><code class="docutils literal notranslate"><span class="pre">MorphologyBase.plot_density_grid()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><a class="reference internal" href="#examples-using-synthesizer-parametric-morphology-morphologybase">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.parametric.morphology.MorphologyBase</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource"><code class="docutils literal notranslate"><span class="pre">PointSource</span></code></a><ul>
-<li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource.compute_density_grid_from_arrays"><code class="docutils literal notranslate"><span class="pre">PointSource.compute_density_grid_from_arrays()</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource.cosmo"><code class="docutils literal notranslate"><span class="pre">PointSource.cosmo</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource.redshift"><code class="docutils literal notranslate"><span class="pre">PointSource.redshift</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource.offset_kpc"><code class="docutils literal notranslate"><span class="pre">PointSource.offset_kpc</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.PointSource.compute_density_grid"><code class="docutils literal notranslate"><span class="pre">PointSource.compute_density_grid()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D"><code class="docutils literal notranslate"><span class="pre">Sersic2D</span></code></a><ul>
-<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.compute_density_grid_from_arrays"><code class="docutils literal notranslate"><span class="pre">Sersic2D.compute_density_grid_from_arrays()</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.r_eff_kpc"><code class="docutils literal notranslate"><span class="pre">Sersic2D.r_eff_kpc</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.r_eff_mas"><code class="docutils literal notranslate"><span class="pre">Sersic2D.r_eff_mas</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.sersic_index"><code class="docutils literal notranslate"><span class="pre">Sersic2D.sersic_index</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.ellipticity"><code class="docutils literal notranslate"><span class="pre">Sersic2D.ellipticity</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.theta"><code class="docutils literal notranslate"><span class="pre">Sersic2D.theta</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.cosmo"><code class="docutils literal notranslate"><span class="pre">Sersic2D.cosmo</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.redshift"><code class="docutils literal notranslate"><span class="pre">Sersic2D.redshift</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.model_kpc"><code class="docutils literal notranslate"><span class="pre">Sersic2D.model_kpc</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.model_mas"><code class="docutils literal notranslate"><span class="pre">Sersic2D.model_mas</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.parametric.morphology.Sersic2D.compute_density_grid"><code class="docutils literal notranslate"><span class="pre">Sersic2D.compute_density_grid()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -861,7 +1086,7 @@ only work in units of kpc or milliarcseconds (mas)</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -780,7 +781,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f363c8fa920&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f0db0b1bf10&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): [&#39;tau_v&#39;]                                                                      |
 |  Save emission: True                                                                                   |
@@ -838,7 +839,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f363c8fa710&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f0dfc8a6b60&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                |
 |  Save emission: True                                                                                   |
@@ -873,7 +874,7 @@
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f363c8fad70&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f0dfc8a4d00&gt;          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
 </pre></div></div>
@@ -910,7 +911,7 @@
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f363c8fae60&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f0db0b1bee0&gt;          |
 |  Scale by: transmitted                                                                                              |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -938,6 +939,14 @@
 <div class="highlight"><pre>
 |========================================= EmissionModel: blackbody_emission =========================================|
 |---------------------------------------------------------------------------------------------------------------------|
+|  TRANSMITTED (stellar)                                                                                              |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.3                                                                                               |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
@@ -958,14 +967,6 @@
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                              |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.3                                                                                               |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
@@ -975,7 +976,7 @@
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f363c8fa710&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f0dfc8a6b60&gt;                       |
 |  Apply dust to: nebular                                                                                             |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                             |
 |  Save emission: True                                                                                                |
@@ -983,7 +984,7 @@
 |  BLACKBODY_EMISSION (galaxy)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f363c8fb940&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f0db0b1bf40&gt;          |
 |  Dust luminosity: transmitted - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -1330,12 +1331,12 @@
 <div class="highlight"><pre>
 |================================================ EmissionModel: total ===============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                                  |
+|  TRANSMITTED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
 |  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.7                                                                                               |
+|  Escape fraction: 0.3                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                                        |
@@ -1358,12 +1359,12 @@
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                              |
+|  ESCAPED (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
 |  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.3                                                                                               |
+|  Escape fraction: 0.7                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                                  |
@@ -1404,17 +1405,17 @@
 |  Combine models: young_attenuated, old_attenuated                                                                   |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
+|  DUST_EMISSION (galaxy)                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------|
+|Generation model:                                                                                                    |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f0db0b1b7f0&gt;          |
+|  Dust luminosity: reprocessed - attenuated                                                                          |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  EMERGENT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: attenuated, escaped                                                                                |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  DUST_EMISSION (galaxy)                                                                                             |
-|---------------------------------------------------------------------------------------------------------------------|
-|Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f35eeadfd90&gt;          |
-|  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TOTAL (galaxy)                                                                                                     |
@@ -1508,7 +1509,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -21,6 +21,14 @@ synthesizer.parametric.morphology
       :nosignatures:
    
    
+   .. autoclass:: Gaussian2D
+      :members:
+
+   .. _sphx_glr_backref_synthesizer.parametric.morphology.Gaussian2D:
+
+   .. minigallery:: synthesizer.parametric.morphology.Gaussian2D
+       :add-heading:
+   
    .. autoclass:: MorphologyBase
       :members:
 

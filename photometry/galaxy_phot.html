@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -726,8 +727,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089c820&gt;, &#39;old_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089f730&gt;, &#39;old_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089fd00&gt;, &#39;old_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089fac0&gt;, &#39;old_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089de40&gt;, &#39;old_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089dcc0&gt;, &#39;old_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089db10&gt;, &#39;old_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d960&gt;, &#39;young_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d7b0&gt;, &#39;young_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d600&gt;, &#39;young_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d450&gt;, &#39;young_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089c6a0&gt;, &#39;young_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d5d0&gt;, &#39;young_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d630&gt;, &#39;young_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089c700&gt;, &#39;attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d210&gt;, &#39;young_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089c940&gt;, &#39;young_attenuated_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089d300&gt;, &#39;old_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a6d70&gt;}
-{&#39;intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a7010&gt;, &#39;old_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089ed40&gt;, &#39;old_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a6dd0&gt;, &#39;old_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a65f0&gt;, &#39;old_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f9480876cb0&gt;, &#39;old_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a6b30&gt;, &#39;old_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f948089ed10&gt;, &#39;old_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdece0&gt;, &#39;young_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cde2c0&gt;, &#39;young_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cded10&gt;, &#39;young_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdee90&gt;, &#39;young_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf040&gt;, &#39;young_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf1f0&gt;, &#39;young_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf3a0&gt;, &#39;young_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf550&gt;, &#39;attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf700&gt;, &#39;young_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdf8b0&gt;, &#39;young_attenuated_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdfa60&gt;, &#39;old_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93d9cdff70&gt;}
+{&#39;attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c970&gt;, &#39;old_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c730&gt;, &#39;old_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c7f0&gt;, &#39;old_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c940&gt;, &#39;old_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055de70&gt;, &#39;old_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055dc90&gt;, &#39;old_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055dae0&gt;, &#39;young_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d8d0&gt;, &#39;young_attenuated_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d780&gt;, &#39;young_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d5d0&gt;, &#39;young_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d6c0&gt;, &#39;young_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c670&gt;, &#39;young_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d5a0&gt;, &#39;young_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d450&gt;, &#39;intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055e020&gt;, &#39;old_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d270&gt;, &#39;old_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c910&gt;, &#39;young_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055d300&gt;, &#39;young_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566dd0&gt;}
+{&#39;attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566f80&gt;, &#39;old_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055ecb0&gt;, &#39;old_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566e90&gt;, &#39;old_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055c9d0&gt;, &#39;old_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566560&gt;, &#39;old_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566ad0&gt;, &#39;old_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f055ece0&gt;, &#39;young_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4556fb0&gt;, &#39;young_attenuated_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557490&gt;, &#39;young_reprocessed&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557640&gt;, &#39;young_transmitted&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a45577f0&gt;, &#39;young_nebular&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a45579a0&gt;, &#39;young_linecont&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557b50&gt;, &#39;young_nebular_continuum&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557d00&gt;, &#39;intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557820&gt;, &#39;old_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557b80&gt;, &#39;old_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557d30&gt;, &#39;young_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557160&gt;, &#39;young_escaped&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93a4557ee0&gt;}
 </pre></div></div>
 </div>
 <p>Or on the galaxy level</p>
@@ -744,7 +745,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;total&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a5900&gt;, &#39;dust_emission&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a7ac0&gt;, &#39;total_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a7190&gt;, &#39;total_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f94808a6620&gt;}
+{&#39;total&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0565960&gt;, &#39;total_attenuated&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0567af0&gt;, &#39;dust_emission&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f05664d0&gt;, &#39;total_intrinsic&#39;: &lt;synthesizer.photometry.PhotometryCollection object at 0x7f93f0566590&gt;}
 </pre></div></div>
 </div>
 <p>As before we can print the photometry.</p>
@@ -764,17 +765,17 @@
 ------------------------------------------------------------------
 |                       PHOTOMETRY (FLUX)                        |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F090W (λ = 9.02e+03 Å) | 1.72e+16 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F090W (λ = 9.02e+03 Å) | 3.97e+16 erg/(Hz*cm**2*s) |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F150W (λ = 1.50e+04 Å) | 6.95e+15 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F150W (λ = 1.50e+04 Å) | 1.31e+16 erg/(Hz*cm**2*s) |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F200W (λ = 1.99e+04 Å) | 1.01e+16 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F200W (λ = 1.99e+04 Å) | 2.15e+16 erg/(Hz*cm**2*s) |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F277W (λ = 2.76e+04 Å) | 1.94e+16 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F277W (λ = 2.76e+04 Å) | 4.62e+16 erg/(Hz*cm**2*s) |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F356W (λ = 3.57e+04 Å) | 7.54e+16 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F356W (λ = 3.57e+04 Å) | 1.90e+17 erg/(Hz*cm**2*s) |
 |------------------------------------|---------------------------|
-| JWST/NIRCam.F444W (λ = 4.40e+04 Å) | 1.73e+17 erg/(Hz*cm**2*s) |
+| JWST/NIRCam.F444W (λ = 4.40e+04 Å) | 4.43e+17 erg/(Hz*cm**2*s) |
 ------------------------------------------------------------------
 
 </pre></div></div>
@@ -884,7 +885,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.01483160436901253 Mpc 0.014965805138494286 Mpc
+0.014377885566053107 Mpc 0.014377519722890402 Mpc
 </pre></div></div>
 </div>
 <p>Similarly to the “attr” radii we can compute for any particle component, we can also compute the radius enclosing any fraction of the light for any particle component.</p>
@@ -913,7 +914,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.009721077849148881 Mpc 0.020230338756386 Mpc 0.010028785825340435 Mpc 0.020241764302837986 Mpc
+0.009505522056712411 Mpc 0.02167682321866939 Mpc 0.009512729186537179 Mpc 0.021668008599445687 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -987,7 +988,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

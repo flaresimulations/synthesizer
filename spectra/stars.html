@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -668,7 +669,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6f41be920&gt;, &#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd04f70&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7fb7063bff10&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd04fa0&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced6e30&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced6cb0&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7220&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7610&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7c10&gt;}
+{&#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb2aa0&gt;, &#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3220&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb36a0&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3040&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3010&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb2f80&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb0910&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb2770&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3dc0&gt;}
 </pre></div></div>
 </div>
 </section>
@@ -768,7 +769,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd04fd0&gt;, &#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a3602170&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a3641c00&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a354c640&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7d90&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7070&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f2800&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f29b0&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f2980&gt;}
+{&#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7f59558fe320&gt;, &#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955658910&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb31c0&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3df0&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7f59556e5c90&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955696c50&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7f59556965f0&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7f59556970a0&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955696d10&gt;}
 </pre></div></div>
 </div>
 <section id="Integrating-spectra">
@@ -792,8 +793,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a354fb80&gt;, &#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd04880&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a373f6d0&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7e50&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7b80&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f2c50&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f31c0&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f2710&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a33f3250&gt;}
-{&#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd047c0&gt;, &#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a354f850&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd048e0&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a354fb80&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a3641900&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a373f6d0&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fcd04880&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6fced7af0&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7fb6a36021a0&gt;}
+{&#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7f59555efaf0&gt;, &#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7f59555ec910&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7f59555ec730&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3d00&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3730&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955697430&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955696cb0&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7f5955697520&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7f59556968c0&gt;}
+{&#39;transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7f599c28ed40&gt;, &#39;nebular&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3490&gt;, &#39;incident&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb34c0&gt;, &#39;reprocessed&#39;: &lt;synthesizer.sed.Sed object at 0x7f59558fe350&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3700&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3d00&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3550&gt;, &#39;emergent&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb36d0&gt;, &#39;total&#39;: &lt;synthesizer.sed.Sed object at 0x7f59a4fb3250&gt;}
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -941,7 +942,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

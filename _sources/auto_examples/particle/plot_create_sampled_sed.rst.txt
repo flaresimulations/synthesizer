@@ -46,9 +46,9 @@ with constant star formation.
     +--------------------------+----------------------------------------------------------------------------+
     | component_type           | 'Stars'                                                                    |
     +--------------------------+----------------------------------------------------------------------------+
-    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7f2461ad9720>         |
+    | sf_hist_func             | <synthesizer.parametric.sf_hist.Constant object at 0x7f500e15c850>         |
     +--------------------------+----------------------------------------------------------------------------+
-    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f2461ad9a20> |
+    | metal_dist_func          | <synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f500e15cf10> |
     +--------------------------+----------------------------------------------------------------------------+
     | metallicity_grid_type    | 'log10Z'                                                                   |
     +--------------------------+----------------------------------------------------------------------------+

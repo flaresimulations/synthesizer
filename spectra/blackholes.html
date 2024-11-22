@@ -328,6 +328,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
@@ -702,7 +703,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7fab0cc5e950&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5423130&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5420a30&gt;, &#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac54218a0&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5423310&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5423160&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5423190&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5423730&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6af20&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6a2f0&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6b730&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6a770&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6b0d0&gt;}
+{&#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efe94341d50&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efe42ff5f90&gt;, &#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb7d3e80&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb7d3e50&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb863580&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb832ef0&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfbbb2bc0&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb832d40&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb832bc0&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7efe80db23e0&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb832e30&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb831480&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7efe80db2bf0&gt;}
 </pre></div></div>
 </div>
 </section>
@@ -782,19 +783,19 @@
 +-----------------------------+---------------------------------------------------------------------+
 | nu (9244,)                  | 1.00e+07 Hz -&gt; 2.31e+22 Hz (Mean: 8.51e+19 Hz)                      |
 +-----------------------------+---------------------------------------------------------------------+
-| lnu (4, 9244)               | 0.00e+00 erg/(Hz*s) -&gt; 5.80e+77 erg/(Hz*s) (Mean: 2.44e+76 erg)     |
+| lnu (4, 9244)               | 0.00e+00 erg/(Hz*s) -&gt; 3.19e+77 erg/(Hz*s) (Mean: 1.33e+76 erg)     |
 +-----------------------------+---------------------------------------------------------------------+
-| bolometric_luminosity (4,)  | 1.88e+90 erg/s -&gt; 1.93e+90 erg/s (Mean: 1.90e+90 erg/s)             |
+| bolometric_luminosity (4,)  | 1.01e+90 erg/s -&gt; 1.06e+90 erg/s (Mean: 1.04e+90 erg/s)             |
 +-----------------------------+---------------------------------------------------------------------+
-| bolometric_luminosity (4,)  | 1.88e+90 erg/s -&gt; 1.93e+90 erg/s (Mean: 1.90e+90 erg/s)             |
+| bolometric_luminosity (4,)  | 1.01e+90 erg/s -&gt; 1.06e+90 erg/s (Mean: 1.04e+90 erg/s)             |
 +-----------------------------+---------------------------------------------------------------------+
-| llam (4, 9244)              | 0.00e+00 erg/(s*Å) -&gt; 1.99e+84 erg/(s*Å) (Mean: 6.59e+82 erg/(s*Å)) |
+| llam (4, 9244)              | 0.00e+00 erg/(s*Å) -&gt; 1.09e+84 erg/(s*Å) (Mean: 3.59e+82 erg/(s*Å)) |
 +-----------------------------+---------------------------------------------------------------------+
-| luminosity (4, 9244)        | 0.00e+00 erg/s -&gt; 1.68e+90 erg/s (Mean: 6.18e+88 erg/s)             |
+| luminosity (4, 9244)        | 0.00e+00 erg/s -&gt; 9.25e+89 erg/s (Mean: 3.36e+88 erg/s)             |
 +-----------------------------+---------------------------------------------------------------------+
-| luminosity_lambda (4, 9244) | 0.00e+00 erg/(s*Å) -&gt; 1.99e+84 erg/(s*Å) (Mean: 6.59e+82 erg/(s*Å)) |
+| luminosity_lambda (4, 9244) | 0.00e+00 erg/(s*Å) -&gt; 1.09e+84 erg/(s*Å) (Mean: 3.59e+82 erg/(s*Å)) |
 +-----------------------------+---------------------------------------------------------------------+
-| luminosity_nu (4, 9244)     | 0.00e+00 erg/(Hz*s) -&gt; 5.80e+77 erg/(Hz*s) (Mean: 2.44e+76 erg)     |
+| luminosity_nu (4, 9244)     | 0.00e+00 erg/(Hz*s) -&gt; 3.19e+77 erg/(Hz*s) (Mean: 1.33e+76 erg)     |
 +-----------------------------+---------------------------------------------------------------------+
 | wavelength (9244,)          | 1.30e-04 Å -&gt; 2.99e+11 Å (Mean: 9.73e+09 Å)                         |
 +-----------------------------+---------------------------------------------------------------------+
@@ -814,7 +815,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5595510&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac51847c0&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5187340&gt;, &#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5329180&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373d60&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373400&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5372fe0&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53718d0&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373a90&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373f40&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373d90&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373ee0&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53720b0&gt;}
+{&#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efe80db14b0&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb738850&gt;, &#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79eb90&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79c1c0&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79ef50&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79c790&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776e90&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb7749d0&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb7750c0&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb775c30&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777df0&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776d70&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb774970&gt;}
 </pre></div></div>
 </div>
 <section id="Integrating-spectra">
@@ -838,8 +839,8 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-{&#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6ae30&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6a8f0&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5184580&gt;, &#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5596620&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53714b0&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53715d0&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5370b50&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5372050&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373a30&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373490&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53730d0&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5372920&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5371600&gt;}
-{&#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5187df0&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6ae30&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7fab58a6a8f0&gt;, &#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5184850&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5184940&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7faac51876a0&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5596620&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5597520&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5184580&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5184610&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7faac51841c0&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7faac5373a30&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7faac53730d0&gt;}
+{&#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb832dd0&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb73ab60&gt;, &#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79cf70&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79d750&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb79fc10&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776200&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777970&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777c70&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb775b70&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777f10&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb775ab0&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776c50&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777a90&gt;}
+{&#39;blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776f50&gt;, &#39;disc_transmitted_blr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb7762c0&gt;, &#39;disc_transmitted_nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb73ab60&gt;, &#39;disc_escaped&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776bc0&gt;, &#39;disc_incident_isotropic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777ee0&gt;, &#39;nlr&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776110&gt;, &#39;disc_incident&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfbbee230&gt;, &#39;disc_transmitted&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfbbef0d0&gt;, &#39;disc&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb776200&gt;, &#39;torus&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777c70&gt;, &#39;intrinsic&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb775b70&gt;, &#39;attenuated&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb777f10&gt;, &#39;dust_emission&#39;: &lt;synthesizer.sed.Sed object at 0x7efdfb775ab0&gt;}
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1002,7 +1003,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=05d73652"></script>
+</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
