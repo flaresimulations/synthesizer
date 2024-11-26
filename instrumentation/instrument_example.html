@@ -541,16 +541,16 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.instruments</span> <span class="kn">import</span> <span class="n">FilterCollection</span><span class="p">,</span> <span class="n">UVJ</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.instruments</span> <span class="kn">import</span> <span class="n">UVJ</span><span class="p">,</span> <span class="n">FilterCollection</span>
 
 <span class="c1"># Get the filters</span>
 <span class="n">webb_filters</span> <span class="o">=</span> <span class="n">FilterCollection</span><span class="p">(</span>
     <span class="n">filter_codes</span><span class="o">=</span><span class="p">[</span>
-    <span class="sa">f</span><span class="s2">&quot;JWST/NIRCam.</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span>
-    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;F090W&quot;</span><span class="p">,</span> <span class="s2">&quot;F150W&quot;</span><span class="p">,</span> <span class="s2">&quot;F200W&quot;</span><span class="p">,</span> <span class="s2">&quot;F277W&quot;</span><span class="p">,</span> <span class="s2">&quot;F356W&quot;</span><span class="p">,</span> <span class="s2">&quot;F444W&quot;</span><span class="p">]</span>
-<span class="p">],</span>
+        <span class="sa">f</span><span class="s2">&quot;JWST/NIRCam.</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;F090W&quot;</span><span class="p">,</span> <span class="s2">&quot;F150W&quot;</span><span class="p">,</span> <span class="s2">&quot;F200W&quot;</span><span class="p">,</span> <span class="s2">&quot;F277W&quot;</span><span class="p">,</span> <span class="s2">&quot;F356W&quot;</span><span class="p">,</span> <span class="s2">&quot;F444W&quot;</span><span class="p">]</span>
+    <span class="p">],</span>
 <span class="p">)</span>
-<span class="n">uvj_filters</span><span class="o">=</span> <span class="n">UVJ</span><span class="p">()</span>
+<span class="n">uvj_filters</span> <span class="o">=</span> <span class="n">UVJ</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -603,7 +603,7 @@ FilterCollection.lam.size = 12811
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;JWST&#39;                                                                      |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbb190&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440f160&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | False                                                                       |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -645,7 +645,7 @@ FilterCollection.lam.size = 12811
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;UVJ&#39;                                                                       |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbabc0&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440e9b0&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | False                                                                       |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -774,8 +774,7 @@ UVJ
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">angstrom</span>
 
-
-<span class="n">lsst_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;LSST&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">angstrom</span><span class="p">)</span>
+<span class="n">lsst_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;LSST&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lsst_inst</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -819,7 +818,9 @@ UVJ
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">desi_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;LSST&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">snrs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">28</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">desi_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;LSST&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">snrs</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">28</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">desi_inst</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -872,7 +873,6 @@ UVJ
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">kpc</span>
 
-
 <span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">webb_inst</span><span class="p">)</span>
 </pre></div>
@@ -890,7 +890,7 @@ UVJ
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;JWST&#39;                                                                      |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbb190&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440f160&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | True                                                                        |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -920,9 +920,11 @@ UVJ
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate a dictionary of FAKE PSFs, importantly with a PSF for each filter</span>
-<span class="n">psfs</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">webb_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">}</span>
+<span class="n">psfs</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">webb_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">}</span>
 
-<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">psfs</span><span class="o">=</span><span class="n">psfs</span><span class="p">)</span>
+<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">psfs</span><span class="o">=</span><span class="n">psfs</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">webb_inst</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -939,7 +941,7 @@ UVJ
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;JWST&#39;                                                                      |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbb190&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440f160&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | True                                                                        |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -980,7 +982,14 @@ UVJ
 <span class="n">depths</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="mf">28.0</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">webb_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">}</span>
 <span class="n">snrs</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="mf">5.0</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">webb_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">}</span>
 
-<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">psfs</span><span class="o">=</span><span class="n">psfs</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depths</span><span class="p">,</span> <span class="n">snrs</span><span class="o">=</span><span class="n">snrs</span><span class="p">)</span>
+<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;JWST&quot;</span><span class="p">,</span>
+    <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span>
+    <span class="n">psfs</span><span class="o">=</span><span class="n">psfs</span><span class="p">,</span>
+    <span class="n">depth</span><span class="o">=</span><span class="n">depths</span><span class="p">,</span>
+    <span class="n">snrs</span><span class="o">=</span><span class="n">snrs</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">webb_inst</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -997,7 +1006,7 @@ UVJ
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;JWST&#39;                                                                      |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbb190&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440f160&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | True                                                                        |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -1050,7 +1059,9 @@ UVJ
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate FAKE noise maps, again there must be one for each filter</span>
 <span class="n">noise_maps</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">webb_filters</span><span class="o">.</span><span class="n">filters</span><span class="p">}</span>
 
-<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">noise_maps</span><span class="o">=</span><span class="n">noise_maps</span><span class="p">)</span>
+<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">noise_maps</span><span class="o">=</span><span class="n">noise_maps</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">webb_inst</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1067,7 +1078,7 @@ UVJ
 +------------------------------------+-----------------------------------------------------------------------------+
 | label                              | &#39;JWST&#39;                                                                      |
 +------------------------------------+-----------------------------------------------------------------------------+
-| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f4b2ccbb190&gt; |
+| filters                            | &lt;synthesizer.instruments.filters.FilterCollection object at 0x7f5fc440f160&gt; |
 +------------------------------------+-----------------------------------------------------------------------------+
 | can_do_imaging                     | True                                                                        |
 +------------------------------------+-----------------------------------------------------------------------------+
@@ -1106,7 +1117,11 @@ UVJ
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">angstrom</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span>
+    <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">nirspec</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1152,7 +1167,12 @@ UVJ
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">angstrom</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">psfs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span>
+    <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span>
+    <span class="n">psfs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">nirspec</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1200,7 +1220,13 @@ UVJ
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="n">angstrom</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">psfs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">)),</span> <span class="n">noise_maps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nirspec</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span>
+    <span class="s2">&quot;NIRSpec&quot;</span><span class="p">,</span>
+    <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span>
+    <span class="n">psfs</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
+    <span class="n">noise_maps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+<span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">nirspec</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1241,7 +1267,7 @@ UVJ
 +------------------------------------+---------------------------------------------+
 | psfs (100, 100)                    | 1.00e+00 -&gt; 1.00e+00 (Mean: 1.00e+00)       |
 +------------------------------------+---------------------------------------------+
-| noise_maps (100, 100)              | 6.71e-05 -&gt; 1.00e+00 (Mean: 4.95e-01)       |
+| noise_maps (100, 100)              | 1.74e-04 -&gt; 1.00e+00 (Mean: 4.98e-01)       |
 +------------------------------------+---------------------------------------------+
 </pre></div></div>
 </div>
@@ -1307,7 +1333,7 @@ UVJ
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

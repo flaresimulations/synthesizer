@@ -246,7 +246,7 @@ This example plots all the spectra for a single metallicity.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.518 seconds)
+   **Total running time of the script:** (0 minutes 0.517 seconds)
 
 
 .. _sphx_glr_download_auto_examples_grids_plot_spectra_by_age.py:

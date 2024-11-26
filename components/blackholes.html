@@ -545,7 +545,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">Mpc</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Mpc</span><span class="p">,</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">deg</span><span class="p">,</span> <span class="n">yr</span>
 
 <span class="kn">from</span> <span class="nn">synthesizer</span> <span class="kn">import</span> <span class="n">galaxy</span>
 <span class="kn">from</span> <span class="nn">synthesizer.parametric</span> <span class="kn">import</span> <span class="n">BlackHole</span>
@@ -610,7 +610,7 @@
 +--------------------------+--------------------------------------------------------------------------+
 | nbh                      | 1                                                                        |
 +--------------------------+--------------------------------------------------------------------------+
-| morphology               | &lt;synthesizer.parametric.morphology.PointSource object at 0x7f98137ddb70&gt; |
+| morphology               | &lt;synthesizer.parametric.morphology.PointSource object at 0x7f014f135c90&gt; |
 +--------------------------+--------------------------------------------------------------------------+
 | mass                     | 100000000.0 Msun                                                         |
 +--------------------------+--------------------------------------------------------------------------+
@@ -661,9 +661,7 @@
 <span class="n">n</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">masses</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">Msun</span>
 <span class="n">coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">Mpc</span>
-<span class="n">accretion_rates</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span>
-    <span class="n">low</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span>
-<span class="p">)</span>  <span class="o">*</span> <span class="n">Msun</span> <span class="o">/</span> <span class="n">yr</span>
+<span class="n">accretion_rates</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">Msun</span> <span class="o">/</span> <span class="n">yr</span>
 <span class="n">metallicities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
 
 <span class="c1"># And get the black holes object</span>
@@ -853,7 +851,10 @@ unyt_array([3.87796015e+45, 1.48431556e+44, 4.26067691e+44, 7.11426744e+44], &#3
 
 <span class="c1"># And make the gas object</span>
 <span class="n">gas</span> <span class="o">=</span> <span class="n">Gas</span><span class="p">(</span>
-    <span class="n">masses</span><span class="o">=</span><span class="n">ms</span> <span class="o">*</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">metallicities</span><span class="o">=</span><span class="n">metals</span><span class="p">,</span> <span class="n">coordinates</span><span class="o">=</span><span class="n">pos</span> <span class="o">*</span> <span class="n">Mpc</span><span class="p">,</span> <span class="n">smoothing_lengths</span><span class="o">=</span><span class="n">hsml</span> <span class="o">*</span> <span class="n">Mpc</span>
+    <span class="n">masses</span><span class="o">=</span><span class="n">ms</span> <span class="o">*</span> <span class="n">Msun</span><span class="p">,</span>
+    <span class="n">metallicities</span><span class="o">=</span><span class="n">metals</span><span class="p">,</span>
+    <span class="n">coordinates</span><span class="o">=</span><span class="n">pos</span> <span class="o">*</span> <span class="n">Mpc</span><span class="p">,</span>
+    <span class="n">smoothing_lengths</span><span class="o">=</span><span class="n">hsml</span> <span class="o">*</span> <span class="n">Mpc</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># And now create the galaxy</span>
@@ -960,7 +961,7 @@ Z_BH = [0.01 0.01 0.01 0.07]
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

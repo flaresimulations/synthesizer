@@ -537,7 +537,7 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">Msun</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">kpc</span>
 
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models</span> <span class="kn">import</span> <span class="n">IntrinsicEmission</span>
 <span class="kn">from</span> <span class="nn">synthesizer.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
@@ -555,7 +555,9 @@
 <span class="c1"># Define the grid</span>
 <span class="n">grid_name</span> <span class="o">=</span> <span class="s2">&quot;test_grid&quot;</span>
 <span class="n">grid_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_grid/&quot;</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_dir</span><span class="o">=</span><span class="n">grid_dir</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span>
+    <span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_dir</span><span class="o">=</span><span class="n">grid_dir</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span>
+<span class="p">)</span>
 
 <span class="c1"># Define the SFH and metallicity distribution</span>
 <span class="n">metal_dist</span> <span class="o">=</span> <span class="n">ZDist</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mf">0.015</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
@@ -792,7 +794,7 @@ Data cube spatial width is 30.00 kpc with a 0.15 kpc spaxel resolution
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -535,9 +535,8 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">Msun</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">kpc</span>
 
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models</span> <span class="kn">import</span> <span class="n">IncidentEmission</span>
 <span class="kn">from</span> <span class="nn">synthesizer.filters</span> <span class="kn">import</span> <span class="n">UVJ</span>
@@ -567,7 +566,9 @@
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grid_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_grid&quot;</span>
 <span class="n">grid_name</span> <span class="o">=</span> <span class="s2">&quot;test_grid&quot;</span>
-<span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_dir</span><span class="o">=</span><span class="n">grid_dir</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span>
+    <span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_dir</span><span class="o">=</span><span class="n">grid_dir</span><span class="p">,</span> <span class="n">new_lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -675,7 +676,7 @@
 +---------------+---------------------------------------------------------------+
 | galaxy_type   | &#39;Parametric&#39;                                                  |
 +---------------+---------------------------------------------------------------+
-| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7fee2e581c60&gt; |
+| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7f24edf6b580&gt; |
 +---------------+---------------------------------------------------------------+
 | name          | &#39;parametric galaxy&#39;                                           |
 +---------------+---------------------------------------------------------------+
@@ -775,7 +776,7 @@
 +---------------+---------------------------------------------------------------+
 | galaxy_type   | &#39;Parametric&#39;                                                  |
 +---------------+---------------------------------------------------------------+
-| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7fee7c577c10&gt; |
+| stars         | &lt;synthesizer.parametric.stars.Stars object at 0x7f24edf6b8e0&gt; |
 +---------------+---------------------------------------------------------------+
 | name          | &#39;parametric galaxy&#39;                                           |
 +---------------+---------------------------------------------------------------+
@@ -798,11 +799,15 @@
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.sed</span> <span class="kn">import</span> <span class="n">plot_spectra</span>
 
 <span class="n">plot_spectra</span><span class="p">(</span>
-    <span class="n">spectra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Combined&quot;</span><span class="p">:</span> <span class="n">combined</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],</span> <span class="s2">&quot;Disk&quot;</span><span class="p">:</span> <span class="n">disk</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],</span> <span class="s2">&quot;Bulge&quot;</span><span class="p">:</span> <span class="n">bulge</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],},</span>
+    <span class="n">spectra</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;Combined&quot;</span><span class="p">:</span> <span class="n">combined</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Disk&quot;</span><span class="p">:</span> <span class="n">disk</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;Bulge&quot;</span><span class="p">:</span> <span class="n">bulge</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;incident&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
     <span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">ylimits</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mf">29.</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">31.</span><span class="p">),</span>
+    <span class="n">ylimits</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mf">29.0</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">31.0</span><span class="p">),</span>
     <span class="n">xlimits</span><span class="o">=</span><span class="p">(</span><span class="mi">900</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mf">4.3</span><span class="p">),</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -897,7 +902,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

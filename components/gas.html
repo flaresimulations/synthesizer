@@ -540,7 +540,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">Mpc</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Mpc</span><span class="p">,</span> <span class="n">Msun</span>
 
 <span class="kn">from</span> <span class="nn">synthesizer.particle</span> <span class="kn">import</span> <span class="n">Gas</span>
 
@@ -572,11 +572,11 @@
 +----------------------------+------------------------------------------------------+
 | masses (1000,)             | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +----------------------------+------------------------------------------------------+
-| metallicities (1000,)      | 2.06e-05 -&gt; 2.00e-02 (Mean: 1.00e-02)                |
+| metallicities (1000,)      | 2.96e-06 -&gt; 2.00e-02 (Mean: 1.04e-02)                |
 +----------------------------+------------------------------------------------------+
-| dust_masses (1000,)        | 6.19e+00 Msun -&gt; 6.00e+03 Msun (Mean: 3.00e+03 Msun) |
+| dust_masses (1000,)        | 8.89e-01 Msun -&gt; 6.00e+03 Msun (Mean: 3.12e+03 Msun) |
 +----------------------------+------------------------------------------------------+
-| log10metallicities (1000,) | -4.69e+00 -&gt; -1.70e+00 (Mean: -2.13e+00)             |
+| log10metallicities (1000,) | -5.53e+00 -&gt; -1.70e+00 (Mean: -2.11e+00)             |
 +----------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -616,23 +616,23 @@
 +--------------------------------+------------------------------------------------------+
 | dust_to_metal_ratio            | 0.25                                                 |
 +--------------------------------+------------------------------------------------------+
-| coordinates (1000, 3)          | 2.71e-05 Mpc -&gt; 1.00e+00 Mpc (Mean: 4.98e-01 Mpc)    |
+| coordinates (1000, 3)          | 1.52e-04 Mpc -&gt; 9.99e-01 Mpc (Mean: 5.05e-01 Mpc)    |
 +--------------------------------+------------------------------------------------------+
 | masses (1000,)                 | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +--------------------------------+------------------------------------------------------+
-| centre                         | [0.50145586 0.49109727 0.48956152] Mpc               |
+| centre                         | [0.48904934 0.5059755  0.48468674] Mpc               |
 +--------------------------------+------------------------------------------------------+
-| metallicities (1000,)          | 4.74e-06 -&gt; 2.00e-02 (Mean: 9.89e-03)                |
+| metallicities (1000,)          | 6.62e-06 -&gt; 2.00e-02 (Mean: 9.75e-03)                |
 +--------------------------------+------------------------------------------------------+
-| dust_masses (1000,)            | 1.19e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.47e+03 Msun) |
+| dust_masses (1000,)            | 1.66e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.44e+03 Msun) |
 +--------------------------------+------------------------------------------------------+
-| hii_mass (1000,)               | 5.00e+31 kg -&gt; 1.98e+34 kg (Mean: 1.01e+34 kg)       |
+| hii_mass (1000,)               | 5.31e+31 kg -&gt; 1.99e+34 kg (Mean: 9.84e+33 kg)       |
 +--------------------------------+------------------------------------------------------+
-| hii_metallicity (1000,)        | 1.76e-05 -&gt; 1.99e-02 (Mean: 9.85e-03)                |
+| hii_metallicity (1000,)        | 3.38e-05 -&gt; 2.00e-02 (Mean: 9.91e-03)                |
 +--------------------------------+------------------------------------------------------+
-| centered_coordinates (1000, 3) | -5.01e-01 Mpc -&gt; 5.10e-01 Mpc (Mean: 4.11e-03 Mpc)   |
+| centered_coordinates (1000, 3) | -5.06e-01 Mpc -&gt; 5.14e-01 Mpc (Mean: 1.21e-02 Mpc)   |
 +--------------------------------+------------------------------------------------------+
-| log10metallicities (1000,)     | -5.32e+00 -&gt; -1.70e+00 (Mean: -2.14e+00)             |
+| log10metallicities (1000,)     | -5.18e+00 -&gt; -1.70e+00 (Mean: -2.15e+00)             |
 +--------------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -659,7 +659,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.49684355121396273 Mpc
+0.49467569907701153 Mpc
 </pre></div></div>
 </div>
 <p>Or use an aribtrary attribute for the radius weight. Here we’ll use the dust masses for a “half dust mass radius”.</p>
@@ -677,7 +677,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.49670175833477365 Mpc
+0.4947903190373939 Mpc
 </pre></div></div>
 </div>
 <p>We can also compute radii for different fractions by passing the fraction we want to calculate a radius for.</p>
@@ -696,7 +696,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.3572065202960369 Mpc 0.6135705263373029 Mpc
+0.36664878738508533 Mpc 0.5969334159378404 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -775,7 +775,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

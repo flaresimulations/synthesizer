@@ -677,7 +677,7 @@ softening_lengths:  Mpc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">Msun</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Msun</span><span class="p">,</span> <span class="n">Myr</span><span class="p">,</span> <span class="n">kpc</span>
 
 <span class="c1"># Make the dictionary containing the units we want to change</span>
 <span class="n">new_units</span> <span class="o">=</span> <span class="p">{</span>
@@ -855,8 +855,7 @@ softening_lengths:  Mpc
 
 <span class="c1"># Make an sed with arbitrary arguments</span>
 <span class="n">sed</span> <span class="o">=</span> <span class="n">Sed</span><span class="p">(</span>
-    <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span>
-    <span class="n">lnu</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="n">erg</span> <span class="o">/</span> <span class="n">s</span> <span class="o">/</span><span class="n">Hz</span>
+    <span class="n">lam</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">lnu</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="n">erg</span> <span class="o">/</span> <span class="n">s</span> <span class="o">/</span> <span class="n">Hz</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -925,8 +924,8 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.29586594 0.75735932 0.05560778 0.93810728 0.64052993 0.04980821
- 0.16768159 0.57238634 0.77470569 0.85027011] Msun
+[0.66413809 0.87408664 0.21189262 0.46034947 0.96909651 0.91900452
+ 0.58633324 0.75768861 0.92348404 0.02980667] Msun
 </pre></div></div>
 </div>
 <p>However, if we extract the values alone we get the values we expect in <span class="math notranslate nohighlight">\(M_\odot\)</span>.</p>
@@ -943,8 +942,8 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[0.29586594 0.75735932 0.05560778 0.93810728 0.64052993 0.04980821
- 0.16768159 0.57238634 0.77470569 0.85027011]
+[0.66413809 0.87408664 0.21189262 0.46034947 0.96909651 0.91900452
+ 0.58633324 0.75768861 0.92348404 0.02980667]
 </pre></div></div>
 </div>
 <p>Its worth keeping this in mind whenever extracting masses from synthesizer objects.</p>
@@ -984,10 +983,10 @@ softening_lengths:  Mpc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-stars.initial_masses[0]= 4.154225617786187 Msun = 4.154225617786188 Msun
+stars.initial_masses[0]= 2.2606109200767612 Msun = 2.2606109200767617 Msun
 stars.ages[0]= 1000000.0 yr
-stars.coordinates[0]= [0.84455707 0.6985488  0.86837146] Mpc
-stars.smoothing_lengths[0]= 0.1864394320526083 Mpc
+stars.coordinates[0]= [0.56066293 0.48431376 0.66885035] Mpc
+stars.smoothing_lengths[0]= 0.1801166984224869 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -1067,7 +1066,7 @@ stars.smoothing_lengths[0]= 0.1864394320526083 Mpc
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../_static/documentation_options.js?v=e9609878"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

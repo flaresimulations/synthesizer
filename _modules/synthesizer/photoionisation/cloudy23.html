@@ -697,6 +697,8 @@
         <span class="s2">&quot;CMB&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="c1"># include cosmic rays</span>
         <span class="s2">&quot;cosmic_rays&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="c1"># include metals</span>
+        <span class="s2">&quot;metals&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="c1"># include dust grains</span>
         <span class="s2">&quot;grains&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="c1"># the geometry</span>
@@ -738,13 +740,24 @@
     <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;depletion_model&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Define the chemical composition, here we use the depleted (gas-phase)</span>
         <span class="c1"># abundances and set &quot;no grains&quot;.</span>
-        <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;He&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
-            <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;element abundance </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">gas</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> no grains</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;metals&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;He&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
+                <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;element abundance </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> no grains</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
+
+            <span class="c1"># In this case it would be inconsistent to turn</span>
+            <span class="c1"># on grains, so don&#39;t.</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;element abundance he -1&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
+                <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;elements </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> off </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        add graphite and silicate grains</span>
@@ -854,15 +867,24 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No depletion (or unrecognised depletion) specified&quot;</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;He&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
-            <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;element abundance </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;metals&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;He&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
+                <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;element abundance </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
 
-        <span class="c1"># In this case it would be inconsistent to turn on grains, so don&#39;t.</span>
+            <span class="c1"># In this case it would be inconsistent to turn on</span>
+            <span class="c1"># grains, so don&#39;t.</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;element abundance he -1&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="n">abundances</span><span class="o">.</span><span class="n">metals</span><span class="p">:</span>
+                <span class="n">cinput</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;elements </span><span class="si">{</span><span class="n">abundances</span><span class="o">.</span><span class="n">element_name</span><span class="p">[</span><span class="n">ele</span><span class="p">]</span><span class="si">}</span><span class="s2"> off </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
 
     <span class="n">ionisation_parameter</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;ionisation_parameter&quot;</span><span class="p">]</span>
 
@@ -1270,7 +1292,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=4b61ce48"></script>
+</div><script src="../../../_static/documentation_options.js?v=e9609878"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
