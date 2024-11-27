@@ -736,7 +736,7 @@ Image width is 30.00 kpc with 0.12 kpc resolution
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Morphology computed, took: 0.00010538101196289062
+Morphology computed, took: 0.00010251998901367188
 +-------------------------------------------------------------------------------------------------------+
 |                                                 STARS                                                 |
 +--------------------------+----------------------------------------------------------------------------+
@@ -744,11 +744,11 @@ Morphology computed, took: 0.00010538101196289062
 +--------------------------+----------------------------------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                                                    |
 +--------------------------+----------------------------------------------------------------------------+
-| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.LogNormal object at 0x7ff030969f00&gt;        |
+| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.LogNormal object at 0x7fb515310e50&gt;        |
 +--------------------------+----------------------------------------------------------------------------+
-| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7ff03096b9d0&gt; |
+| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7fb515310a90&gt; |
 +--------------------------+----------------------------------------------------------------------------+
-| morphology               | &lt;synthesizer.parametric.morphology.Sersic2D object at 0x7fefe4a66e00&gt;      |
+| morphology               | &lt;synthesizer.parametric.morphology.Sersic2D object at 0x7fb515311ae0&gt;      |
 +--------------------------+----------------------------------------------------------------------------+
 | log10ages_lims           | [6.0,  11.0, ]                                                             |
 +--------------------------+----------------------------------------------------------------------------+
@@ -772,9 +772,9 @@ Morphology computed, took: 0.00010538101196289062
 +--------------------------+----------------------------------------------------------------------------+
 | log10metallicities (13,) | -5.00e+00 -&gt; -1.40e+00 (Mean: -2.49e+00)                                   |
 +--------------------------+----------------------------------------------------------------------------+
-Bulge created, took: 7.390975952148438e-05
-Spectra created, took: 0.008826494216918945
-Photometry calculated, took: 0.0007548332214355469
+Bulge created, took: 8.106231689453125e-05
+Spectra created, took: 0.009283065795898438
+Photometry calculated, took: 0.0007660388946533203
 </pre></div></div>
 </div>
 <p>With the bulge created we can make an image of it in isolation, but this time we will use the lower level imaging methods to demonstrate their usage. We can then plot them using the helper method for individual filter images, for more details on this method see the <a class="reference internal" href="particle_imaging.html"><span class="doc">particle imaging documentation</span></a>.</p>
@@ -828,7 +828,7 @@ Photometry calculated, took: 0.0007548332214355469
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Images took: 0.07254648208618164
+Images took: 0.07320547103881836
 </pre></div></div>
 </div>
 <p>Now we need to combine the disk and bulge together into a single image. To do this we simply add together the two <code class="docutils literal notranslate"><span class="pre">ImageCollection</span></code> objects.</p>
@@ -942,7 +942,7 @@ Images took: 0.07254648208618164
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=e9609878"></script>
+</div><script src="../_static/documentation_options.js?v=b0ac70f0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
