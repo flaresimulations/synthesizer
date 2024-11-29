@@ -308,6 +308,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -691,7 +692,7 @@ fraction that does not escape that should be passed.</p>
 
 <dl class="py class" id="sphx-glr-backref-synthesizer-emission-models-stellar-models-escapedemission">
 <dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.IncidentEmission">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">IncidentEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'incident'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#IncidentEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.IncidentEmission" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">IncidentEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'incident'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#IncidentEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.IncidentEmission" title="Link to this definition">¶</a></dt>
 <dd><p>An emission model that extracts the incident radiation field.</p>
 <p>This defines an extraction of key “incident” from a SPS grid.</p>
 <p>This is a child of the EmissionModel class for a full description of the
@@ -725,17 +726,6 @@ parameters see the EmissionModel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.IncidentEmission.fesc">
-<span class="sig-name descname"><span class="pre">fesc</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.IncidentEmission.fesc" title="Link to this definition">¶</a></dt>
-<dd><p>The escape fraction of the emission.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -834,59 +824,6 @@ parameters see the EmissionModel class.</p>
 </dd></dl>
 
 <dl class="py class" id="sphx-glr-backref-synthesizer-emission-models-stellar-models-intrinsicemission">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.LineContinuumEmission">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">LineContinuumEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'linecont'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#LineContinuumEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission" title="Link to this definition">¶</a></dt>
-<dd><p>An emission model that extracts the line continuum emission.</p>
-<p>This defines an extraction of key “linecont” from a SPS grid.</p>
-<p>This is a child of the EmissionModel class for a full description of the
-parameters see the EmissionModel class.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.LineContinuumEmission.grid">
-<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.grid" title="Link to this definition">¶</a></dt>
-<dd><p>The grid object to extract from.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="synthesizer.grid.html#synthesizer.grid.Grid" title="synthesizer.grid.Grid">synthesizer.grid.Grid</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.LineContinuumEmission.label">
-<span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.label" title="Link to this definition">¶</a></dt>
-<dd><p>The label for this emission model.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.LineContinuumEmission.extract">
-<span class="sig-name descname"><span class="pre">extract</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.extract" title="Link to this definition">¶</a></dt>
-<dd><p>The key to extract from the grid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.LineContinuumEmission.fesc">
-<span class="sig-name descname"><span class="pre">fesc</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.fesc" title="Link to this definition">¶</a></dt>
-<dd><p>The escape fraction of the emission.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class" id="sphx-glr-backref-synthesizer-emission-models-stellar-models-linecontinuumemission">
 <dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularContinuumEmission">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">NebularContinuumEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nebular_continuum'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#NebularContinuumEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularContinuumEmission" title="Link to this definition">¶</a></dt>
 <dd><p>An emission model that extracts the nebular continuum emission.</p>
@@ -941,8 +878,8 @@ parameters see the EmissionModel class.</p>
 
 <dl class="py class" id="sphx-glr-backref-synthesizer-emission-models-stellar-models-nebularcontinuumemission">
 <dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularEmission">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">NebularEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nebular'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc_ly_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linecont</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nebular_continuum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#NebularEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularEmission" title="Link to this definition">¶</a></dt>
-<dd><p>An emission model that combines the nebular emission.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">NebularEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nebular'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc_ly_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nebular_line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nebular_continuum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#NebularEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularEmission" title="Link to this definition">¶</a></dt>
+<dd><p>An emission model that combines the nebular emissions.</p>
 <p>This defines a combination of the nebular continuum and line emission
 components.</p>
 <p>This is a child of the EmissionModel class for a full description of the
@@ -1000,6 +937,60 @@ parameters see the EmissionModel class.</p>
 <p><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html#sphx-glr-auto-examples-cosmo-plot-cosmo-example-py"><span class="std std-ref">Camels example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camels example</div>
 </div></div><dl class="py class">
+<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularLineEmission">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">NebularLineEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nebular_line'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc_ly_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#NebularLineEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularLineEmission" title="Link to this definition">¶</a></dt>
+<dd><p>An emission model for the nebular line emission.</p>
+<p>This defines the luminosity contribution of the lines to the total
+nebular output.</p>
+<p>This is a child of the EmissionModel class; for a full description of the
+parameters see the EmissionModel class.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularLineEmission.grid">
+<span class="sig-name descname"><span class="pre">grid</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.grid" title="Link to this definition">¶</a></dt>
+<dd><p>The grid object to extract from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="synthesizer.grid.html#synthesizer.grid.Grid" title="synthesizer.grid.Grid">synthesizer.grid.Grid</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularLineEmission.label">
+<span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.label" title="Link to this definition">¶</a></dt>
+<dd><p>The label for this emission model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularLineEmission.extract">
+<span class="sig-name descname"><span class="pre">extract</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.extract" title="Link to this definition">¶</a></dt>
+<dd><p>The key to extract from the grid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.NebularLineEmission.fesc">
+<span class="sig-name descname"><span class="pre">fesc</span></span><a class="headerlink" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.fesc" title="Link to this definition">¶</a></dt>
+<dd><p>The escape fraction of the emission.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="sphx-glr-backref-synthesizer-emission-models-stellar-models-nebularlineemission">
 <dt class="sig sig-object py" id="synthesizer.emission_models.stellar.models.ReprocessedEmission">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.stellar.models.</span></span><span class="sig-name descname"><span class="pre">ReprocessedEmission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'reprocessed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc_ly_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nebular</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmitted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/stellar/models.html#ReprocessedEmission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.stellar.models.ReprocessedEmission" title="Link to this definition">¶</a></dt>
 <dd><p>An emission model that combines the reprocessed emission.</p>
@@ -1288,7 +1279,6 @@ parameters see the EmissionModel class.</p>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IncidentEmission.grid"><code class="docutils literal notranslate"><span class="pre">IncidentEmission.grid</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IncidentEmission.label"><code class="docutils literal notranslate"><span class="pre">IncidentEmission.label</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IncidentEmission.extract"><code class="docutils literal notranslate"><span class="pre">IncidentEmission.extract</span></code></a></li>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IncidentEmission.fesc"><code class="docutils literal notranslate"><span class="pre">IncidentEmission.fesc</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#examples-using-synthesizer-emission-models-stellar-models-incidentemission">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.emission_models.stellar.models.IncidentEmission</span></code></a><ul>
@@ -1297,13 +1287,6 @@ parameters see the EmissionModel class.</p>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IntrinsicEmission.label"><code class="docutils literal notranslate"><span class="pre">IntrinsicEmission.label</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IntrinsicEmission.combine"><code class="docutils literal notranslate"><span class="pre">IntrinsicEmission.combine</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.IntrinsicEmission.fesc"><code class="docutils literal notranslate"><span class="pre">IntrinsicEmission.fesc</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission"><code class="docutils literal notranslate"><span class="pre">LineContinuumEmission</span></code></a><ul>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.grid"><code class="docutils literal notranslate"><span class="pre">LineContinuumEmission.grid</span></code></a></li>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.label"><code class="docutils literal notranslate"><span class="pre">LineContinuumEmission.label</span></code></a></li>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.extract"><code class="docutils literal notranslate"><span class="pre">LineContinuumEmission.extract</span></code></a></li>
-<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.LineContinuumEmission.fesc"><code class="docutils literal notranslate"><span class="pre">LineContinuumEmission.fesc</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularContinuumEmission"><code class="docutils literal notranslate"><span class="pre">NebularContinuumEmission</span></code></a><ul>
@@ -1323,6 +1306,13 @@ parameters see the EmissionModel class.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#examples-using-synthesizer-emission-models-stellar-models-nebularemission">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.emission_models.stellar.models.NebularEmission</span></code></a><ul>
+<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularLineEmission"><code class="docutils literal notranslate"><span class="pre">NebularLineEmission</span></code></a><ul>
+<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.grid"><code class="docutils literal notranslate"><span class="pre">NebularLineEmission.grid</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.label"><code class="docutils literal notranslate"><span class="pre">NebularLineEmission.label</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.extract"><code class="docutils literal notranslate"><span class="pre">NebularLineEmission.extract</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.NebularLineEmission.fesc"><code class="docutils literal notranslate"><span class="pre">NebularLineEmission.fesc</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.ReprocessedEmission"><code class="docutils literal notranslate"><span class="pre">ReprocessedEmission</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.ReprocessedEmission.grid"><code class="docutils literal notranslate"><span class="pre">ReprocessedEmission.grid</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.stellar.models.ReprocessedEmission.label"><code class="docutils literal notranslate"><span class="pre">ReprocessedEmission.label</span></code></a></li>
@@ -1366,7 +1356,7 @@ parameters see the EmissionModel class.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -307,6 +307,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -805,6 +806,7 @@
         <span class="n">spectra_name</span><span class="p">,</span>
         <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">lam_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">grid_assignment_method</span><span class="o">=</span><span class="s2">&quot;cic&quot;</span><span class="p">,</span>
         <span class="n">nthreads</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -826,6 +828,9 @@
 <span class="sd">            mask (array-like, bool)</span>
 <span class="sd">                If not None this mask will be applied to the inputs to the</span>
 <span class="sd">                spectra creation.</span>
+<span class="sd">            lam_mask (array, bool)</span>
+<span class="sd">                A mask to apply to the wavelength array of the grid. This</span>
+<span class="sd">                allows for the extraction of specific wavelength ranges.</span>
 <span class="sd">            verbose (bool)</span>
 <span class="sd">                Are we talking?</span>
 <span class="sd">            grid_assignment_method (string)</span>
@@ -865,10 +870,20 @@
             <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
             <span class="n">grid_assignment_method</span><span class="o">=</span><span class="n">grid_assignment_method</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
             <span class="n">nthreads</span><span class="o">=</span><span class="n">nthreads</span><span class="p">,</span>
+            <span class="n">lam_mask</span><span class="o">=</span><span class="n">lam_mask</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Get the integrated spectra in grid units (erg / s / Hz)</span>
-        <span class="k">return</span> <span class="n">compute_integrated_sed</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">compute_integrated_sed</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="c1"># If we had a wavelength mask we need to make sure we return a spectra</span>
+        <span class="c1"># compatible with the original wavelength array.</span>
+        <span class="k">if</span> <span class="n">lam_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
+            <span class="n">out_spec</span><span class="p">[</span><span class="n">lam_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">out_spec</span>
+
+        <span class="k">return</span> <span class="n">spec</span></div>
 
 
 <div class="viewcode-block" id="BlackholesComponent.generate_line">
@@ -1138,7 +1153,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

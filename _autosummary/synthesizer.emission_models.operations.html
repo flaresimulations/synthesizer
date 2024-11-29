@@ -308,6 +308,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -572,6 +573,9 @@ model. The correct operation is instantiated in EmissionMode._init_operations.</
 </div><div class="sphx-glr-thumbcontainer" tooltip="Use test cosmological simulation data (from the [CAMELS simulations]( https://www.camel-simulations.org/)) to generate spectra and calculate photometry."><img alt="" src="../_images/sphx_glr_plot_cosmo_example_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html#sphx-glr-auto-examples-cosmo-plot-cosmo-example-py"><span class="std std-ref">Camels example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camels example</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to generate spectra for a parametric galaxy using a Pacman emission model and plot the spectra. It also shows the impact of varying a number of parameters in the emission model, such as the lyman-alpha escape fraction."><img alt="" src="../_images/sphx_glr_plot_spectra_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/general/plot_spectra.html#sphx-glr-auto-examples-general-plot-spectra-py"><span class="std std-ref">Plot spectra example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot spectra example</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example demonstrating the observed spectrum for a parametric galaxy including photometry. This example will: - build a parametric galaxy (see make_stars and make_sed). - calculate spectral luminosity density (see make_sed). - calculate observed frame spectra (requires comsology and redshift). - calculate observed frame fluxes at various redshifts. - calculate photometry. - plot the redshift evolution of photometry."><img alt="" src="../_images/sphx_glr_plot_photometry_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/general/plot_photometry.html#sphx-glr-auto-examples-general-plot-photometry-py"><span class="std std-ref">Photometry example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Photometry example</div>
@@ -673,6 +677,9 @@ these.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Use test cosmological simulation data (from the [CAMELS simulations]( https://www.camel-simulations.org/)) to generate spectra and calculate photometry."><img alt="" src="../_images/sphx_glr_plot_cosmo_example_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html#sphx-glr-auto-examples-cosmo-plot-cosmo-example-py"><span class="std std-ref">Camels example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camels example</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to generate spectra for a parametric galaxy using a Pacman emission model and plot the spectra. It also shows the impact of varying a number of parameters in the emission model, such as the lyman-alpha escape fraction."><img alt="" src="../_images/sphx_glr_plot_spectra_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/general/plot_spectra.html#sphx-glr-auto-examples-general-plot-spectra-py"><span class="std std-ref">Plot spectra example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot spectra example</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example demonstrating the observed spectrum for a parametric galaxy including photometry. This example will: - build a parametric galaxy (see make_stars and make_sed). - calculate spectral luminosity density (see make_sed). - calculate observed frame spectra (requires comsology and redshift). - calculate observed frame fluxes at various redshifts. - calculate photometry. - plot the redshift evolution of photometry."><img alt="" src="../_images/sphx_glr_plot_photometry_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/general/plot_photometry.html#sphx-glr-auto-examples-general-plot-photometry-py"><span class="std std-ref">Photometry example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Photometry example</div>
@@ -720,7 +727,7 @@ these.</p>
   <div class="sphx-glr-thumbnail-title">Plot line of sight diagnostics</div>
 </div></div><dl class="py class">
 <dt class="sig sig-object py" id="synthesizer.emission_models.operations.Extraction">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.operations.</span></span><span class="sig-name descname"><span class="pre">Extraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#Extraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.Extraction" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">synthesizer.emission_models.operations.</span></span><span class="sig-name descname"><span class="pre">Extraction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fesc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lam_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#Extraction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.Extraction" title="Link to this definition">¶</a></dt>
 <dd><p>A class to define the extraction of spectra from a grid.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="synthesizer.emission_models.operations.Extraction.grid">
@@ -772,6 +779,9 @@ these.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Use test cosmological simulation data (from the [CAMELS simulations]( https://www.camel-simulations.org/)) to generate spectra and calculate photometry."><img alt="" src="../_images/sphx_glr_plot_cosmo_example_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html#sphx-glr-auto-examples-cosmo-plot-cosmo-example-py"><span class="std std-ref">Camels example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camels example</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to generate spectra for a parametric galaxy using a Pacman emission model and plot the spectra. It also shows the impact of varying a number of parameters in the emission model, such as the lyman-alpha escape fraction."><img alt="" src="../_images/sphx_glr_plot_spectra_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/general/plot_spectra.html#sphx-glr-auto-examples-general-plot-spectra-py"><span class="std std-ref">Plot spectra example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot spectra example</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example demonstrating the observed spectrum for a parametric galaxy including photometry. This example will: - build a parametric galaxy (see make_stars and make_sed). - calculate spectral luminosity density (see make_sed). - calculate observed frame spectra (requires comsology and redshift). - calculate observed frame fluxes at various redshifts. - calculate photometry. - plot the redshift evolution of photometry."><img alt="" src="../_images/sphx_glr_plot_photometry_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/general/plot_photometry.html#sphx-glr-auto-examples-general-plot-photometry-py"><span class="std std-ref">Photometry example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Photometry example</div>
@@ -877,6 +887,9 @@ luminosity when computing dust emission.</p>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Use test cosmological simulation data (from the [CAMELS simulations]( https://www.camel-simulations.org/)) to generate spectra and calculate photometry."><img alt="" src="../_images/sphx_glr_plot_cosmo_example_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html#sphx-glr-auto-examples-cosmo-plot-cosmo-example-py"><span class="std std-ref">Camels example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Camels example</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to generate spectra for a parametric galaxy using a Pacman emission model and plot the spectra. It also shows the impact of varying a number of parameters in the emission model, such as the lyman-alpha escape fraction."><img alt="" src="../_images/sphx_glr_plot_spectra_thumb.png" />
+<p><a class="reference internal" href="../auto_examples/general/plot_spectra.html#sphx-glr-auto-examples-general-plot-spectra-py"><span class="std std-ref">Plot spectra example</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Plot spectra example</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="An example demonstrating the observed spectrum for a parametric galaxy including photometry. This example will: - build a parametric galaxy (see make_stars and make_sed). - calculate spectral luminosity density (see make_sed). - calculate observed frame spectra (requires comsology and redshift). - calculate observed frame fluxes at various redshifts. - calculate photometry. - plot the redshift evolution of photometry."><img alt="" src="../_images/sphx_glr_plot_photometry_thumb.png" />
 <p><a class="reference internal" href="../auto_examples/general/plot_photometry.html#sphx-glr-auto-examples-general-plot-photometry-py"><span class="std std-ref">Photometry example</span></a></p>
   <div class="sphx-glr-thumbnail-title">Photometry example</div>
@@ -1024,7 +1037,7 @@ luminosity when computing dust emission.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

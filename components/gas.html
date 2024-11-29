@@ -309,6 +309,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -572,11 +573,11 @@
 +----------------------------+------------------------------------------------------+
 | masses (1000,)             | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +----------------------------+------------------------------------------------------+
-| metallicities (1000,)      | 7.21e-06 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
+| metallicities (1000,)      | 6.98e-05 -&gt; 2.00e-02 (Mean: 1.00e-02)                |
 +----------------------------+------------------------------------------------------+
-| dust_masses (1000,)        | 2.16e+00 Msun -&gt; 5.99e+03 Msun (Mean: 3.04e+03 Msun) |
+| dust_masses (1000,)        | 2.09e+01 Msun -&gt; 5.99e+03 Msun (Mean: 3.01e+03 Msun) |
 +----------------------------+------------------------------------------------------+
-| log10metallicities (1000,) | -5.14e+00 -&gt; -1.70e+00 (Mean: -2.14e+00)             |
+| log10metallicities (1000,) | -4.16e+00 -&gt; -1.70e+00 (Mean: -2.13e+00)             |
 +----------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -616,23 +617,23 @@
 +--------------------------------+------------------------------------------------------+
 | dust_to_metal_ratio            | 0.25                                                 |
 +--------------------------------+------------------------------------------------------+
-| coordinates (1000, 3)          | 2.88e-04 Mpc -&gt; 9.99e-01 Mpc (Mean: 4.96e-01 Mpc)    |
+| coordinates (1000, 3)          | 2.66e-04 Mpc -&gt; 1.00e+00 Mpc (Mean: 5.00e-01 Mpc)    |
 +--------------------------------+------------------------------------------------------+
 | masses (1000,)                 | 1.00e+06 Msun -&gt; 1.00e+06 Msun (Mean: 1.00e+06 Msun) |
 +--------------------------------+------------------------------------------------------+
-| centre                         | [0.49712425 0.49549116 0.49524528] Mpc               |
+| centre                         | [0.50542326 0.5124501  0.50055769] Mpc               |
 +--------------------------------+------------------------------------------------------+
-| metallicities (1000,)          | 1.70e-05 -&gt; 2.00e-02 (Mean: 9.86e-03)                |
+| metallicities (1000,)          | 3.24e-05 -&gt; 2.00e-02 (Mean: 9.99e-03)                |
 +--------------------------------+------------------------------------------------------+
-| dust_masses (1000,)            | 4.24e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.47e+03 Msun) |
+| dust_masses (1000,)            | 8.11e+00 Msun -&gt; 5.00e+03 Msun (Mean: 2.50e+03 Msun) |
 +--------------------------------+------------------------------------------------------+
-| hii_mass (1000,)               | 5.77e+30 kg -&gt; 1.99e+34 kg (Mean: 9.98e+33 kg)       |
+| hii_mass (1000,)               | 2.63e+31 kg -&gt; 1.99e+34 kg (Mean: 1.00e+34 kg)       |
 +--------------------------------+------------------------------------------------------+
-| hii_metallicity (1000,)        | 1.05e-05 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
+| hii_metallicity (1000,)        | 8.97e-05 -&gt; 2.00e-02 (Mean: 1.01e-02)                |
 +--------------------------------+------------------------------------------------------+
-| centered_coordinates (1000, 3) | -4.96e-01 Mpc -&gt; 5.04e-01 Mpc (Mean: 4.09e-04 Mpc)   |
+| centered_coordinates (1000, 3) | -5.12e-01 Mpc -&gt; 4.98e-01 Mpc (Mean: -6.30e-03 Mpc)  |
 +--------------------------------+------------------------------------------------------+
-| log10metallicities (1000,)     | -4.77e+00 -&gt; -1.70e+00 (Mean: -2.13e+00)             |
+| log10metallicities (1000,)     | -4.49e+00 -&gt; -1.70e+00 (Mean: -2.13e+00)             |
 +--------------------------------+------------------------------------------------------+
 </pre></div></div>
 </div>
@@ -659,7 +660,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.50007587991613 Mpc
+0.48388684359536716 Mpc
 </pre></div></div>
 </div>
 <p>Or use an aribtrary attribute for the radius weight. Here we’ll use the dust masses for a “half dust mass radius”.</p>
@@ -677,7 +678,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.49615159252725094 Mpc
+0.4818486058511858 Mpc
 </pre></div></div>
 </div>
 <p>We can also compute radii for different fractions by passing the fraction we want to calculate a radius for.</p>
@@ -696,7 +697,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.3793433400852085 Mpc 0.6097244871957755 Mpc
+0.3568486861075608 Mpc 0.5957703103359986 Mpc
 </pre></div></div>
 </div>
 </section>
@@ -775,7 +776,7 @@ explicitly, the dust-to-metal ratio is calculated but ignored in all future calc
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

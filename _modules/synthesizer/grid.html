@@ -307,6 +307,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -835,11 +836,15 @@
         <span class="c1"># If a full cloudy grid is available calculate some</span>
         <span class="c1"># other spectra for convenience.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reprocessed</span><span class="p">:</span>
+            <span class="c1"># The total emission (ignoring any dust reprocessing) is just</span>
+            <span class="c1"># the transmitted plus the nebular</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;transmitted&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;nebular&quot;</span><span class="p">]</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">available_spectra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;total&quot;</span><span class="p">)</span>
 
+            <span class="c1"># The nebular continuum is the nebular emission with the line</span>
+            <span class="c1"># contribution removed</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;nebular_continuum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;nebular&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="s2">&quot;linecont&quot;</span><span class="p">]</span>
             <span class="p">)</span>
@@ -1810,7 +1815,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -307,6 +307,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -547,6 +548,9 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">Angstrom</span>
+
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models.base_model</span> <span class="kn">import</span> <span class="n">StellarEmissionModel</span>
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models.models</span> <span class="kn">import</span> <span class="n">AttenuatedEmission</span><span class="p">,</span> <span class="n">DustEmission</span>
 
@@ -566,10 +570,9 @@
 <span class="sd">        grid (synthesizer.grid.Grid): The grid object to extract from.</span>
 <span class="sd">        label (str): The label for this emission model.</span>
 <span class="sd">        extract (str): The key to extract from the grid.</span>
-<span class="sd">        fesc (float): The escape fraction of the emission.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;incident&quot;</span><span class="p">,</span> <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;incident&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise the IncidentEmission object.</span>
 
@@ -583,21 +586,21 @@
             <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
             <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;incident&quot;</span><span class="p">,</span>
-            <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="LineContinuumEmission">
-<a class="viewcode-back" href="../../../../_autosummary/synthesizer.emission_models.stellar.models.html#synthesizer.emission_models.stellar.models.LineContinuumEmission">[docs]</a>
-<span class="k">class</span> <span class="nc">LineContinuumEmission</span><span class="p">(</span><span class="n">StellarEmissionModel</span><span class="p">):</span>
+<div class="viewcode-block" id="NebularLineEmission">
+<a class="viewcode-back" href="../../../../_autosummary/synthesizer.emission_models.stellar.models.html#synthesizer.emission_models.stellar.models.NebularLineEmission">[docs]</a>
+<span class="k">class</span> <span class="nc">NebularLineEmission</span><span class="p">(</span><span class="n">StellarEmissionModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An emission model that extracts the line continuum emission.</span>
+<span class="sd">    An emission model for the nebular line emission.</span>
 
-<span class="sd">    This defines an extraction of key &quot;linecont&quot; from a SPS grid.</span>
+<span class="sd">    This defines the luminosity contribution of the lines to the total</span>
+<span class="sd">    nebular output.</span>
 
-<span class="sd">    This is a child of the EmissionModel class for a full description of the</span>
+<span class="sd">    This is a child of the EmissionModel class; for a full description of the</span>
 <span class="sd">    parameters see the EmissionModel class.</span>
 
 <span class="sd">    Attributes:</span>
@@ -610,26 +613,74 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">grid</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;linecont&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;nebular_line&quot;</span><span class="p">,</span>
         <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialise the LineContinuumEmission object.</span>
+<span class="sd">        Initialise the NebularLineEmission object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            grid (synthesizer.grid.Grid): The grid object to extract from.</span>
 <span class="sd">            label (str): The label for this emission model.</span>
 <span class="sd">            fesc (float): The escape fraction of the emission.</span>
+<span class="sd">            fesc_ly_alpha (float): The escape fraction of Lyman-alpha.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">StellarEmissionModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-            <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;linecont&quot;</span><span class="p">,</span>
-            <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">fesc_ly_alpha</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="c1"># Get the lyman alpha wavelength elements and create a mask for</span>
+            <span class="c1"># the line</span>
+            <span class="n">lyman_alpha_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span> <span class="o">-</span> <span class="mf">1216.0</span> <span class="o">*</span> <span class="n">Angstrom</span><span class="p">))</span>
+            <span class="n">lyman_alpha_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="n">lyman_alpha_mask</span><span class="p">[</span><span class="n">lyman_alpha_ind</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Since the spectra may have been resampled, we may have split the</span>
+            <span class="c1"># lyman-alpha line into two. Therefore, we need to mask the</span>
+            <span class="c1"># surrounding elements as well.</span>
+            <span class="k">if</span> <span class="n">lyman_alpha_ind</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">lyman_alpha_mask</span><span class="p">[</span><span class="n">lyman_alpha_ind</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">lyman_alpha_ind</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">lyman_alpha_mask</span><span class="p">[</span><span class="n">lyman_alpha_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Create the child models</span>
+            <span class="n">linecont_no_lyman</span> <span class="o">=</span> <span class="n">StellarEmissionModel</span><span class="p">(</span>
+                <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span> <span class="o">+</span> <span class="s2">&quot;_no_lyman&quot;</span><span class="p">,</span>
+                <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;linecont&quot;</span><span class="p">,</span>
+                <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
+                <span class="n">lam_mask</span><span class="o">=~</span><span class="n">lyman_alpha_mask</span><span class="p">,</span>
+                <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># For lyman-alpha, we reduce the overall luminosity by fesc,</span>
+            <span class="c1"># then the remaining luminosity by fesc_ly_alpha</span>
+            <span class="n">lyman_alpha</span> <span class="o">=</span> <span class="n">StellarEmissionModel</span><span class="p">(</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span> <span class="o">+</span> <span class="s2">&quot;_lyman_alpha&quot;</span><span class="p">,</span>
+                <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;linecont&quot;</span><span class="p">,</span>
+                <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                <span class="n">fesc</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fesc</span><span class="p">)</span> <span class="o">*</span> <span class="n">fesc_ly_alpha</span><span class="p">),</span>
+                <span class="n">lam_mask</span><span class="o">=</span><span class="n">lyman_alpha_mask</span><span class="p">,</span>
+                <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Instantiate the combination model</span>
+            <span class="n">StellarEmissionModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">combine</span><span class="o">=</span><span class="p">(</span><span class="n">linecont_no_lyman</span><span class="p">,</span> <span class="n">lyman_alpha</span><span class="p">),</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">StellarEmissionModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                <span class="n">extract</span><span class="o">=</span><span class="s2">&quot;linecont&quot;</span><span class="p">,</span>
+                <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 
 
@@ -771,7 +822,7 @@
 <a class="viewcode-back" href="../../../../_autosummary/synthesizer.emission_models.stellar.models.html#synthesizer.emission_models.stellar.models.NebularEmission">[docs]</a>
 <span class="k">class</span> <span class="nc">NebularEmission</span><span class="p">(</span><span class="n">StellarEmissionModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    An emission model that combines the nebular emission.</span>
+<span class="sd">    An emission model that combines the nebular emissions.</span>
 
 <span class="sd">    This defines a combination of the nebular continuum and line emission</span>
 <span class="sd">    components.</span>
@@ -792,7 +843,7 @@
         <span class="n">label</span><span class="o">=</span><span class="s2">&quot;nebular&quot;</span><span class="p">,</span>
         <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">linecont</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">nebular_line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">nebular_continuum</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
@@ -804,21 +855,22 @@
 <span class="sd">            label (str): The label for this emission model.</span>
 <span class="sd">            fesc (float): The escape fraction of the emission.</span>
 <span class="sd">            feac_ly_alpha (float): The escape fraction of Lyman-alpha.</span>
-<span class="sd">            linecont (EmissionModel): The line continuum model to use, if None</span>
-<span class="sd">                then one will be created. Only used if fesc_ly_alpha &lt; 1.0.</span>
+<span class="sd">            nebular_line (EmissionModel): The nebular line model to use, if</span>
+<span class="sd">                None then one will be created. Only used if</span>
+<span class="sd">                fesc_ly_alpha &lt; 1.0.</span>
 <span class="sd">            nebular_continuum (EmissionModel): The nebular continuum model to</span>
 <span class="sd">                use, if None then one will be created. Only used if</span>
 <span class="sd">                fesc_ly_alpha &lt; 1.0.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># If we have a Lyman-alpha escape fraction then we need to combine</span>
-        <span class="c1"># the Lyman-alpha line emission with the nebular continuum emission</span>
-        <span class="c1"># and the rest of the line emission</span>
+        <span class="c1"># If we have a Lyman-alpha escape fraction then calculate the</span>
+        <span class="c1"># updated line emission and combine with the nebular continuum.</span>
         <span class="k">if</span> <span class="n">fesc_ly_alpha</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
-            <span class="c1"># Make a line continuum model if we need one</span>
-            <span class="k">if</span> <span class="n">linecont</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">linecont</span> <span class="o">=</span> <span class="n">LineContinuumEmission</span><span class="p">(</span>
+            <span class="c1"># Make a nebular line model if we need one</span>
+            <span class="k">if</span> <span class="n">nebular_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">nebular_line</span> <span class="o">=</span> <span class="n">NebularLineEmission</span><span class="p">(</span>
                     <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
-                    <span class="n">fesc</span><span class="o">=</span><span class="n">fesc_ly_alpha</span><span class="p">,</span>
+                    <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="n">fesc_ly_alpha</span><span class="p">,</span>
+                    <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
                     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                 <span class="p">)</span>
 
@@ -833,12 +885,13 @@
             <span class="n">StellarEmissionModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-                <span class="n">combine</span><span class="o">=</span><span class="p">(</span><span class="n">linecont</span><span class="p">,</span> <span class="n">nebular_continuum</span><span class="p">),</span>
+                <span class="n">combine</span><span class="o">=</span><span class="p">(</span><span class="n">nebular_line</span><span class="p">,</span> <span class="n">nebular_continuum</span><span class="p">),</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Otherwise, we just need the nebular emission from the grid</span>
+            <span class="c1"># Otherwise, we just get the nebular emission directly</span>
+            <span class="c1"># from the grid</span>
             <span class="n">StellarEmissionModel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
                 <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
@@ -1208,7 +1261,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

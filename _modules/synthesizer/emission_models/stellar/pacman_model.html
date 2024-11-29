@@ -307,6 +307,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -578,6 +579,7 @@
 
 <span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">dimensionless</span>
 
+<span class="kn">from</span> <span class="nn">synthesizer.emission_models.attenuation</span> <span class="kn">import</span> <span class="n">PowerLaw</span>
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models.base_model</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">EmissionModel</span><span class="p">,</span>
     <span class="n">StellarEmissionModel</span><span class="p">,</span>
@@ -589,9 +591,9 @@
 <span class="kn">from</span> <span class="nn">synthesizer.emission_models.stellar.models</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">EscapedEmission</span><span class="p">,</span>
     <span class="n">IncidentEmission</span><span class="p">,</span>
-    <span class="n">LineContinuumEmission</span><span class="p">,</span>
     <span class="n">NebularContinuumEmission</span><span class="p">,</span>
     <span class="n">NebularEmission</span><span class="p">,</span>
+    <span class="n">NebularLineEmission</span><span class="p">,</span>
     <span class="n">TransmittedEmission</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -642,7 +644,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">grid</span><span class="p">,</span>
         <span class="n">tau_v</span><span class="p">,</span>
-        <span class="n">dust_curve</span><span class="p">,</span>
+        <span class="n">dust_curve</span><span class="o">=</span><span class="n">PowerLaw</span><span class="p">(),</span>
         <span class="n">dust_emission</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
@@ -1337,23 +1339,25 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_reprocessed</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
-        <span class="c1"># Get the line continuum emission</span>
-        <span class="n">young_line_cont</span> <span class="o">=</span> <span class="n">LineContinuumEmission</span><span class="p">(</span>
+        <span class="c1"># Get the line emission</span>
+        <span class="n">young_neb_line</span> <span class="o">=</span> <span class="n">NebularLineEmission</span><span class="p">(</span>
             <span class="n">grid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;young_linecont&quot;</span><span class="p">,</span>
             <span class="n">mask_attr</span><span class="o">=</span><span class="s2">&quot;log10ages&quot;</span><span class="p">,</span>
             <span class="n">mask_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">age_pivot</span><span class="p">,</span>
             <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
-            <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
+            <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
+            <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">old_line_cont</span> <span class="o">=</span> <span class="n">LineContinuumEmission</span><span class="p">(</span>
+        <span class="n">old_neb_line</span> <span class="o">=</span> <span class="n">NebularLineEmission</span><span class="p">(</span>
             <span class="n">grid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_grid</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;old_linecont&quot;</span><span class="p">,</span>
             <span class="n">mask_attr</span><span class="o">=</span><span class="s2">&quot;log10ages&quot;</span><span class="p">,</span>
             <span class="n">mask_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">age_pivot</span><span class="p">,</span>
             <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span>
-            <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
+            <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
+            <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1385,7 +1389,7 @@
             <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
             <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc</span><span class="p">,</span>
             <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
-            <span class="n">linecont</span><span class="o">=</span><span class="n">young_line_cont</span><span class="p">,</span>
+            <span class="n">nebular_line</span><span class="o">=</span><span class="n">young_neb_line</span><span class="p">,</span>
             <span class="n">nebular_continuum</span><span class="o">=</span><span class="n">young_neb_cont</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1397,7 +1401,7 @@
             <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&gt;=&quot;</span><span class="p">,</span>
             <span class="n">fesc</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc</span><span class="p">,</span>
             <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_fesc_ly_alpha</span><span class="p">,</span>
-            <span class="n">linecont</span><span class="o">=</span><span class="n">old_line_cont</span><span class="p">,</span>
+            <span class="n">nebular_line</span><span class="o">=</span><span class="n">old_neb_line</span><span class="p">,</span>
             <span class="n">nebular_continuum</span><span class="o">=</span><span class="n">old_neb_cont</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1437,8 +1441,8 @@
 <span class="sd">        Make the intrinsic emission model for an un-reprocessed grid.</span>
 
 <span class="sd">        This will produce the exact same emission as the incident emission but</span>
-<span class="sd">        unlikely the incident emission, the intrinsic emission will be</span>
-<span class="sd">        take into account an escape fraction.</span>
+<span class="sd">        unlike the incident emission, the intrinsic emission will take into</span>
+<span class="sd">        account an escape fraction.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            StellarEmissionModel:</span>
@@ -1473,6 +1477,15 @@
         <span class="k">return</span> <span class="n">young_intrinsic</span><span class="p">,</span> <span class="n">old_intrinsic</span><span class="p">,</span> <span class="n">intrinsic</span>
 
     <span class="k">def</span> <span class="nf">_make_intrinsic_reprocessed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make the intrinsic emission model for a reprocessed grid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            StellarEmissionModel:</span>
+<span class="sd">                - young_intrinsic</span>
+<span class="sd">                - old_intrinsic</span>
+<span class="sd">                - intrinsic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># If fesc is zero then the intrinsic emission is the same as the</span>
         <span class="c1"># reprocessed emission</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fesc</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
@@ -1512,6 +1525,17 @@
         <span class="k">return</span> <span class="n">young_intrinsic</span><span class="p">,</span> <span class="n">old_intrinsic</span><span class="p">,</span> <span class="n">intrinsic</span>
 
     <span class="k">def</span> <span class="nf">_make_attenuated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Make the attenuated emission model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            StellarEmissionModel:</span>
+<span class="sd">                - young_attenuated_nebular</span>
+<span class="sd">                - young_attenuated_ism</span>
+<span class="sd">                - young_attenuated</span>
+<span class="sd">                - old_attenuated</span>
+<span class="sd">                - attenuated</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">young_attenuated_nebular</span> <span class="o">=</span> <span class="n">AttenuatedEmission</span><span class="p">(</span>
             <span class="n">label</span><span class="o">=</span><span class="s2">&quot;young_attenuated_nebular&quot;</span><span class="p">,</span>
             <span class="n">tau_v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tau_v_birth</span><span class="p">,</span>
@@ -2019,7 +2043,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

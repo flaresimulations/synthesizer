@@ -309,6 +309,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -582,18 +583,24 @@
 </pre></div></div>
 </div>
 </section>
-<section id="LineContinuumEmission">
-<h2>LineContinuumEmission<a class="headerlink" href="#LineContinuumEmission" title="Link to this heading">¶</a></h2>
-<p>Line continuum emission defines the emission of lines from a stellar population, typically from the natal birth cloud surrounding young stars. Here we also use a <em>mask</em>, since nebular line emission is typically from young stars still surrounded by their birth cloud.</p>
-<p>Specifically, a line continuum model defines the extraction of the <code class="docutils literal notranslate"><span class="pre">&quot;linecont&quot;</span></code> reprocessed SPS spectra key from a grid file.</p>
+<section id="NebularLineEmission">
+<h2>NebularLineEmission<a class="headerlink" href="#NebularLineEmission" title="Link to this heading">¶</a></h2>
+<p>Nebular line emission defines the line emission from the natal birth cloud surrounding young stars. Specificly for this model, you can specify an escape fraction for lyman alpha independently from the total escape fraction applied to all line emission.</p>
+<p>Here we also demonstrate using a <em>mask</em>, since nebular line emission is typically from young stars still surrounded by their birth cloud.</p>
+<p>Specifically, a nebular line emission model defines the extraction of the <code class="docutils literal notranslate"><span class="pre">&quot;linecont&quot;</span></code> reprocessed SPS spectra key from a grid file.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.emission_models</span> <span class="kn">import</span> <span class="n">LineContinuumEmission</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.emission_models</span> <span class="kn">import</span> <span class="n">NebularLineEmission</span>
 
-<span class="n">line_cont</span> <span class="o">=</span> <span class="n">LineContinuumEmission</span><span class="p">(</span>
-    <span class="n">grid</span><span class="p">,</span> <span class="n">fesc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">mask_attr</span><span class="o">=</span><span class="s2">&quot;ages&quot;</span><span class="p">,</span> <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="n">mask_thresh</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Myr</span>
+<span class="n">line_cont</span> <span class="o">=</span> <span class="n">NebularLineEmission</span><span class="p">(</span>
+    <span class="n">grid</span><span class="p">,</span>
+    <span class="n">fesc</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">mask_attr</span><span class="o">=</span><span class="s2">&quot;ages&quot;</span><span class="p">,</span>
+    <span class="n">mask_op</span><span class="o">=</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span>
+    <span class="n">mask_thresh</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">Myr</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">line_cont</span><span class="p">)</span>
 </pre></div>
@@ -604,18 +611,18 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-|==== EmissionModel: linecont ====|
-|---------------------------------|
-|  LINECONT (stellar)             |
-|---------------------------------|
-|Extraction model:                |
-|  Grid: test_grid                |
-|  Extract key: linecont          |
-|  Escape fraction: 0.8           |
-|  Save emission: True            |
-|  Masks:                         |
-|    - ages &lt; 10 Myr              |
-|=================================|
+|== EmissionModel: nebular_line ===|
+|----------------------------------|
+|  NEBULAR_LINE (stellar)          |
+|----------------------------------|
+|Extraction model:                 |
+|  Grid: test_grid                 |
+|  Extract key: linecont           |
+|  Escape fraction: 0.8            |
+|  Save emission: True             |
+|  Masks:                          |
+|    - ages &lt; 10 Myr               |
+|==================================|
 </pre></div></div>
 </div>
 </section>
@@ -725,8 +732,8 @@
 </section>
 <section id="NebularEmission">
 <h2>NebularEmission<a class="headerlink" href="#NebularEmission" title="Link to this heading">¶</a></h2>
-<p>Nebular emission is the emission from the gas surrounding a (typically young) stellar population. Unlike other models we’ve shown so far, <code class="docutils literal notranslate"><span class="pre">NebularEmission</span></code> comes in two forms depending on whether a Lyman-<span class="math notranslate nohighlight">\(\alpha\)</span> escape fraction is provided. If a Lyman-<span class="math notranslate nohighlight">\(\alpha\)</span> escape fraction less than 1.0 is passed then <code class="docutils literal notranslate"><span class="pre">NebularEmission</span></code> is the combination of <code class="docutils literal notranslate"><span class="pre">LineContinuumEmission</span></code> and <code class="docutils literal notranslate"><span class="pre">NebularContinuum</span></code>. If not, it is an extraction of the <code class="docutils literal notranslate"><span class="pre">&quot;nebular&quot;</span></code> reprocessed SPS spectra.</p>
-<p>Again, as for <code class="docutils literal notranslate"><span class="pre">LineContinuumEmission</span></code> and <code class="docutils literal notranslate"><span class="pre">NebularContinuum</span></code>, we’ll include a mask for young stars.</p>
+<p>Nebular emission is the emission from the gas surrounding a (typically young) stellar population. Unlike other models we’ve shown so far, <code class="docutils literal notranslate"><span class="pre">NebularEmission</span></code> comes in two forms depending on whether a Lyman-<span class="math notranslate nohighlight">\(\alpha\)</span> escape fraction is provided. If a Lyman-<span class="math notranslate nohighlight">\(\alpha\)</span> escape fraction less than 1.0 is passed then <code class="docutils literal notranslate"><span class="pre">NebularEmission</span></code> is the combination of <code class="docutils literal notranslate"><span class="pre">NebularLineEmission</span></code> and <code class="docutils literal notranslate"><span class="pre">NebularContinuumEmission</span></code>. If not, it is an extraction of the <code class="docutils literal notranslate"><span class="pre">&quot;nebular&quot;</span></code> reprocessed SPS spectra.</p>
+<p>Again, as for <code class="docutils literal notranslate"><span class="pre">NebularLineEmission</span></code> and <code class="docutils literal notranslate"><span class="pre">NebularContinuum</span></code>, we’ll include a mask for young stars.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -766,36 +773,54 @@
 |  Save emission: True           |
 |================================|
 
-|================ EmissionModel: nebular ===============|
-|-------------------------------------------------------|
-|  NEBULAR_CONTINUUM (stellar)                          |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: nebular_continuum                       |
-|  Escape fraction: 0.1                                 |
-|  Save emission: True                                  |
-|  Masks:                                               |
-|    - ages &lt; 10 Myr                                    |
-|-------------------------------------------------------|
-|  LINECONT (stellar)                                   |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: linecont                                |
-|  Escape fraction: 0.8                                 |
-|  Save emission: True                                  |
-|  Masks:                                               |
-|    - ages &lt; 10 Myr                                    |
-|-------------------------------------------------------|
-|  NEBULAR (stellar)                                    |
-|-------------------------------------------------------|
-|Combination model:                                     |
-|  Combine models: linecont, nebular_continuum          |
-|  Save emission: True                                  |
-|  Masks:                                               |
-|    - ages &lt; 10 Myr                                    |
-|=======================================================|
+|========================== EmissionModel: nebular =========================|
+|---------------------------------------------------------------------------|
+|  NEBULAR_CONTINUUM (stellar)                                              |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: nebular_continuum                                           |
+|  Escape fraction: 0.1                                                     |
+|  Save emission: True                                                      |
+|  Masks:                                                                   |
+|    - ages &lt; 10 Myr                                                        |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE_NO_LYMAN (stellar)                                          |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: linecont                                                    |
+|  Escape fraction: 0.1                                                     |
+|  Save emission: False                                                     |
+|  Masks:                                                                   |
+|    - ages &lt; 10 Myr                                                        |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE_LYMAN_ALPHA (stellar)                                       |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: linecont                                                    |
+|  Escape fraction: 0.2799999999999999                                      |
+|  Save emission: False                                                     |
+|  Masks:                                                                   |
+|    - ages &lt; 10 Myr                                                        |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE (stellar)                                                   |
+|---------------------------------------------------------------------------|
+|Combination model:                                                         |
+|  Combine models: nebular_line_no_lyman, nebular_line_lyman_alpha          |
+|  Save emission: True                                                      |
+|  Masks:                                                                   |
+|    - ages &lt; 10 Myr                                                        |
+|---------------------------------------------------------------------------|
+|  NEBULAR (stellar)                                                        |
+|---------------------------------------------------------------------------|
+|Combination model:                                                         |
+|  Combine models: nebular_line, nebular_continuum                          |
+|  Save emission: True                                                      |
+|  Masks:                                                                   |
+|    - ages &lt; 10 Myr                                                        |
+|===========================================================================|
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -837,44 +862,58 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-|============== EmissionModel: reprocessed =============|
-|-------------------------------------------------------|
-|  TRANSMITTED (stellar)                                |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: transmitted                             |
-|  Escape fraction: 0.1                                 |
-|  Save emission: True                                  |
-|-------------------------------------------------------|
-|  LINECONT (stellar)                                   |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: linecont                                |
-|  Escape fraction: 0.8                                 |
-|  Save emission: True                                  |
-|-------------------------------------------------------|
-|  NEBULAR_CONTINUUM (stellar)                          |
-|-------------------------------------------------------|
-|Extraction model:                                      |
-|  Grid: test_grid                                      |
-|  Extract key: nebular_continuum                       |
-|  Escape fraction: 0.1                                 |
-|  Save emission: True                                  |
-|-------------------------------------------------------|
-|  NEBULAR (stellar)                                    |
-|-------------------------------------------------------|
-|Combination model:                                     |
-|  Combine models: linecont, nebular_continuum          |
-|  Save emission: True                                  |
-|-------------------------------------------------------|
-|  REPROCESSED (stellar)                                |
-|-------------------------------------------------------|
-|Combination model:                                     |
-|  Combine models: nebular, transmitted                 |
-|  Save emission: True                                  |
-|=======================================================|
+|======================== EmissionModel: reprocessed =======================|
+|---------------------------------------------------------------------------|
+|  NEBULAR_CONTINUUM (stellar)                                              |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: nebular_continuum                                           |
+|  Escape fraction: 0.1                                                     |
+|  Save emission: True                                                      |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE_NO_LYMAN (stellar)                                          |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: linecont                                                    |
+|  Escape fraction: 0.1                                                     |
+|  Save emission: False                                                     |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE_LYMAN_ALPHA (stellar)                                       |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: linecont                                                    |
+|  Escape fraction: 0.2799999999999999                                      |
+|  Save emission: False                                                     |
+|---------------------------------------------------------------------------|
+|  TRANSMITTED (stellar)                                                    |
+|---------------------------------------------------------------------------|
+|Extraction model:                                                          |
+|  Grid: test_grid                                                          |
+|  Extract key: transmitted                                                 |
+|  Escape fraction: 0.1                                                     |
+|  Save emission: True                                                      |
+|---------------------------------------------------------------------------|
+|  NEBULAR_LINE (stellar)                                                   |
+|---------------------------------------------------------------------------|
+|Combination model:                                                         |
+|  Combine models: nebular_line_no_lyman, nebular_line_lyman_alpha          |
+|  Save emission: True                                                      |
+|---------------------------------------------------------------------------|
+|  NEBULAR (stellar)                                                        |
+|---------------------------------------------------------------------------|
+|Combination model:                                                         |
+|  Combine models: nebular_line, nebular_continuum                          |
+|  Save emission: True                                                      |
+|---------------------------------------------------------------------------|
+|  REPROCESSED (stellar)                                                    |
+|---------------------------------------------------------------------------|
+|Combination model:                                                         |
+|  Combine models: nebular, transmitted                                     |
+|  Save emission: True                                                      |
+|===========================================================================|
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1009,22 +1048,6 @@
 |  Escape fraction: 0.8                                                                                  |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                 |
-|--------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                       |
-|  Grid: test_grid                                                                                       |
-|  Extract key: transmitted                                                                              |
-|  Escape fraction: 0.1                                                                                  |
-|  Save emission: True                                                                                   |
-|--------------------------------------------------------------------------------------------------------|
-|  LINECONT (stellar)                                                                                    |
-|--------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                       |
-|  Grid: test_grid                                                                                       |
-|  Extract key: linecont                                                                                 |
-|  Escape fraction: 0.8                                                                                  |
-|  Save emission: True                                                                                   |
-|--------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                           |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
@@ -1033,10 +1056,40 @@
 |  Escape fraction: 0.1                                                                                  |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE_NO_LYMAN (stellar)                                                                       |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: linecont                                                                                 |
+|  Escape fraction: 0.1                                                                                  |
+|  Save emission: False                                                                                  |
+|--------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE_LYMAN_ALPHA (stellar)                                                                    |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: linecont                                                                                 |
+|  Escape fraction: 0.2799999999999999                                                                   |
+|  Save emission: False                                                                                  |
+|--------------------------------------------------------------------------------------------------------|
+|  TRANSMITTED (stellar)                                                                                 |
+|--------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                       |
+|  Grid: test_grid                                                                                       |
+|  Extract key: transmitted                                                                              |
+|  Escape fraction: 0.1                                                                                  |
+|  Save emission: True                                                                                   |
+|--------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE (stellar)                                                                                |
+|--------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                      |
+|  Combine models: nebular_line_no_lyman, nebular_line_lyman_alpha                                       |
+|  Save emission: True                                                                                   |
+|--------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                      |
-|  Combine models: linecont, nebular_continuum                                                           |
+|  Combine models: nebular_line, nebular_continuum                                                       |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
 |  REPROCESSED (stellar)                                                                                 |
@@ -1048,7 +1101,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f317206f5b0&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b30a91e0&gt;          |
 |  Apply dust to: reprocessed                                                                            |
 |  Optical depth (tau_v): [0.67]                                                                         |
 |  Save emission: True                                                                                   |
@@ -1108,14 +1161,6 @@
 <div class="highlight"><pre>
 |================================================ EmissionModel: total ===============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  LINECONT (stellar)                                                                                                 |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid                                                                                                    |
-|  Extract key: linecont                                                                                              |
-|  Escape fraction: 0.7                                                                                               |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR_CONTINUUM (stellar)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
@@ -1123,6 +1168,22 @@
 |  Extract key: nebular_continuum                                                                                     |
 |  Escape fraction: 0.2                                                                                               |
 |  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE_LYMAN_ALPHA (stellar)                                                                                 |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: linecont                                                                                              |
+|  Escape fraction: 0.44000000000000006                                                                               |
+|  Save emission: False                                                                                               |
+|---------------------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE_NO_LYMAN (stellar)                                                                                    |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: linecont                                                                                              |
+|  Escape fraction: 0.2                                                                                               |
+|  Save emission: False                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TRANSMITTED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1140,10 +1201,16 @@
 |  Escape fraction: 0.8                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
+|  NEBULAR_LINE (stellar)                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: nebular_line_no_lyman, nebular_line_lyman_alpha                                                    |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
-|  Combine models: linecont, nebular_continuum                                                                        |
+|  Combine models: nebular_line, nebular_continuum                                                                    |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  REPROCESSED (stellar)                                                                                              |
@@ -1155,7 +1222,7 @@
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f317206fac0&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44c4d64580&gt;                       |
 |  Apply dust to: reprocessed                                                                                         |
 |  Optical depth (tau_v): [0.67]                                                                                      |
 |  Save emission: True                                                                                                |
@@ -1163,7 +1230,7 @@
 |  DUST_EMISSION (stellar)                                                                                            |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f317206fd30&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f44b32222c0&gt;          |
 |  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1230,26 +1297,6 @@
 <div class="highlight"><pre>
 |================================================ EmissionModel: total ===============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  YOUNG_NEBULAR (stellar)                                                                                            |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid                                                                                                    |
-|  Extract key: nebular                                                                                               |
-|  Escape fraction: 0.0                                                                                               |
-|  Save emission: True                                                                                                |
-|  Masks:                                                                                                             |
-|    - log10ages &lt; 7 dimensionless                                                                                    |
-|---------------------------------------------------------------------------------------------------------------------|
-|  YOUNG_TRANSMITTED (stellar)                                                                                        |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.0                                                                                               |
-|  Save emission: True                                                                                                |
-|  Masks:                                                                                                             |
-|    - log10ages &lt; 7 dimensionless                                                                                    |
-|---------------------------------------------------------------------------------------------------------------------|
 |  OLD_NEBULAR (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
@@ -1269,6 +1316,26 @@
 |  Save emission: True                                                                                                |
 |  Masks:                                                                                                             |
 |    - log10ages &gt;= 7 dimensionless                                                                                   |
+|---------------------------------------------------------------------------------------------------------------------|
+|  YOUNG_TRANSMITTED (stellar)                                                                                        |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.0                                                                                               |
+|  Save emission: True                                                                                                |
+|  Masks:                                                                                                             |
+|    - log10ages &lt; 7 dimensionless                                                                                    |
+|---------------------------------------------------------------------------------------------------------------------|
+|  YOUNG_NEBULAR (stellar)                                                                                            |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: nebular                                                                                               |
+|  Escape fraction: 0.0                                                                                               |
+|  Save emission: True                                                                                                |
+|  Masks:                                                                                                             |
+|    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
 |  OLD_INCIDENT (stellar)                                                                                             |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1290,32 +1357,59 @@
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
+|  OLD_INTRINSIC (stellar)                                                                                            |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: old_nebular, old_transmitted                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  OLD_EMERGENT (stellar)                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312baf0&gt;                       |
+|  Apply dust to: old_intrinsic                                                                                       |
+|  Optical depth (tau_v): [1.0]                                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  OLD_REPROCESSED (stellar)                                                                                          |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: old_transmitted, old_nebular                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  OLD_ATTENUATED (stellar)                                                                                           |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312baf0&gt;                       |
+|  Apply dust to: old_reprocessed                                                                                     |
+|  Optical depth (tau_v): [1.0]                                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  OLD_DUST_EMISSION (stellar)                                                                                        |
+|---------------------------------------------------------------------------------------------------------------------|
+|Generation model:                                                                                                    |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f44b3223d00&gt;          |
+|  Dust luminosity: old_intrinsic - old_attenuated                                                                    |
+|  Save emission: True                                                                                                |
+|  Masks:                                                                                                             |
+|    - log10ages &gt;= 7 dimensionless                                                                                   |
+|---------------------------------------------------------------------------------------------------------------------|
+|  OLD_TOTAL (stellar)                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: old_dust_emission, old_emergent                                                                    |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_REPROCESSED (stellar)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: young_transmitted, young_nebular                                                                   |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  YOUNG_ATTENUATED_NEBULAR (stellar)                                                                                 |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f317206f940&gt;                       |
-|  Apply dust to: young_reprocessed                                                                                   |
-|  Optical depth (tau_v): [0.7]                                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  YOUNG_EMERGENT (stellar)                                                                                           |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f3183c62050&gt;                       |
-|  Apply dust to: young_attenuated_nebular                                                                            |
-|  Optical depth (tau_v): [1.0]                                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_ATTENUATED_ISM (stellar)                                                                                     |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f3183c62050&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312baf0&gt;                       |
 |  Apply dust to: young_reprocessed                                                                                   |
 |  Optical depth (tau_v): [1.0]                                                                                       |
 |  Save emission: True                                                                                                |
@@ -1329,16 +1423,24 @@
 |  YOUNG_DUST_EMISSION_ISM (stellar)                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f3171f7ff40&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f44b3223d00&gt;          |
 |  Dust luminosity: young_intrinsic - young_attenuated_ism                                                            |
 |  Save emission: True                                                                                                |
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
 |---------------------------------------------------------------------------------------------------------------------|
+|  YOUNG_ATTENUATED_NEBULAR (stellar)                                                                                 |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312b760&gt;                       |
+|  Apply dust to: young_reprocessed                                                                                   |
+|  Optical depth (tau_v): [0.7]                                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_DUST_EMISSION_BIRTH (stellar)                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f3171f7f9d0&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f44b2fef4c0&gt;          |
 |  Dust luminosity: young_intrinsic - young_attenuated_nebular                                                        |
 |  Save emission: True                                                                                                |
 |  Masks:                                                                                                             |
@@ -1350,53 +1452,18 @@
 |  Combine models: young_dust_emission_birth, young_dust_emission_ism                                                 |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
+|  YOUNG_EMERGENT (stellar)                                                                                           |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312baf0&gt;                       |
+|  Apply dust to: young_attenuated_nebular                                                                            |
+|  Optical depth (tau_v): [1.0]                                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_TOTAL (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: young_dust_emission, young_emergent                                                                |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_REPROCESSED (stellar)                                                                                          |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: old_transmitted, old_nebular                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_ATTENUATED (stellar)                                                                                           |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f3183c62050&gt;                       |
-|  Apply dust to: old_reprocessed                                                                                     |
-|  Optical depth (tau_v): [1.0]                                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_INTRINSIC (stellar)                                                                                            |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: old_nebular, old_transmitted                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_DUST_EMISSION (stellar)                                                                                        |
-|---------------------------------------------------------------------------------------------------------------------|
-|Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f3171f7ff40&gt;          |
-|  Dust luminosity: old_intrinsic - old_attenuated                                                                    |
-|  Save emission: True                                                                                                |
-|  Masks:                                                                                                             |
-|    - log10ages &gt;= 7 dimensionless                                                                                   |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_EMERGENT (stellar)                                                                                             |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f3183c62050&gt;                       |
-|  Apply dust to: old_intrinsic                                                                                       |
-|  Optical depth (tau_v): [1.0]                                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  OLD_TOTAL (stellar)                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: old_dust_emission, old_emergent                                                                    |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TOTAL (stellar)                                                                                                    |
@@ -1405,10 +1472,10 @@
 |  Combine models: young_total, old_total                                                                             |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  DUST_EMISSION (stellar)                                                                                            |
+|  REPROCESSED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
-|  Combine models: young_dust_emission, old_dust_emission                                                             |
+|  Combine models: young_reprocessed, old_reprocessed                                                                 |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  NEBULAR (stellar)                                                                                                  |
@@ -1417,30 +1484,12 @@
 |  Combine models: young_nebular, old_nebular                                                                         |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  INCIDENT (stellar)                                                                                                 |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: young_incident, old_incident                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  YOUNG_ATTENUATED (stellar)                                                                                         |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f3183c62050&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f44b312baf0&gt;                       |
 |  Apply dust to: young_attenuated_nebular                                                                            |
 |  Optical depth (tau_v): [1.0]                                                                                       |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  INTRINSIC (stellar)                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: young_intrinsic, old_intrinsic                                                                     |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
-|  EMERGENT (stellar)                                                                                                 |
-|---------------------------------------------------------------------------------------------------------------------|
-|Combination model:                                                                                                   |
-|  Combine models: young_emergent, old_emergent                                                                       |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  ATTENUATED (stellar)                                                                                               |
@@ -1449,16 +1498,34 @@
 |  Combine models: young_attenuated, old_attenuated                                                                   |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  REPROCESSED (stellar)                                                                                              |
+|  EMERGENT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
-|  Combine models: young_reprocessed, old_reprocessed                                                                 |
+|  Combine models: young_emergent, old_emergent                                                                       |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  DUST_EMISSION (stellar)                                                                                            |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: young_dust_emission, old_dust_emission                                                             |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  INCIDENT (stellar)                                                                                                 |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: young_incident, old_incident                                                                       |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TRANSMITTED (stellar)                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: young_transmitted, old_transmitted                                                                 |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  INTRINSIC (stellar)                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|Combination model:                                                                                                   |
+|  Combine models: young_intrinsic, old_intrinsic                                                                     |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
 </pre></div></div>
@@ -1672,7 +1739,7 @@
     <span class="n">fesc</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
     <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">pc_model</span><span class="o">.</span><span class="n">plot_emission_tree</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pc_model</span><span class="o">.</span><span class="n">plot_emission_tree</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1689,7 +1756,7 @@
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&lt;Figure size 600x600 with 1 Axes&gt;, &lt;Axes: &gt;)
+(&lt;Figure size 800x600 with 1 Axes&gt;, &lt;Axes: &gt;)
 </pre></div></div>
 </div>
 <p>And as with the other models the dust emission can be omitted, leaving <code class="docutils literal notranslate"><span class="pre">&quot;emergent&quot;</span></code> at the root.</p>
@@ -1716,7 +1783,7 @@ these can be generated down stream, either by integrating and attaching, or inte
     <span class="n">fesc_ly_alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
     <span class="n">stellar_dust</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">pc_model</span><span class="o">.</span><span class="n">plot_emission_tree</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pc_model</span><span class="o">.</span><span class="n">plot_emission_tree</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1733,7 +1800,7 @@ these can be generated down stream, either by integrating and attaching, or inte
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(&lt;Figure size 600x600 with 1 Axes&gt;, &lt;Axes: &gt;)
+(&lt;Figure size 800x600 with 1 Axes&gt;, &lt;Axes: &gt;)
 </pre></div></div>
 </div>
 <p>For more information see the <a class="reference internal" href="../combined_models.html"><span class="doc">combined models docs</span></a> where we explictly show the construction of a multicomponent model with dust emission.</p>
@@ -1797,7 +1864,7 @@ these can be generated down stream, either by integrating and attaching, or inte
             <ul>
 <li><a class="reference internal" href="#">Stellar Emission Models</a><ul>
 <li><a class="reference internal" href="#IncidentEmission">IncidentEmission</a></li>
-<li><a class="reference internal" href="#LineContinuumEmission">LineContinuumEmission</a></li>
+<li><a class="reference internal" href="#NebularLineEmission">NebularLineEmission</a></li>
 <li><a class="reference internal" href="#TransmittedEmission">TransmittedEmission</a></li>
 <li><a class="reference internal" href="#EscapedEmission">EscapedEmission</a></li>
 <li><a class="reference internal" href="#NebularContinuumEmission">NebularContinuumEmission</a></li>
@@ -1821,7 +1888,7 @@ these can be generated down stream, either by integrating and attaching, or inte
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

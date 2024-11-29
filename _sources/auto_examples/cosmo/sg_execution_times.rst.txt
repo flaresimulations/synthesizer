@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:52.088** total execution time for 7 files **from auto_examples/cosmo**:
+**00:55.157** total execution time for 7 files **from auto_examples/cosmo**:
 
 .. container::
 
@@ -33,22 +33,22 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_age_lookup.py` (``plot_test_age_lookup.py``)
-     - 00:44.828
+     - 00:45.276
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_cosmo_example.py` (``plot_cosmo_example.py``)
-     - 00:03.577
+     - 00:04.322
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_sc-sam.py` (``plot_sc-sam.py``)
-     - 00:01.203
+     - 00:02.835
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_los_spectra.py` (``plot_test_los_spectra.py``)
-     - 00:01.094
+     - 00:01.086
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_parametric_young_stars.py` (``plot_parametric_young_stars.py``)
-     - 00:00.778
+     - 00:00.861
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_plot_test_aperture_mask.py` (``plot_test_aperture_mask.py``)
-     - 00:00.608
+     - 00:00.778
      - 0.0
    * - :ref:`sphx_glr_auto_examples_cosmo_luminosity_function_integration_test.py` (``luminosity_function_integration_test.py``)
      - 00:00.000

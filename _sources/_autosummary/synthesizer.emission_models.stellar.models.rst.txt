@@ -53,14 +53,6 @@ synthesizer.emission\_models.stellar.models
    .. minigallery:: synthesizer.emission_models.stellar.models.IntrinsicEmission
        :add-heading:
    
-   .. autoclass:: LineContinuumEmission
-      :members:
-
-   .. _sphx_glr_backref_synthesizer.emission_models.stellar.models.LineContinuumEmission:
-
-   .. minigallery:: synthesizer.emission_models.stellar.models.LineContinuumEmission
-       :add-heading:
-   
    .. autoclass:: NebularContinuumEmission
       :members:
 
@@ -75,6 +67,14 @@ synthesizer.emission\_models.stellar.models
    .. _sphx_glr_backref_synthesizer.emission_models.stellar.models.NebularEmission:
 
    .. minigallery:: synthesizer.emission_models.stellar.models.NebularEmission
+       :add-heading:
+   
+   .. autoclass:: NebularLineEmission
+      :members:
+
+   .. _sphx_glr_backref_synthesizer.emission_models.stellar.models.NebularLineEmission:
+
+   .. minigallery:: synthesizer.emission_models.stellar.models.NebularLineEmission
        :add-heading:
    
    .. autoclass:: ReprocessedEmission

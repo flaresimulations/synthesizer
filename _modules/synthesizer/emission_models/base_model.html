@@ -307,6 +307,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_filters.html">Filters example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/general/plot_photometry.html">Photometry example</a></li>
 </ul>
 </li>
@@ -662,6 +663,8 @@
 <span class="sd">            The operation to apply. Can be &quot;&lt;&quot;, &quot;&gt;&quot;, &quot;&lt;=&quot;, &quot;&gt;=&quot;, &quot;==&quot;, or &quot;!=&quot;.</span>
 <span class="sd">        fesc (float):</span>
 <span class="sd">            The escape fraction.</span>
+<span class="sd">        lam_mask (ndarray):</span>
+<span class="sd">            The mask to apply to the wavelength array.</span>
 <span class="sd">        scale_by (list):</span>
 <span class="sd">            A list of attributes to scale the spectra by.</span>
 <span class="sd">        post_processing (list):</span>
@@ -698,7 +701,8 @@
         <span class="n">mask_attr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mask_thresh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mask_op</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">fesc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">lam_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">related_models</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">emitter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">fixed_parameters</span><span class="o">=</span><span class="p">{},</span>
@@ -759,6 +763,8 @@
 <span class="sd">                or &quot;!=&quot;.</span>
 <span class="sd">            fesc (float):</span>
 <span class="sd">                The escape fraction.</span>
+<span class="sd">            lam_mask (ndarray):</span>
+<span class="sd">                The mask to apply to the wavelength array.</span>
 <span class="sd">            related_models (set/list/EmissionModel):</span>
 <span class="sd">                A set of related models to this model. A related model is a</span>
 <span class="sd">                model that is connected somewhere within the model tree but is</span>
@@ -855,6 +861,7 @@
             <span class="n">lum_intrinsic_model</span><span class="o">=</span><span class="n">lum_intrinsic_model</span><span class="p">,</span>
             <span class="n">lum_attenuated_model</span><span class="o">=</span><span class="n">lum_attenuated_model</span><span class="p">,</span>
             <span class="n">fesc</span><span class="o">=</span><span class="n">fesc</span><span class="p">,</span>
+            <span class="n">lam_mask</span><span class="o">=</span><span class="n">lam_mask</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Containers for children and parents</span>
@@ -913,6 +920,7 @@
         <span class="n">lum_intrinsic_model</span><span class="p">,</span>
         <span class="n">lum_attenuated_model</span><span class="p">,</span>
         <span class="n">fesc</span><span class="p">,</span>
+        <span class="n">lam_mask</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialise the correct parent operation.</span>
@@ -943,10 +951,12 @@
 <span class="sd">                luminosity when computing dust emission.</span>
 <span class="sd">            fesc (float):</span>
 <span class="sd">                The escape fraction.</span>
+<span class="sd">            lam_mask (ndarray):</span>
+<span class="sd">                The mask to apply to the wavelength array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Which operation are we doing?</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_extracting</span><span class="p">:</span>
-            <span class="n">Extraction</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">fesc</span><span class="p">)</span>
+            <span class="n">Extraction</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">fesc</span><span class="p">,</span> <span class="n">lam_mask</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_combining</span><span class="p">:</span>
             <span class="n">Combination</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combine</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_dust_attenuating</span><span class="p">:</span>
@@ -2667,7 +2677,7 @@
         <span class="n">emitters</span><span class="p">,</span>
         <span class="n">dust_curves</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">tau_v</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">fesc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">covering_fraction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -2981,7 +2991,7 @@
         <span class="n">emitters</span><span class="p">,</span>
         <span class="n">dust_curves</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">tau_v</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">fesc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">fesc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
         <span class="n">covering_fraction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -3568,7 +3578,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=b0ac70f0"></script>
+</div><script src="../../../_static/documentation_options.js?v=f8bd5389"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
