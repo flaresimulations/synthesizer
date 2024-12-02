@@ -833,6 +833,20 @@
             <span class="k">for</span> <span class="n">spectra_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_spectra</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">spectra</span><span class="p">[</span><span class="n">spectra_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s2">&quot;spectra&quot;</span><span class="p">][</span><span class="n">spectra_id</span><span class="p">][:]</span>
 
+            <span class="c1"># # THIS IS A HACK BECAUSE SW CHANGED THE AGN EMISSIONS WITHOUT</span>
+            <span class="c1"># # UPDATING THE TEST GRIDS AND ONLY HE HAS ACCESS TO THE DROPBOX.</span>
+            <span class="c1"># # THIS WILL BE REMOVED WHEN THE GRIDS ARE UPDATED.</span>
+            <span class="c1"># if &quot;nlr&quot; in self.grid_filename or &quot;blr&quot; in self.grid_filename:</span>
+            <span class="c1">#     for spectra_id in self.available_spectra:</span>
+            <span class="c1">#         # Normalise spectra by bolometric luminosity</span>
+            <span class="c1">#         sed = Sed(</span>
+            <span class="c1">#             self.lam, lnu=self.spectra[spectra_id] * erg / s / Hz</span>
+            <span class="c1">#         )</span>
+            <span class="c1">#         self.spectra[spectra_id] = (</span>
+            <span class="c1">#             self.spectra[spectra_id]</span>
+            <span class="c1">#             / sed.bolometric_luminosity[..., None]</span>
+            <span class="c1">#         )</span>
+
         <span class="c1"># If a full cloudy grid is available calculate some</span>
         <span class="c1"># other spectra for convenience.</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reprocessed</span><span class="p">:</span>
@@ -1815,7 +1829,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f8bd5389"></script>
+</div><script src="../../_static/documentation_options.js?v=d9aa6378"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

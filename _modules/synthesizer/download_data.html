@@ -559,13 +559,13 @@
     <span class="p">},</span>
     <span class="s2">&quot;test_grid_agn-blr.hdf5&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;agnsed-limited_cloudy-c23.01-blr.hdf5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;4rnwbxnzwp3v0pmiju06h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rlkey&quot;</span><span class="p">:</span> <span class="s2">&quot;rdqy9p7royyxnljtloh2a2zj7&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;r7pbdvbvujypgx8ady6bl&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rlkey&quot;</span><span class="p">:</span> <span class="s2">&quot;4tdscxnoaepvog8skil15ehgk&quot;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s2">&quot;test_grid_agn-nlr.hdf5&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;agnsed-limited_cloudy-c23.01-nlr.hdf5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;4dxp06jzv276pn8qxq1nx&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;rlkey&quot;</span><span class="p">:</span> <span class="s2">&quot;35tietcw2j40q4ad1guj2swg1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;7h971875rkkmkxvmgdqnn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;rlkey&quot;</span><span class="p">:</span> <span class="s2">&quot;e6oyr8l9gyqlz3i2nlko7pne6&quot;</span><span class="p">,</span>
     <span class="p">},</span>
     <span class="s2">&quot;MW3.1.hdf5&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;file&quot;</span><span class="p">:</span> <span class="s2">&quot;MW3.1.hdf5&quot;</span><span class="p">,</span>
@@ -676,16 +676,8 @@
 <span class="sd">        save_dir (str)</span>
 <span class="sd">            The directory in which to save the file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Try the primary host</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">_download_from_xcs_host</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="c1"># Re-raise the keyboard interrupt</span>
-        <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to download from primary host:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Trying dropbox...&quot;</span><span class="p">)</span>
-        <span class="n">_download_from_dropbox</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">)</span>
+    <span class="c1"># Download from the dropbox</span>
+    <span class="n">_download_from_dropbox</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="download_test_grids">
@@ -925,7 +917,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f8bd5389"></script>
+</div><script src="../../_static/documentation_options.js?v=d9aa6378"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
