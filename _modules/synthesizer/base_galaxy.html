@@ -1639,6 +1639,10 @@
                     <span class="sa">f</span><span class="s2">&quot;Unknown emitter in emission model. (</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">emitter</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="p">)</span>
 
+        <span class="c1"># If we are limiting to a specific image then return that</span>
+        <span class="k">if</span> <span class="n">limit_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">images</span><span class="p">[</span><span class="n">limit_to</span><span class="p">]</span>
+
         <span class="c1"># Return the image at the root of the emission model</span>
         <span class="k">return</span> <span class="n">images</span><span class="p">[</span><span class="n">emission_model</span><span class="o">.</span><span class="n">label</span><span class="p">]</span></div>
 
@@ -1744,6 +1748,10 @@
                 <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Unknown emitter in emission model. (</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">emitter</span><span class="si">}</span><span class="s2">)&quot;</span>
                 <span class="p">)</span>
+
+        <span class="c1"># If we are limiting to a specific image then return that</span>
+        <span class="k">if</span> <span class="n">limit_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">images</span><span class="p">[</span><span class="n">limit_to</span><span class="p">]</span>
 
         <span class="c1"># Return the image at the root of the emission model</span>
         <span class="k">return</span> <span class="n">images</span><span class="p">[</span><span class="n">emission_model</span><span class="o">.</span><span class="n">label</span><span class="p">]</span></div>
@@ -1856,7 +1864,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d9aa6378"></script>
+</div><script src="../../_static/documentation_options.js?v=ebe7625f"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

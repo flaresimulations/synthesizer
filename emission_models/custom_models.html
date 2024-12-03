@@ -782,7 +782,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f8c9cc63ca0&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fdc88dc29b0&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): [&#39;tau_v&#39;]                                                                      |
 |  Save emission: True                                                                                   |
@@ -840,7 +840,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f8c9cc637f0&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fdc88dc3040&gt;          |
 |  Apply dust to: nebular                                                                                |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                |
 |  Save emission: True                                                                                   |
@@ -875,7 +875,7 @@
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f8ce8a697b0&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7fdc4202fbb0&gt;          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
 </pre></div></div>
@@ -912,7 +912,7 @@
 |  BLACKBODY_EMISSION (stellar)                                                                                       |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f8ce8a6ba00&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7fdc88dc3580&gt;          |
 |  Scale by: transmitted                                                                                              |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -977,7 +977,7 @@
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f8c9cc637f0&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7fdc88dc3040&gt;                       |
 |  Apply dust to: nebular                                                                                             |
 |  Optical depth (tau_v): (&#39;tau_v&#39;, 0.33)                                                                             |
 |  Save emission: True                                                                                                |
@@ -985,7 +985,7 @@
 |  BLACKBODY_EMISSION (galaxy)                                                                                        |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f8c9cc629b0&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7fdc88d7b460&gt;          |
 |  Dust luminosity: transmitted - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -1332,14 +1332,6 @@
 <div class="highlight"><pre>
 |================================================ EmissionModel: total ===============================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  TRANSMITTED (stellar)                                                                                              |
-|---------------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                                    |
-|  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.3                                                                                               |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  LINECONT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
@@ -1359,6 +1351,14 @@
 |  Save emission: False                                                                                               |
 |  Masks:                                                                                                             |
 |    - log10ages &lt; 7 dimensionless                                                                                    |
+|---------------------------------------------------------------------------------------------------------------------|
+|  TRANSMITTED (stellar)                                                                                              |
+|---------------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                                    |
+|  Grid: test_grid                                                                                                    |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.3                                                                                               |
+|  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  ESCAPED (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
@@ -1380,16 +1380,6 @@
 |  Combine models: nebular, transmitted                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  YOUNG_ATTENUATED (stellar)                                                                                         |
-|---------------------------------------------------------------------------------------------------------------------|
-|Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;class &#39;synthesizer.emission_models.attenuation.dust.PowerLaw&#39;&gt;                                        |
-|  Apply dust to: reprocessed                                                                                         |
-|  Optical depth (tau_v): (&#39;tau_v&#39;, 0.67)                                                                             |
-|  Save emission: False                                                                                               |
-|  Masks:                                                                                                             |
-|    - log10ages &lt; 7 dimensionless                                                                                    |
-|---------------------------------------------------------------------------------------------------------------------|
 |  OLD_ATTENUATED (stellar)                                                                                           |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
@@ -1400,23 +1390,33 @@
 |  Masks:                                                                                                             |
 |    - log10ages &gt;= 7 dimensionless                                                                                   |
 |---------------------------------------------------------------------------------------------------------------------|
+|  YOUNG_ATTENUATED (stellar)                                                                                         |
+|---------------------------------------------------------------------------------------------------------------------|
+|Dust attenuation model:                                                                                              |
+|  Dust curve: &lt;class &#39;synthesizer.emission_models.attenuation.dust.PowerLaw&#39;&gt;                                        |
+|  Apply dust to: reprocessed                                                                                         |
+|  Optical depth (tau_v): (&#39;tau_v&#39;, 0.67)                                                                             |
+|  Save emission: False                                                                                               |
+|  Masks:                                                                                                             |
+|    - log10ages &lt; 7 dimensionless                                                                                    |
+|---------------------------------------------------------------------------------------------------------------------|
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: young_attenuated, old_attenuated                                                                   |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  DUST_EMISSION (galaxy)                                                                                             |
-|---------------------------------------------------------------------------------------------------------------------|
-|Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f8c8b24d690&gt;          |
-|  Dust luminosity: reprocessed - attenuated                                                                          |
-|  Save emission: True                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------|
 |  EMERGENT (stellar)                                                                                                 |
 |---------------------------------------------------------------------------------------------------------------------|
 |Combination model:                                                                                                   |
 |  Combine models: attenuated, escaped                                                                                |
+|  Save emission: True                                                                                                |
+|---------------------------------------------------------------------------------------------------------------------|
+|  DUST_EMISSION (galaxy)                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------|
+|Generation model:                                                                                                    |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7fdc88dc0cd0&gt;          |
+|  Dust luminosity: reprocessed - attenuated                                                                          |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TOTAL (galaxy)                                                                                                     |
@@ -1510,7 +1510,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=d9aa6378"></script>
+</div><script src="../_static/documentation_options.js?v=ebe7625f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
