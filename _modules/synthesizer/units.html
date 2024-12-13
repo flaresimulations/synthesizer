@@ -1073,15 +1073,15 @@
 <span class="sd">        IncorrectUnits</span>
 <span class="sd">            If the argument has incompatible units.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Early exit if the argument isn&#39;t in the units dictionary</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">units</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span>
+
     <span class="c1"># If the argument is None just skip it, its an optional argument that</span>
     <span class="c1"># hasn&#39;t been passed... or the user has somehow managed to pass None</span>
     <span class="c1"># which is sufficently weird to cause an obvious error elsewhere</span>
     <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="c1"># Early exit if the argument isn&#39;t in the units dictionary</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">units</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">value</span>
 
     <span class="c1"># Handle the unyt_array/unyt_quantity cases</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">unyt_array</span><span class="p">,</span> <span class="n">unyt_quantity</span><span class="p">)):</span>
@@ -1118,7 +1118,7 @@
             <span class="c1"># Convert to the expected units</span>
             <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="n">units</span> <span class="o">!=</span> <span class="n">units</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_check_arg</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                    <span class="n">converted</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">_check_arg</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">UnitConversionError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">IncorrectUnits</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2"> passed with &quot;</span>
@@ -1129,7 +1129,7 @@
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Otherwise the value is in the expected units</span>
-                <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">converted</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
         <span class="k">return</span> <span class="n">converted</span>
 
@@ -1244,7 +1244,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=ebe7625f"></script>
+</div><script src="../../_static/documentation_options.js?v=f3bdfc8a"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

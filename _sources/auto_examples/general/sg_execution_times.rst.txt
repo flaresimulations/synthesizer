@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:09.068** total execution time for 6 files **from auto_examples/general**:
+**00:07.978** total execution time for 6 files **from auto_examples/general**:
 
 .. container::
 
@@ -33,20 +33,20 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_general_plot_photometry.py` (``plot_photometry.py``)
-     - 00:04.234
+     - 00:03.442
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_filters.py` (``plot_filters.py``)
-     - 00:01.818
+     - 00:01.536
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_quiescent_colours.py` (``plot_quiescent_colours.py``)
-     - 00:01.252
+     - 00:01.253
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_igm.py` (``plot_igm.py``)
-     - 00:00.796
+     - 00:00.786
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_spectra.py` (``plot_spectra.py``)
-     - 00:00.790
+     - 00:00.786
      - 0.0
    * - :ref:`sphx_glr_auto_examples_general_plot_dustcurves.py` (``plot_dustcurves.py``)
-     - 00:00.179
+     - 00:00.176
      - 0.0

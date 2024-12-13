@@ -745,11 +745,11 @@ Morphology computed, took: 0.00010418891906738281
 +--------------------------+----------------------------------------------------------------------------+
 | component_type           | &#39;Stars&#39;                                                                    |
 +--------------------------+----------------------------------------------------------------------------+
-| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.LogNormal object at 0x7f610cab6290&gt;        |
+| sf_hist_func             | &lt;synthesizer.parametric.sf_hist.LogNormal object at 0x7fe9ac776860&gt;        |
 +--------------------------+----------------------------------------------------------------------------+
-| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7f610cab7760&gt; |
+| metal_dist_func          | &lt;synthesizer.parametric.metal_dist.DeltaConstant object at 0x7fe9ac777070&gt; |
 +--------------------------+----------------------------------------------------------------------------+
-| morphology               | &lt;synthesizer.parametric.morphology.Sersic2D object at 0x7f60ac2b2080&gt;      |
+| morphology               | &lt;synthesizer.parametric.morphology.Sersic2D object at 0x7fe94bfc4820&gt;      |
 +--------------------------+----------------------------------------------------------------------------+
 | log10ages_lims           | [6.0,  11.0, ]                                                             |
 +--------------------------+----------------------------------------------------------------------------+
@@ -773,9 +773,9 @@ Morphology computed, took: 0.00010418891906738281
 +--------------------------+----------------------------------------------------------------------------+
 | log10metallicities (13,) | -5.00e+00 -&gt; -1.40e+00 (Mean: -2.49e+00)                                   |
 +--------------------------+----------------------------------------------------------------------------+
-Bulge created, took: 7.390975952148438e-05
-Spectra created, took: 0.00884389877319336
-Photometry calculated, took: 0.0007991790771484375
+Bulge created, took: 7.152557373046875e-05
+Spectra created, took: 0.008917808532714844
+Photometry calculated, took: 0.0007388591766357422
 </pre></div></div>
 </div>
 <p>With the bulge created we can make an image of it in isolation, but this time we will use the lower level imaging methods to demonstrate their usage. We can then plot them using the helper method for individual filter images, for more details on this method see the <a class="reference internal" href="particle_imaging.html"><span class="doc">particle imaging documentation</span></a>.</p>
@@ -829,7 +829,7 @@ Photometry calculated, took: 0.0007991790771484375
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Images took: 0.07154560089111328
+Images took: 0.07085609436035156
 </pre></div></div>
 </div>
 <p>Now we need to combine the disk and bulge together into a single image. To do this we simply add together the two <code class="docutils literal notranslate"><span class="pre">ImageCollection</span></code> objects.</p>
@@ -943,7 +943,7 @@ Images took: 0.07154560089111328
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=ebe7625f"></script>
+</div><script src="../_static/documentation_options.js?v=f3bdfc8a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
