@@ -37,6 +37,7 @@ synthesizer.exceptions
       MissingUnits
       SVOFilterNotFound
       SVOInaccessible
+      SVOTransmissionHasUnits
       UnimplementedFunctionality
       UnknownImageType
       UnmetDependency

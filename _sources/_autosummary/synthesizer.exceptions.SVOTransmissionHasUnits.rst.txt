@@ -1,0 +1,6 @@
+synthesizer.exceptions.SVOTransmissionHasUnits
+==============================================
+
+.. currentmodule:: synthesizer.exceptions
+
+.. autoexception:: SVOTransmissionHasUnits

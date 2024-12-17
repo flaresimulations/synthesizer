@@ -412,6 +412,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnimplementedFunctionality.html">synthesizer.exceptions.UnimplementedFunctionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnknownImageType.html">synthesizer.exceptions.UnknownImageType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnmetDependency.html">synthesizer.exceptions.UnmetDependency</a></li>
@@ -573,7 +574,7 @@
 |  TEMPLATE (stellar)                                                                       |
 |-------------------------------------------------------------------------------------------|
 |Generation model:                                                                          |
-|  Emission generation model: &lt;synthesizer.grid.Template object at 0x7faa6c2c71f0&gt;          |
+|  Emission generation model: &lt;synthesizer.grid.Template object at 0x7f975c8af280&gt;          |
 |  Save emission: True                                                                      |
 |===========================================================================================|
 </pre></div></div>
@@ -607,12 +608,12 @@
 <div class="highlight"><pre>
 |====================================== EmissionModel: attenuated =======================================|
 |--------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                     |
+|  NEBULAR (stellar)                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
-|  Extract key: transmitted                                                                              |
-|  Escape fraction: 0.9                                                                                  |
+|  Extract key: nebular                                                                                  |
+|  Escape fraction: 0.1                                                                                  |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
 |  TRANSMITTED (stellar)                                                                                 |
@@ -623,12 +624,12 @@
 |  Escape fraction: 0.1                                                                                  |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
-|  NEBULAR (stellar)                                                                                     |
+|  ESCAPED (stellar)                                                                                     |
 |--------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                       |
 |  Grid: test_grid                                                                                       |
-|  Extract key: nebular                                                                                  |
-|  Escape fraction: 0.1                                                                                  |
+|  Extract key: transmitted                                                                              |
+|  Escape fraction: 0.9                                                                                  |
 |  Save emission: True                                                                                   |
 |--------------------------------------------------------------------------------------------------------|
 |  REPROCESSED (stellar)                                                                                 |
@@ -646,7 +647,7 @@
 |  ATTENUATED (stellar)                                                                                  |
 |--------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                 |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7faa6c2c6e00&gt;          |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f975c8afb50&gt;          |
 |  Apply dust to: intrinsic                                                                              |
 |  Optical depth (tau_v): (0.5, &#39;tau_v&#39;)                                                                 |
 |  Save emission: True                                                                                   |
@@ -680,12 +681,12 @@
 <div class="highlight"><pre>
 |============================================ EmissionModel: dust_emission ===========================================|
 |---------------------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                                  |
+|  NEBULAR (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: transmitted                                                                                           |
-|  Escape fraction: 0.9                                                                                               |
+|  Extract key: nebular                                                                                               |
+|  Escape fraction: 0.1                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  TRANSMITTED (stellar)                                                                                              |
@@ -696,12 +697,12 @@
 |  Escape fraction: 0.1                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
-|  NEBULAR (stellar)                                                                                                  |
+|  ESCAPED (stellar)                                                                                                  |
 |---------------------------------------------------------------------------------------------------------------------|
 |Extraction model:                                                                                                    |
 |  Grid: test_grid                                                                                                    |
-|  Extract key: nebular                                                                                               |
-|  Escape fraction: 0.1                                                                                               |
+|  Extract key: transmitted                                                                                           |
+|  Escape fraction: 0.9                                                                                               |
 |  Save emission: True                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------|
 |  REPROCESSED (stellar)                                                                                              |
@@ -719,7 +720,7 @@
 |  ATTENUATED (stellar)                                                                                               |
 |---------------------------------------------------------------------------------------------------------------------|
 |Dust attenuation model:                                                                                              |
-|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7faa6c2c6e00&gt;                       |
+|  Dust curve: &lt;synthesizer.emission_models.attenuation.dust.PowerLaw object at 0x7f975c8afb50&gt;                       |
 |  Apply dust to: intrinsic                                                                                           |
 |  Optical depth (tau_v): (0.5, &#39;tau_v&#39;)                                                                              |
 |  Save emission: True                                                                                                |
@@ -727,7 +728,7 @@
 |  DUST_EMISSION (stellar)                                                                                            |
 |---------------------------------------------------------------------------------------------------------------------|
 |Generation model:                                                                                                    |
-|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7faa6c2c7520&gt;          |
+|  Emission generation model: &lt;synthesizer.emission_models.dust.emission.Blackbody object at 0x7f975c8af580&gt;          |
 |  Dust luminosity: intrinsic - attenuated                                                                            |
 |  Save emission: True                                                                                                |
 |=====================================================================================================================|
@@ -806,7 +807,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f3bdfc8a"></script>
+</div><script src="../../_static/documentation_options.js?v=7335372d"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

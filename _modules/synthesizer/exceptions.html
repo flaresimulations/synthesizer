@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnimplementedFunctionality.html">synthesizer.exceptions.UnimplementedFunctionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnknownImageType.html">synthesizer.exceptions.UnknownImageType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../_autosummary/synthesizer.exceptions.UnmetDependency.html">synthesizer.exceptions.UnmetDependency</a></li>
@@ -730,6 +731,29 @@
 
 
 
+<div class="viewcode-block" id="SVOTransmissionHasUnits">
+<a class="viewcode-back" href="../../_autosummary/synthesizer.exceptions.SVOTransmissionHasUnits.html#synthesizer.exceptions.SVOTransmissionHasUnits">[docs]</a>
+<span class="k">class</span> <span class="nc">SVOTransmissionHasUnits</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception class for when an SVO filter returns units, which should not be</span>
+<span class="sd">    the case for the transmission. For example, where the effective area is</span>
+<span class="sd">    provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;Filter provides units, but transmission is dimensionless!&quot;</span></div>
+
+
+
 <div class="viewcode-block" id="InconsistentWavelengths">
 <a class="viewcode-back" href="../../_autosummary/synthesizer.exceptions.InconsistentWavelengths.html#synthesizer.exceptions.InconsistentWavelengths">[docs]</a>
 <span class="k">class</span> <span class="nc">InconsistentWavelengths</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -972,7 +996,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=f3bdfc8a"></script>
+</div><script src="../../_static/documentation_options.js?v=7335372d"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

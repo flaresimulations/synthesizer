@@ -411,6 +411,7 @@
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.UnimplementedFunctionality.html">synthesizer.exceptions.UnimplementedFunctionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.UnknownImageType.html">synthesizer.exceptions.UnknownImageType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.UnmetDependency.html">synthesizer.exceptions.UnmetDependency</a></li>
@@ -580,19 +581,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.SVOInaccessible.html#synthesizer.exceptions.SVOInaccessible" title="synthesizer.exceptions.SVOInaccessible"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SVOInaccessible</span></code></a>(*args)</p></td>
 <td><p>Generic exception class for when SVO is inaccessible.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.UnimplementedFunctionality.html#synthesizer.exceptions.UnimplementedFunctionality" title="synthesizer.exceptions.UnimplementedFunctionality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnimplementedFunctionality</span></code></a>(*args)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.SVOTransmissionHasUnits.html#synthesizer.exceptions.SVOTransmissionHasUnits" title="synthesizer.exceptions.SVOTransmissionHasUnits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SVOTransmissionHasUnits</span></code></a>(*args)</p></td>
+<td><p>Exception class for when an SVO filter returns units, which should not be the case for the transmission.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.UnimplementedFunctionality.html#synthesizer.exceptions.UnimplementedFunctionality" title="synthesizer.exceptions.UnimplementedFunctionality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnimplementedFunctionality</span></code></a>(*args)</p></td>
 <td><p>Generic exception class for functionality not yet implemented.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.UnknownImageType.html#synthesizer.exceptions.UnknownImageType" title="synthesizer.exceptions.UnknownImageType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnknownImageType</span></code></a>(*args)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.UnknownImageType.html#synthesizer.exceptions.UnknownImageType" title="synthesizer.exceptions.UnknownImageType"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnknownImageType</span></code></a>(*args)</p></td>
 <td><p>Generic exception class for functionality not yet implemented.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.UnmetDependency.html#synthesizer.exceptions.UnmetDependency" title="synthesizer.exceptions.UnmetDependency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnmetDependency</span></code></a>(*args)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.UnmetDependency.html#synthesizer.exceptions.UnmetDependency" title="synthesizer.exceptions.UnmetDependency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnmetDependency</span></code></a>(*args)</p></td>
 <td><p>Generic exception class for anything to do with not having specific packages not mentioned in the requirements.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.UnrecognisedOption.html#synthesizer.exceptions.UnrecognisedOption" title="synthesizer.exceptions.UnrecognisedOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnrecognisedOption</span></code></a>(*args)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.UnrecognisedOption.html#synthesizer.exceptions.UnrecognisedOption" title="synthesizer.exceptions.UnrecognisedOption"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UnrecognisedOption</span></code></a>(*args)</p></td>
 <td><p>Generic exception class for when a string argument is not a recognised option.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="synthesizer.exceptions.WavelengthOutOfRange.html#synthesizer.exceptions.WavelengthOutOfRange" title="synthesizer.exceptions.WavelengthOutOfRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WavelengthOutOfRange</span></code></a>(*args)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="synthesizer.exceptions.WavelengthOutOfRange.html#synthesizer.exceptions.WavelengthOutOfRange" title="synthesizer.exceptions.WavelengthOutOfRange"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WavelengthOutOfRange</span></code></a>(*args)</p></td>
 <td><p>Exception class for when a wavelength is not accessible to Filters in a FilterCollection.</p></td>
 </tr>
 </tbody>
@@ -649,7 +653,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=f3bdfc8a"></script>
+</div><script src="../_static/documentation_options.js?v=7335372d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

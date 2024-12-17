@@ -410,6 +410,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.UnimplementedFunctionality.html">synthesizer.exceptions.UnimplementedFunctionality</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.UnknownImageType.html">synthesizer.exceptions.UnknownImageType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/synthesizer.exceptions.UnmetDependency.html">synthesizer.exceptions.UnmetDependency</a></li>
@@ -550,6 +551,7 @@
 
 <span class="kn">import</span> <span class="nn">urllib.request</span>
 <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
+<span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span>
 
 <span class="kn">import</span> <span class="nn">h5py</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -2097,14 +2099,22 @@
         <span class="c1"># Read directly from the SVO archive.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">svo_url</span> <span class="o">=</span> <span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;http://svo2.cab.inta-csic.es/theory/&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;fps/getdata.php?format=ascii&amp;id=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">observatory</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;fps/fps.php?ID=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">observatory</span><span class="si">}</span><span class="s2">/&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
         <span class="c1"># Make a request for the data and handle a failure more informatively</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">svo_url</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">df</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="c1"># Get the root of the XML tree</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+                <span class="c1"># Find the unit data</span>
+                <span class="n">field</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//*[@name=&#39;Transmission&#39;]&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Find the Table data</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.//TABLEDATA&quot;</span><span class="p">)</span>
+
         <span class="k">except</span> <span class="n">URLError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">SVOInaccessible</span><span class="p">(</span>
                 <span class="p">(</span>
@@ -2113,18 +2123,38 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s2">&quot;unit&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;ephot&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">SVOTransmissionHasUnits</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The SVO filter at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">svo_url</span><span class="si">}</span><span class="s2"> has &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;units </span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;unit&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">, which should not be &quot;</span>
+                    <span class="s2">&quot;the case for a transmission curve. This &quot;</span>
+                    <span class="s2">&quot;can sometimes occur where the effective &quot;</span>
+                    <span class="s2">&quot;area is returned instead. Please check &quot;</span>
+                    <span class="s2">&quot;that the filter you are querying returns &quot;</span>
+                    <span class="s2">&quot;the transmission / response.&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="c1"># Throw an error if we didn&#39;t find the filter.</span>
-        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">field</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">SVOFilterNotFound</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Filter (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span><span class="si">}</span><span class="s2">) not in the database. &quot;</span>
-                <span class="s2">&quot;Double check the database: http://svo2.cab.inta-csic.es/&quot;</span>
-                <span class="s2">&quot;svo/theory/fps3/. This could also mean you have no&quot;</span>
-                <span class="s2">&quot; connection.&quot;</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Filter (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_code</span><span class="si">}</span><span class="s2">) not in the database. &quot;</span>
+                    <span class="s2">&quot;Double check the database: http://svo2.cab.inta-csic.es/&quot;</span>
+                    <span class="s2">&quot;svo/theory/fps3/. This could also mean you have no&quot;</span>
+                    <span class="s2">&quot; connection.&quot;</span>
+                <span class="p">)</span>
             <span class="p">)</span>
 
         <span class="c1"># Extract the wavelength and transmission given by SVO</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;TD&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;TD&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+        <span class="p">)</span>
 
         <span class="c1"># If a new wavelength grid is provided, interpolate</span>
         <span class="c1"># the transmission curve on to that grid</span>
@@ -2583,7 +2613,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=f3bdfc8a"></script>
+</div><script src="../../../_static/documentation_options.js?v=7335372d"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
