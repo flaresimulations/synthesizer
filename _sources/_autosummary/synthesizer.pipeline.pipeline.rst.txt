@@ -1,0 +1,39 @@
+synthesizer.pipeline.pipeline
+=============================
+
+.. automodule:: synthesizer.pipeline.pipeline
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+   
+   .. autoclass:: Pipeline
+      :members:
+
+   .. _sphx_glr_backref_synthesizer.pipeline.pipeline.Pipeline:
+
+   .. minigallery:: synthesizer.pipeline.pipeline.Pipeline
+       :add-heading:
+   
+   
+
+   
+   
+   
+
+
+

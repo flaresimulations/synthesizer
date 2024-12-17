@@ -207,7 +207,7 @@ lyman-alpha escape fraction.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.797 seconds)
+   **Total running time of the script:** (0 minutes 0.792 seconds)
 
 
 .. _sphx_glr_download_auto_examples_general_plot_spectra.py:

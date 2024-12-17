@@ -266,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../filters/filters_example.html">Filters example</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../instrumentation/instrument_example.html">Working with Instruments</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../photometry/photometry.html">Photometry</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Photometry</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../photometry/photometry_example.html">Generating Photometry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../photometry/galaxy_phot.html">Generating photometry from a <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code></a></li>
@@ -279,6 +280,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../imaging/property_maps.html">Property maps</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipeline_example.html">The Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipeline_example.html#Hybrid-parallelism-with-MPI">Hybrid parallelism with MPI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallelism/openmp.html">Parallelism</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/advanced.html">Advanced</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of Advanced</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../advanced/config_options.html">Configuration Options</a></li>
@@ -407,8 +410,10 @@
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingArgument.html">synthesizer.exceptions.MissingArgument</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingAttribute.html">synthesizer.exceptions.MissingAttribute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingImage.html">synthesizer.exceptions.MissingImage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingPartition.html">synthesizer.exceptions.MissingPartition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingSpectraType.html">synthesizer.exceptions.MissingSpectraType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.PipelineNotReady.html">synthesizer.exceptions.PipelineNotReady</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
@@ -476,9 +481,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.photometry.html">synthesizer.photometry</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.pipeline.html">synthesizer.pipeline</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of synthesizer.pipeline</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline.html">synthesizer.pipeline.pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline_io.html">synthesizer.pipeline.pipeline_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline_utils.html">synthesizer.pipeline.pipeline_utils</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.sed.html">synthesizer.sed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.units.html">synthesizer.units</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.utils.html">synthesizer.utils</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of synthesizer.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.utils.html">synthesizer.utils</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle navigation of synthesizer.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.art.html">synthesizer.utils.art</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.ascii_table.html">synthesizer.utils.ascii_table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.geometry.html">synthesizer.utils.geometry</a></li>
@@ -556,6 +567,12 @@ model. The correct operation is instantiated in EmissionMode._init_operations.</
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.emission_models.operations.Combination.combine_to_hdf5">
+<span class="sig-name descname"><span class="pre">combine_to_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#Combination.combine_to_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.Combination.combine_to_hdf5" title="Link to this definition">¶</a></dt>
+<dd><p>Save the combination model to an HDF5 group.</p>
 </dd></dl>
 
 </dd></dl>
@@ -661,6 +678,12 @@ these.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.emission_models.operations.DustAttenuation.attenuate_to_hdf5">
+<span class="sig-name descname"><span class="pre">attenuate_to_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#DustAttenuation.attenuate_to_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.DustAttenuation.attenuate_to_hdf5" title="Link to this definition">¶</a></dt>
+<dd><p>Save the dust attenuation model to an HDF5 group.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -761,6 +784,12 @@ these.</p>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.emission_models.operations.Extraction.extract_to_hdf5">
+<span class="sig-name descname"><span class="pre">extract_to_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#Extraction.extract_to_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.Extraction.extract_to_hdf5" title="Link to this definition">¶</a></dt>
+<dd><p>Save the extraction model to an HDF5 group.</p>
 </dd></dl>
 
 </dd></dl>
@@ -869,6 +898,12 @@ luminosity when computing dust emission.</p>
 <dd class="field-odd"><p><a class="reference internal" href="synthesizer.emission_models.base_model.html#synthesizer.emission_models.base_model.EmissionModel" title="synthesizer.emission_models.base_model.EmissionModel">EmissionModel</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="synthesizer.emission_models.operations.Generation.generate_to_hdf5">
+<span class="sig-name descname"><span class="pre">generate_to_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/emission_models/operations.html#Generation.generate_to_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.emission_models.operations.Generation.generate_to_hdf5" title="Link to this definition">¶</a></dt>
+<dd><p>Save the generation model to an HDF5 group.</p>
 </dd></dl>
 
 </dd></dl>
@@ -997,6 +1032,7 @@ luminosity when computing dust emission.</p>
 <li><a class="reference internal" href="#">synthesizer.emission_models.operations</a><ul>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Combination"><code class="docutils literal notranslate"><span class="pre">Combination</span></code></a><ul>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Combination.combine"><code class="docutils literal notranslate"><span class="pre">Combination.combine</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.operations.Combination.combine_to_hdf5"><code class="docutils literal notranslate"><span class="pre">Combination.combine_to_hdf5()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#examples-using-synthesizer-emission-models-operations-combination">Examples using <code class="docutils literal notranslate"><span class="pre">synthesizer.emission_models.operations.Combination</span></code></a><ul>
@@ -1004,6 +1040,7 @@ luminosity when computing dust emission.</p>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.DustAttenuation.dust_curve"><code class="docutils literal notranslate"><span class="pre">DustAttenuation.dust_curve</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.DustAttenuation.apply_dust_to"><code class="docutils literal notranslate"><span class="pre">DustAttenuation.apply_dust_to</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.DustAttenuation.tau_v"><code class="docutils literal notranslate"><span class="pre">DustAttenuation.tau_v</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.operations.DustAttenuation.attenuate_to_hdf5"><code class="docutils literal notranslate"><span class="pre">DustAttenuation.attenuate_to_hdf5()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1013,6 +1050,7 @@ luminosity when computing dust emission.</p>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Extraction.grid"><code class="docutils literal notranslate"><span class="pre">Extraction.grid</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Extraction.extract"><code class="docutils literal notranslate"><span class="pre">Extraction.extract</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Extraction.fesc"><code class="docutils literal notranslate"><span class="pre">Extraction.fesc</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.operations.Extraction.extract_to_hdf5"><code class="docutils literal notranslate"><span class="pre">Extraction.extract_to_hdf5()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1022,6 +1060,7 @@ luminosity when computing dust emission.</p>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Generation.generator"><code class="docutils literal notranslate"><span class="pre">Generation.generator</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Generation.lum_intrinsic_model"><code class="docutils literal notranslate"><span class="pre">Generation.lum_intrinsic_model</span></code></a></li>
 <li><a class="reference internal" href="#synthesizer.emission_models.operations.Generation.lum_attenuated_model"><code class="docutils literal notranslate"><span class="pre">Generation.lum_attenuated_model</span></code></a></li>
+<li><a class="reference internal" href="#synthesizer.emission_models.operations.Generation.generate_to_hdf5"><code class="docutils literal notranslate"><span class="pre">Generation.generate_to_hdf5()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1038,7 +1077,7 @@ luminosity when computing dust emission.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=7335372d"></script>
+</div><script src="../_static/documentation_options.js?v=9157a36d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

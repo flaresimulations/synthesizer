@@ -47,6 +47,7 @@
    particle
    photoionisation
    photometry
+   pipeline
    sed
    units
    utils

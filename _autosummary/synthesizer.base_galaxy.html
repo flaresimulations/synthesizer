@@ -266,6 +266,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../filters/filters_example.html">Filters example</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../instrumentation/instrument_example.html">Working with Instruments</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../photometry/photometry.html">Photometry</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Photometry</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../photometry/photometry_example.html">Generating Photometry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../photometry/galaxy_phot.html">Generating photometry from a <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code></a></li>
@@ -279,6 +280,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../imaging/property_maps.html">Property maps</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipeline_example.html">The Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipeline_example.html#Hybrid-parallelism-with-MPI">Hybrid parallelism with MPI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../parallelism/openmp.html">Parallelism</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/advanced.html">Advanced</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of Advanced</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../advanced/config_options.html">Configuration Options</a></li>
@@ -407,8 +410,10 @@
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingArgument.html">synthesizer.exceptions.MissingArgument</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingAttribute.html">synthesizer.exceptions.MissingAttribute</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingImage.html">synthesizer.exceptions.MissingImage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingPartition.html">synthesizer.exceptions.MissingPartition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingSpectraType.html">synthesizer.exceptions.MissingSpectraType</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.PipelineNotReady.html">synthesizer.exceptions.PipelineNotReady</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
@@ -476,9 +481,15 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.photometry.html">synthesizer.photometry</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.pipeline.html">synthesizer.pipeline</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of synthesizer.pipeline</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline.html">synthesizer.pipeline.pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline_io.html">synthesizer.pipeline.pipeline_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="synthesizer.pipeline.pipeline_utils.html">synthesizer.pipeline.pipeline_utils</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.sed.html">synthesizer.sed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="synthesizer.units.html">synthesizer.units</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.utils.html">synthesizer.utils</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of synthesizer.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="synthesizer.utils.html">synthesizer.utils</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle navigation of synthesizer.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.art.html">synthesizer.utils.art</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.ascii_table.html">synthesizer.utils.ascii_table</a></li>
 <li class="toctree-l4"><a class="reference internal" href="synthesizer.utils.geometry.html">synthesizer.utils.geometry</a></li>
@@ -651,7 +662,7 @@ per particle spectra if present.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.base_galaxy.BaseGalaxy.get_images_flux">
-<span class="sig-name descname"><span class="pre">get_images_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smoothed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_images_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_images_flux" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_images_flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smoothed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_images_flux"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_images_flux" title="Link to this definition">¶</a></dt>
 <dd><p>Make an ImageCollection from fluxes.</p>
 <p>For Parametric Galaxy objects, images can only be smoothed. An
 exception will be raised if a histogram is requested.</p>
@@ -683,6 +694,11 @@ galaxy. Otherwise, only smoothed is applicable.</p></li>
 module. Only used for smoothed images.</p></li>
 <li><p><strong>kernel_threshold</strong> (<em>float</em>) – The kernel’s impact parameter threshold (by default 1).</p></li>
 <li><p><strong>nthreads</strong> (<em>int</em>) – The number of threads to use in the tree search. Default is 1.</p></li>
+<li><p><strong>limit_to</strong> (<em>str</em>) – Optionally pass a single model label to limit image generation
+to only that model.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference internal" href="synthesizer.instruments.instrument.html#synthesizer.instruments.instrument.Instrument" title="synthesizer.instruments.instrument.Instrument"><em>Instrument</em></a>) – The instrument to use for the image. This can be None but if
+not it will be used to limit the included filters and label
+the images by instrument.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -700,7 +716,7 @@ module. Only used for smoothed images.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.base_galaxy.BaseGalaxy.get_images_luminosity">
-<span class="sig-name descname"><span class="pre">get_images_luminosity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smoothed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_images_luminosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_images_luminosity" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_images_luminosity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emission_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">img_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'smoothed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instrument</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_images_luminosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_images_luminosity" title="Link to this definition">¶</a></dt>
 <dd><p>Make an ImageCollection from luminosities.</p>
 <p>For Parametric Galaxy objects, images can only be smoothed. An
 exception will be raised if a histogram is requested.</p>
@@ -738,6 +754,9 @@ module. Only used for smoothed images.</p></li>
 <li><p><strong>nthreads</strong> (<em>int</em>) – The number of threads to use in the tree search. Default is 1.</p></li>
 <li><p><strong>limit_to</strong> (<em>str</em>) – Optionally pass a single model label to limit image generation
 to only that model.</p></li>
+<li><p><strong>instrument</strong> (<a class="reference internal" href="synthesizer.instruments.instrument.html#synthesizer.instruments.instrument.Instrument" title="synthesizer.instruments.instrument.Instrument"><em>Instrument</em></a>) – The instrument to use for the image. This can be None but if
+not it will be used to limit the included filters and label
+the images by instrument.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -857,7 +876,7 @@ Inoue14).</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.base_galaxy.BaseGalaxy.get_photo_fnu">
-<span class="sig-name descname"><span class="pre">get_photo_fnu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_photo_fnu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_photo_fnu" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_photo_fnu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_photo_fnu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_photo_fnu" title="Link to this definition">¶</a></dt>
 <dd><p>Calculate flux photometry using a FilterCollection object.</p>
 <p>Photometry is calculated in spectral flux density units.</p>
 <dl class="field-list simple">
@@ -865,6 +884,8 @@ Inoue14).</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filters</strong> (<em>object</em>) – A FilterCollection object.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em>) – Are we talking?</p></li>
+<li><p><strong>nthreads</strong> (<em>int</em>) – The number of threads to use for the integration. If -1, all
+threads will be used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -880,7 +901,7 @@ in each filter in filters.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="synthesizer.base_galaxy.BaseGalaxy.get_photo_lnu">
-<span class="sig-name descname"><span class="pre">get_photo_lnu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_photo_lnu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_photo_lnu" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_photo_lnu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nthreads</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/synthesizer/base_galaxy.html#BaseGalaxy.get_photo_lnu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#synthesizer.base_galaxy.BaseGalaxy.get_photo_lnu" title="Link to this definition">¶</a></dt>
 <dd><p>Calculate luminosity photometry using a FilterCollection object.</p>
 <p>Photometry is calculated in spectral luminosity density units.</p>
 <dl class="field-list simple">
@@ -888,6 +909,8 @@ in each filter in filters.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filters</strong> (<a class="reference internal" href="synthesizer.instruments.filters.html#synthesizer.instruments.filters.FilterCollection" title="synthesizer.instruments.filters.FilterCollection"><em>filters.FilterCollection</em></a>) – A FilterCollection object.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em>) – Are we talking?</p></li>
+<li><p><strong>nthreads</strong> (<em>int</em>) – The number of threads to use for the integration. If -1, all
+threads will be used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1321,7 +1344,7 @@ spectra. Defaults to “lnu”.</p></li>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=7335372d"></script>
+</div><script src="../_static/documentation_options.js?v=9157a36d"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

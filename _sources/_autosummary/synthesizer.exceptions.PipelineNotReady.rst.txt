@@ -1,0 +1,6 @@
+synthesizer.exceptions.PipelineNotReady
+=======================================
+
+.. currentmodule:: synthesizer.exceptions
+
+.. autoexception:: PipelineNotReady

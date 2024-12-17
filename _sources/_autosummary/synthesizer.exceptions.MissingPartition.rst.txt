@@ -1,0 +1,6 @@
+synthesizer.exceptions.MissingPartition
+=======================================
+
+.. currentmodule:: synthesizer.exceptions
+
+.. autoexception:: MissingPartition

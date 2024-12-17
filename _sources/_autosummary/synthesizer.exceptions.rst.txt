@@ -33,8 +33,10 @@ synthesizer.exceptions
       MissingArgument
       MissingAttribute
       MissingImage
+      MissingPartition
       MissingSpectraType
       MissingUnits
+      PipelineNotReady
       SVOFilterNotFound
       SVOInaccessible
       SVOTransmissionHasUnits

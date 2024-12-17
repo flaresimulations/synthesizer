@@ -1,0 +1,1173 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Parallelism" href="../parallelism/openmp.html" /><link rel="prev" title="Property maps" href="../imaging/property_maps.html" />
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>The Pipeline - Synthesizer</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Synthesizer</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../_static/synthesizer_logo.png" alt="Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../getting_started/getting_started.html">Getting Started</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Getting Started</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/downloading_grids.html">Downloading Grids</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/overview.html">Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../grids/grids.html">Grids</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Grids</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../grids/grids_example.html"><code class="docutils literal notranslate"><span class="pre">Grid</span></code> example</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../galaxy/galaxy.html">Galaxy</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Galaxy</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../galaxy/particle_parametric.html">Particle vs Parametric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../galaxy/line_of_sight.html">Line of Sight Calculations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../components/components.html">Components</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Components</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../components/stars.html">Stars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/gas.html">Gas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../components/blackholes.html">Blackholes</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../sed/sed.html">Sed</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Sed</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../sed/sed_example.html">The Sed object</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../emission_models/emission_models.html">Emission models</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Emission models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/model_usage.html">Emission model basics</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../emission_models/premade_models/premade_models.html">Premade Models</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Premade Models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../emission_models/premade_models/stellar_models.html">Stellar Emission Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../emission_models/premade_models/agn_models.html">AGN Emission Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../emission_models/premade_models/common_models.html">Common Models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/dust_emission.html">Dust emission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/modify_models.html">Modifying a model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/custom_models.html">Creating your own EmissionModel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/custom_models.html#Saving-or-not-saving-the-emission">Saving or not saving the emission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../emission_models/combined_models.html">Combined Emission Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../attenuation/attenuation.html">Attenuation</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of Attenuation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../attenuation/dust_attenuation.html">Dust Attenuation Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../attenuation/igm.html">Intergalactic Medium Absortion</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../spectra/spectra.html">Generating spectra</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of Generating spectra</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../spectra/stars.html">Stellar Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spectra/blackholes.html">Black Hole Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spectra/galaxy.html">Galaxy Spectra</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../lines/lines.html">Emission Lines</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Emission Lines</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../lines/grid_lines.html">Lines from <code class="docutils literal notranslate"><span class="pre">Grid</span></code> objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lines/galaxy_lines.html">Lines from <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code> objects</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../filters/filters.html">Filters</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Filters</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../filters/filters_example.html">Filters example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../instrumentation/instrument_example.html">Working with Instruments</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../photometry/photometry.html">Photometry</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Photometry</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../photometry/photometry_example.html">Generating Photometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../photometry/galaxy_phot.html">Generating photometry from a <code class="docutils literal notranslate"><span class="pre">Galaxy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../imaging/imaging.html">Imaging</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle navigation of Imaging</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../imaging/particle_imaging.html">Images From Galaxy Particle distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../imaging/parametric_imaging.html">Images From Parametric Galaxies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../imaging/particle_data_cube.html">Spectral Data Cubes from Galaxy Particle distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../imaging/parametric_data_cube.html">Spectral Data Cubes from a Parametric Galaxy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../imaging/property_maps.html">Property maps</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">The Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Hybrid-parallelism-with-MPI">Hybrid parallelism with MPI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../parallelism/openmp.html">Parallelism</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/advanced.html">Advanced</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle navigation of Advanced</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/config_options.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/units.html">Units</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/abundances.html">Abundances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/creating_grids.html">Creating Grids</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebook_examples/cookbook.html">Cookbook</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle navigation of Cookbook</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebook_examples/generate_active_galaxy.html">Generate active galaxy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebook_examples/generate_composite_galaxy.html">Generate composite galaxy</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../auto_examples/index.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/cosmo/index.html">Cosmological simulation examples</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle navigation of Cosmological simulation examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_test_los_spectra.html">Line of sight example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_test_age_lookup.html">Age lookup test</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_test_aperture_mask.html">Aperture Mask Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/luminosity_function_integration_test.html">Camels luminosity function example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_sc-sam.html">SC-SAM example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_parametric_young_stars.html">Parametric Young Stars Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/cosmo/plot_cosmo_example.html">Camels example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/general/index.html">General examples</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle navigation of General examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_igm.html">IGM transmission example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_dustcurves.html">Dust curves example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_filters.html">Filters example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_quiescent_colours.html">Plot quiescent UVJ diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_spectra.html">Plot spectra example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/general/plot_photometry.html">Photometry example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/grids/index.html">Grid examples</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle navigation of Grid examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/grids/plot_log10Q.html">Plot ionising luminosity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/grids/plot_line_cont.html">Plot the line continuum for a given grid point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/grids/plot_spectra.html">Plot spectra example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/grids/plot_lines.html">Get lines example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/grids/plot_spectra_by_age.html">Plot spectra by age</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/imaging/index.html">Imaging examples</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle navigation of Imaging examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/imaging/plot_aperture_sum.html">Get sum of image inside an aperture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/imaging/plot_image_addition.html">Image addition example</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/parametric/index.html">Parametric galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle navigation of Parametric galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_compare_sfhs.html">Compare different parametric star formation history models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_dense_basis.html">Demonstrate the dense basis approach for describing the SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_morphology.html">Generate parametric morphology profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_delta_lambda.html">Plot delta_lambda for a grid.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_create_image.html">Create image example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_generate_lines.html">Generating Lines from a Parametric Galaxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_observed_sed.html">Generate parametric observed SED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_scale_by_luminosity.html">An example showing how to scale a galaxy’s mass by luminosity/flux.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_sed.html">Generate parametric galaxy SED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/parametric/plot_equivalent_width.html">Plot equivalent width for UV indices</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../auto_examples/particle/index.html">Particle galaxy examples</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><div class="visually-hidden">Toggle navigation of Particle galaxy examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_create_sampled_sed.html">Create sampled SED</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_compare_parametric_particle.html">Compare parametric and particle SEDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_compare_grid_assignment.html">Compare SPS grid assignment methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_single_star_test.html">Compare Single star particle to instantaneous SFZH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_los_spectra.html">Plot line of sight diagnostics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_get_los_attenutation.html">Plot line of sight optical depth calculations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/particle/plot_rotated_galaxy.html">Rotating particle distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../_autosummary/synthesizer.html">synthesizer</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle navigation of synthesizer</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.abundances.html">synthesizer.abundances</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><div class="visually-hidden">Toggle navigation of synthesizer.abundances</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.abundances.abundance_patterns.html">synthesizer.abundances.abundance_patterns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.abundances.abundance_scalings.html">synthesizer.abundances.abundance_scalings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.abundances.depletion_models.html">synthesizer.abundances.depletion_models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.abundances.elements.html">synthesizer.abundances.elements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.abundances.reference_abundance_patterns.html">synthesizer.abundances.reference_abundance_patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.ascii_table.html">synthesizer.ascii_table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.base_galaxy.html">synthesizer.base_galaxy</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.components.html">synthesizer.components</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><div class="visually-hidden">Toggle navigation of synthesizer.components</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.components.blackhole.html">synthesizer.components.blackhole</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.components.component.html">synthesizer.components.component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.components.stellar.html">synthesizer.components.stellar</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.conversions.html">synthesizer.conversions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.download_data.html">synthesizer.download_data</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.html">synthesizer.emission_models</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><div class="visually-hidden">Toggle navigation of synthesizer.emission_models</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.agn.html">synthesizer.emission_models.agn</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><div class="visually-hidden">Toggle navigation of synthesizer.emission_models.agn</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.agn.models.html">synthesizer.emission_models.agn.models</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.agn.unified_agn.html">synthesizer.emission_models.agn.unified_agn</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.attenuation.html">synthesizer.emission_models.attenuation</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><div class="visually-hidden">Toggle navigation of synthesizer.emission_models.attenuation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.attenuation.dust.html">synthesizer.emission_models.attenuation.dust</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.attenuation.igm.html">synthesizer.emission_models.attenuation.igm</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.base_model.html">synthesizer.emission_models.base_model</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.dust.html">synthesizer.emission_models.dust</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><div class="visually-hidden">Toggle navigation of synthesizer.emission_models.dust</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.dust.emission.html">synthesizer.emission_models.dust.emission</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.models.html">synthesizer.emission_models.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.operations.html">synthesizer.emission_models.operations</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.stellar.html">synthesizer.emission_models.stellar</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><div class="visually-hidden">Toggle navigation of synthesizer.emission_models.stellar</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.stellar.models.html">synthesizer.emission_models.stellar.models</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.emission_models.stellar.pacman_model.html">synthesizer.emission_models.stellar.pacman_model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.html">synthesizer.exceptions</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><div class="visually-hidden">Toggle navigation of synthesizer.exceptions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.DownloadError.html">synthesizer.exceptions.DownloadError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.GridError.html">synthesizer.exceptions.GridError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.InconsistentAddition.html">synthesizer.exceptions.InconsistentAddition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.InconsistentArguments.html">synthesizer.exceptions.InconsistentArguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.InconsistentCoordinates.html">synthesizer.exceptions.InconsistentCoordinates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.InconsistentParameter.html">synthesizer.exceptions.InconsistentParameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.InconsistentWavelengths.html">synthesizer.exceptions.InconsistentWavelengths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.IncorrectUnits.html">synthesizer.exceptions.IncorrectUnits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingArgument.html">synthesizer.exceptions.MissingArgument</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingAttribute.html">synthesizer.exceptions.MissingAttribute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingImage.html">synthesizer.exceptions.MissingImage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingPartition.html">synthesizer.exceptions.MissingPartition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingSpectraType.html">synthesizer.exceptions.MissingSpectraType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.MissingUnits.html">synthesizer.exceptions.MissingUnits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.PipelineNotReady.html">synthesizer.exceptions.PipelineNotReady</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.SVOFilterNotFound.html">synthesizer.exceptions.SVOFilterNotFound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.SVOInaccessible.html">synthesizer.exceptions.SVOInaccessible</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.SVOTransmissionHasUnits.html">synthesizer.exceptions.SVOTransmissionHasUnits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.UnimplementedFunctionality.html">synthesizer.exceptions.UnimplementedFunctionality</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.UnknownImageType.html">synthesizer.exceptions.UnknownImageType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.UnmetDependency.html">synthesizer.exceptions.UnmetDependency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.UnrecognisedOption.html">synthesizer.exceptions.UnrecognisedOption</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.exceptions.WavelengthOutOfRange.html">synthesizer.exceptions.WavelengthOutOfRange</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.filters.html">synthesizer.filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.galaxy.html">synthesizer.galaxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.grid.html">synthesizer.grid</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.imaging.html">synthesizer.imaging</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><div class="visually-hidden">Toggle navigation of synthesizer.imaging</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../_autosummary/synthesizer.imaging.extensions.html">synthesizer.imaging.extensions</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><div class="visually-hidden">Toggle navigation of synthesizer.imaging.extensions</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.imaging.extensions.circular_aperture.html">synthesizer.imaging.extensions.circular_aperture</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.imaging.extensions.image.html">synthesizer.imaging.extensions.image</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../_autosummary/synthesizer.imaging.extensions.spectral_cube.html">synthesizer.imaging.extensions.spectral_cube</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.imaging.image.html">synthesizer.imaging.image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.imaging.image_collection.html">synthesizer.imaging.image_collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.imaging.spectral_cube.html">synthesizer.imaging.spectral_cube</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.instruments.html">synthesizer.instruments</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><div class="visually-hidden">Toggle navigation of synthesizer.instruments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.instruments.filters.html">synthesizer.instruments.filters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.instruments.instrument.html">synthesizer.instruments.instrument</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.instruments.instrument_collection.html">synthesizer.instruments.instrument_collection</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.kernel_functions.html">synthesizer.kernel_functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line.html">synthesizer.line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.line_ratios.html">synthesizer.line_ratios</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.load_data.html">synthesizer.load_data</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle navigation of synthesizer.load_data</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_camels.html">synthesizer.load_data.load_camels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_eagle.html">synthesizer.load_data.load_eagle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_flares.html">synthesizer.load_data.load_flares</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_scsam.html">synthesizer.load_data.load_scsam</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.load_simba.html">synthesizer.load_data.load_simba</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.load_data.utils.html">synthesizer.load_data.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.parametric.html">synthesizer.parametric</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><div class="visually-hidden">Toggle navigation of synthesizer.parametric</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.blackholes.html">synthesizer.parametric.blackholes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.galaxy.html">synthesizer.parametric.galaxy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.metal_dist.html">synthesizer.parametric.metal_dist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.morphology.html">synthesizer.parametric.morphology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.sf_hist.html">synthesizer.parametric.sf_hist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.parametric.stars.html">synthesizer.parametric.stars</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.particle.html">synthesizer.particle</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><div class="visually-hidden">Toggle navigation of synthesizer.particle</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.particle.blackholes.html">synthesizer.particle.blackholes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.particle.galaxy.html">synthesizer.particle.galaxy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.particle.gas.html">synthesizer.particle.gas</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.particle.particles.html">synthesizer.particle.particles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.particle.stars.html">synthesizer.particle.stars</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.photoionisation.html">synthesizer.photoionisation</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><div class="visually-hidden">Toggle navigation of synthesizer.photoionisation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.photoionisation.cloudy17.html">synthesizer.photoionisation.cloudy17</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.photoionisation.cloudy23.html">synthesizer.photoionisation.cloudy23</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.photoionisation.photoionisation.html">synthesizer.photoionisation.photoionisation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.photometry.html">synthesizer.photometry</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.pipeline.html">synthesizer.pipeline</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle navigation of synthesizer.pipeline</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.pipeline.pipeline.html">synthesizer.pipeline.pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.pipeline.pipeline_io.html">synthesizer.pipeline.pipeline_io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.pipeline.pipeline_utils.html">synthesizer.pipeline.pipeline_utils</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.sed.html">synthesizer.sed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.units.html">synthesizer.units</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../_autosummary/synthesizer.utils.html">synthesizer.utils</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle navigation of synthesizer.utils</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.art.html">synthesizer.utils.art</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.ascii_table.html">synthesizer.utils.ascii_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.geometry.html">synthesizer.utils.geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.integrate.html">synthesizer.utils.integrate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.plt.html">synthesizer.utils.plt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.stats.html">synthesizer.utils.stats</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../_autosummary/synthesizer.utils.util_funcs.html">synthesizer.utils.util_funcs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../_autosummary/synthesizer.warnings.html">synthesizer.warnings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="The-Pipeline">
+<h1>The Pipeline<a class="headerlink" href="#The-Pipeline" title="Link to this heading">¶</a></h1>
+<p>If you have a galaxy catalog (either of <code class="docutils literal notranslate"><span class="pre">Parametric</span></code> origin or from a simulation), an <code class="docutils literal notranslate"><span class="pre">`EmissionModel</span></code> &lt;../emission_models/emission_models.rst&gt;`__, and a set of <a class="reference internal" href="../instrumentation/instrument_example.html"><span class="doc">instruments</span></a> you want observables for, you can easily write a pipeline to generate the observations you want using the Synthesizer UI. However, lets say you have a new catalog you want to run the same analysis on, or a whole different set of instruments you want to use. You could
+modify your old pipeline or write a whole new pipeline, but thats a lot of work and boilerplate.</p>
+<p>This is where the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> shines. Instead, of having to write a pipeline, the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> class is a high-level interface that allows you to easily generate observations for a given catalog, emission model, and set of instruments. All you need to do is set up the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object, attach the galaxies, and run the observable methods you want to include. Possible observables include:</p>
+<ul class="simple">
+<li><p>Spectra.</p></li>
+<li><p>Emission Lines.</p></li>
+<li><p>Photometry.</p></li>
+<li><p>Images (with or without PSF convolution/noise).</p></li>
+<li><p>Spectral data cubes (IFUs) [WIP].</p></li>
+<li><p>Instrument specific spectroscopy [WIP].</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> will generate all the requested observations for all (compatible) instruments and galaxies, before writing them out to a standardised HDF5 format.</p>
+<p>As a bonus, the abstraction into the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> class allows for easy parallelization of the analysis, not only over local threads but distributed over MPI.</p>
+<p>In the following sections we will show how to instantiate and use a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object to generate observations for a given catalog, emission model, and set of instruments.</p>
+<section id="Setting-up-a-Pipeline-object">
+<h2>Setting up a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object<a class="headerlink" href="#Setting-up-a-Pipeline-object" title="Link to this heading">¶</a></h2>
+<p>Before we instatiate a pipeline we need to define its “dependencies”. These are an emission model, a set of instruments, and importantly some galaxies to observe.</p>
+<section id="Defining-an-emission-model">
+<h3>Defining an emission model<a class="headerlink" href="#Defining-an-emission-model" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">EmissionModel</span></code> defines the emissions we’ll generate, including its origin and any reprocessing the emission undergoes. For more details see the <code class="docutils literal notranslate"><span class="pre">EmissionModel</span></code> <a class="reference internal" href="../emission_models/emission_models.html"><span class="doc">docs</span></a>.</p>
+<p>For demonstration, we’ll use a simple premade <code class="docutils literal notranslate"><span class="pre">IntrinsicEmission</span></code> model which defines the intrinsic stellar emission (i.e. stellar emission without any ISM dust reprocessing).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.emission_models</span> <span class="kn">import</span> <span class="n">IntrinsicEmission</span>
+<span class="kn">from</span> <span class="nn">synthesizer.grid</span> <span class="kn">import</span> <span class="n">Grid</span>
+
+<span class="c1"># Get the grid</span>
+<span class="n">grid_dir</span> <span class="o">=</span> <span class="s2">&quot;../../../tests/test_grid/&quot;</span>
+<span class="n">grid_name</span> <span class="o">=</span> <span class="s2">&quot;test_grid&quot;</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_dir</span><span class="o">=</span><span class="n">grid_dir</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">IntrinsicEmission</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">fesc</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">set_per_particle</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># we want per particle emissions</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Defining-the-instruments">
+<h3>Defining the instruments<a class="headerlink" href="#Defining-the-instruments" title="Link to this heading">¶</a></h3>
+<p>We don’t need any instruments if all we want is spectra at the spectral resolution of the <code class="docutils literal notranslate"><span class="pre">Grid</span></code> or emission lines. However, to get anything more sophisticated we need <code class="docutils literal notranslate"><span class="pre">Instruments</span></code> that define the technical specifications of the observations we want to generate. For a full breakdown see the instrumentation <a class="reference internal" href="../instrumentation/instrument_example.html"><span class="doc">docs</span></a>.</p>
+<p>Here we’ll define a simple set of instruments including a subset of NIRCam filters (capable of imaging with a 0.1 kpc resolution) and a set of UVJ top hat filters (only capable of photometry).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">unyt</span> <span class="kn">import</span> <span class="n">angstrom</span><span class="p">,</span> <span class="n">kpc</span>
+
+<span class="kn">from</span> <span class="nn">synthesizer.instruments</span> <span class="kn">import</span> <span class="n">UVJ</span><span class="p">,</span> <span class="n">FilterCollection</span><span class="p">,</span> <span class="n">Instrument</span>
+
+<span class="c1"># Get the filters</span>
+<span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">angstrom</span>
+<span class="n">webb_filters</span> <span class="o">=</span> <span class="n">FilterCollection</span><span class="p">(</span>
+    <span class="n">filter_codes</span><span class="o">=</span><span class="p">[</span>
+        <span class="sa">f</span><span class="s2">&quot;JWST/NIRCam.</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;F090W&quot;</span><span class="p">,</span> <span class="s2">&quot;F150W&quot;</span><span class="p">,</span> <span class="s2">&quot;F200W&quot;</span><span class="p">,</span> <span class="s2">&quot;F277W&quot;</span><span class="p">,</span> <span class="s2">&quot;F356W&quot;</span><span class="p">,</span> <span class="s2">&quot;F444W&quot;</span><span class="p">]</span>
+    <span class="p">],</span>
+    <span class="n">new_lam</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">uvj_filters</span> <span class="o">=</span> <span class="n">UVJ</span><span class="p">(</span><span class="n">new_lam</span><span class="o">=</span><span class="n">lam</span><span class="p">)</span>
+
+<span class="c1"># Instatiate the instruments</span>
+<span class="n">webb_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;JWST&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">webb_filters</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">)</span>
+<span class="n">uvj_inst</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="s2">&quot;UVJ&quot;</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">uvj_filters</span><span class="p">)</span>
+<span class="n">instruments</span> <span class="o">=</span> <span class="n">webb_inst</span> <span class="o">+</span> <span class="n">uvj_inst</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">instruments</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
++--------------------------------------+
+|        INSTRUMENT COLLECTION         |
++-------------------+------------------+
+| Attribute         | Value            |
++-------------------+------------------+
+| ninstruments      | 2                |
++-------------------+------------------+
+| instrument_labels | [JWST,  UVJ, ]   |
++-------------------+------------------+
+| instruments       | JWST: Instrument |
+|                   | UVJ: Instrument  |
++-------------------+------------------+
+</pre></div></div>
+</div>
+</section>
+<section id="Loading-galaxies">
+<h3>Loading galaxies<a class="headerlink" href="#Loading-galaxies" title="Link to this heading">¶</a></h3>
+<p>You can load galaxies however you want but for this example we’ll load some CAMELS galaxies using the <code class="docutils literal notranslate"><span class="pre">load_data</span></code> module.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.load_data.load_camels</span> <span class="kn">import</span> <span class="n">load_CAMELS_IllustrisTNG</span>
+
+<span class="c1"># Create galaxy object</span>
+<span class="n">galaxies</span> <span class="o">=</span> <span class="n">load_CAMELS_IllustrisTNG</span><span class="p">(</span>
+    <span class="s2">&quot;../../../tests/data/&quot;</span><span class="p">,</span>
+    <span class="n">snap_name</span><span class="o">=</span><span class="s2">&quot;camels_snap.hdf5&quot;</span><span class="p">,</span>
+    <span class="n">group_name</span><span class="o">=</span><span class="s2">&quot;camels_subhalo.hdf5&quot;</span><span class="p">,</span>
+    <span class="n">physical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Instantiating-the-Pipeline-object">
+<h3>Instantiating the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object<a class="headerlink" href="#Instantiating-the-Pipeline-object" title="Link to this heading">¶</a></h3>
+<p>Now we have all the ingredients we need to instantiate a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object. All we need to do now is pass them into the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object alongside the number of threads we want to use during the analysis (in this notebook we’ll only use 1 for such a small handful of galaxies).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">emission_model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="o">=</span><span class="n">instruments</span><span class="p">,</span>
+    <span class="n">nthreads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡀⠒⠒⠦⣄⡀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⢀⣤⣶⡾⠿⠿⠿⠿⣿⣿⣶⣦⣄⠙⠷⣤⡀⠀⠀⠀⠀
+                         ⠀⠀⠀⣠⡾⠛⠉⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⣿⣷⣄⠘⢿⡄⠀⠀⠀
+                         ⠀⢀⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠐⠂⠠⢄⡀⠈⢿⣿⣧⠈⢿⡄⠀⠀
+                         ⢀⠏⠀⠀⠀⢀⠄⣀⣴⣾⠿⠛⠛⠛⠷⣦⡙⢦⠀⢻⣿⡆⠘⡇⠀⠀
+                         ⠀⠀⠀+-+-+-+-+-+-+-+-+-+-+-+⡇⠀⠀
+                         ⠀⠀⠀|S|Y|N|T|H|E|S|I|Z|E|R|⠃⠀⠀
+                         ⠀⠀⢰+-+-+-+-+-+-+-+-+-+-+-+⠀⠀⠀
+                         ⠀⠀⢸⡇⠸⣿⣷⠀⢳⡈⢿⣦⣀⣀⣀⣠⣴⣾⠟⠁⠀⠀⠀⠀⢀⡎
+                         ⠀⠀⠘⣷⠀⢻⣿⣧⠀⠙⠢⠌⢉⣛⠛⠋⠉⠀⠀⠀⠀⠀⠀⣠⠎⠀
+                         ⠀⠀⠀⠹⣧⡀⠻⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡾⠃⠀⠀
+                         ⠀⠀⠀⠀⠈⠻⣤⡈⠻⢿⣿⣷⣦⣤⣤⣤⣤⣤⣴⡾⠛⠉⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠈⠙⠶⢤⣈⣉⠛⠛⠛⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+
+[00000.00]: Root emission model: intrinsic
+[00000.00]: EmissionModel contains 5 individual models.
+[00000.00]: EmissionModels split by emitter:
+[00000.00]:    - galaxy:     0
+[00000.00]:    - stellar:    5
+[00000.00]:    - blackhole:  0
+[00000.00]: EmissionModels split by operation type:
+[00000.00]:    - extraction:   3
+[00000.00]:    - combination:  2
+[00000.00]:    - attenuating:  0
+[00000.00]:    - generation:   0
+[00000.00]: Using 2 instruments.
+[00000.00]: Instruments have 9 filters in total.
+[00000.00]: Included instruments: JWST, UVJ
+[00000.00]: Instruments split by capability:
+[00000.00]:    - photometry:             2
+[00000.00]:    - spectroscopy:           0
+[00000.00]:    - imaging:                1
+[00000.00]:    - resolved spectroscopy:  0
+</pre></div></div>
+</div>
+<p>Notice that we got a log out of the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object detailing the basic setup. The <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> will automatically output logging information to the console but this can be supressed by passing <code class="docutils literal notranslate"><span class="pre">verbose=0</span></code> which limits the outputs to saying hello, goodbye, and any errors that occur.</p>
+</section>
+</section>
+<section id="Adding-analysis-functions">
+<h2>Adding analysis functions<a class="headerlink" href="#Adding-analysis-functions" title="Link to this heading">¶</a></h2>
+<p>We could just run the analysis now and get whatever predefined outputs we want. However, we can also add our own analysis functions to the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object. These functions will be run on each galaxy in the catalog and can be used to generate any additional outputs we want. Importantly, these functions will be run <strong>after</strong> all other analysis has finished so they can make use of any outputs generated by the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object. They will also be run in the order they have been added allowing
+access to anything derived in previous analysis functions.</p>
+<p>Any extra analysis functions must obey the following rules:</p>
+<ul class="simple">
+<li><p>It must calculate the “result” for a single galaxy at a time.</p></li>
+<li><p>The function’s first argument must be the galaxy to calculate for.</p></li>
+<li><p>It can take any number of additional arguments and keyword arguments.</p></li>
+<li><p>It must either:</p>
+<ul>
+<li><p>Return an array of values or a scalar, such that <code class="docutils literal notranslate"><span class="pre">np.array(&lt;list</span> <span class="pre">of</span> <span class="pre">results&gt;)</span></code> is a valid operation. In other words, the results once combined for all galaxies should be an array of shape <code class="docutils literal notranslate"><span class="pre">(n_galaxies,</span> <span class="pre">&lt;result</span> <span class="pre">shape&gt;)</span></code>.</p></li>
+<li><p>Return a dictionary where each result at the “leaves” of the dictionary structure is an array of values or a scalar, such that <code class="docutils literal notranslate"><span class="pre">np.array(&lt;list</span> <span class="pre">of</span> <span class="pre">results&gt;)</span></code> is a valid operation. In other words, the dictionary of results once combined for all galaxies should be a dictionary with an array of shape <code class="docutils literal notranslate"><span class="pre">(n_galaxies,</span> <span class="pre">&lt;result</span> <span class="pre">shape&gt;)</span></code> at each “leaf”.</p></li>
+</ul>
+</li>
+</ul>
+<p>Below we’ll define an analysis function to compute stellar mass radii of each galaxy.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_stellar_mass_radius</span><span class="p">(</span><span class="n">gal</span><span class="p">,</span> <span class="n">fracs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the half mass radii.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        gal (Galaxy):</span>
+<span class="sd">            The galaxy to compute the half light radius of.</span>
+<span class="sd">        fracs (list, float)</span>
+<span class="sd">            The fractional radii to compute.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">frac</span> <span class="ow">in</span> <span class="n">fracs</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">frac</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gal</span><span class="o">.</span><span class="n">stars</span><span class="o">.</span><span class="n">get_attr_radius</span><span class="p">(</span>
+            <span class="s2">&quot;current_masses&quot;</span><span class="p">,</span> <span class="n">frac</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+<p>To add this to the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> we need to pass it along with a string defining the key under which the results will be stored in the HDF5 file and the <code class="docutils literal notranslate"><span class="pre">fracs</span></code> argument it requires.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">add_analysis_func</span><span class="p">(</span>
+    <span class="n">get_stellar_mass_radius</span><span class="p">,</span>
+    <span class="n">result_key</span><span class="o">=</span><span class="s2">&quot;Stars/HalfMassRadius&quot;</span><span class="p">,</span>
+    <span class="n">fracs</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00000.01]: Added analysis function: Stars/HalfMassRadius
+</pre></div></div>
+</div>
+<p>This can also be done with simple <code class="docutils literal notranslate"><span class="pre">lambda</span></code> functions to include galaxy attributes in the output. For instance, the redshift.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">add_analysis_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gal</span><span class="p">:</span> <span class="n">gal</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="n">result_key</span><span class="o">=</span><span class="s2">&quot;Redshift&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00000.01]: Added analysis function: Redshift
+</pre></div></div>
+</div>
+</section>
+<section id="Running-the-pipeline">
+<h2>Running the pipeline<a class="headerlink" href="#Running-the-pipeline" title="Link to this heading">¶</a></h2>
+<p>To run the pipeline we just need to attach our galaxies and then call the various observable generation methods. This approach allows you to explicitly control which observables you want to generate with a single line of code for each.</p>
+<section id="Loading-the-galaxies">
+<h3>Loading the galaxies<a class="headerlink" href="#Loading-the-galaxies" title="Link to this heading">¶</a></h3>
+<p>First we’ll attach the galaxies.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">add_galaxies</span><span class="p">(</span><span class="n">galaxies</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00000.02]: Adding 10 galaxies took 0.002 ms.
+</pre></div></div>
+</div>
+</section>
+<section id="Generating-the-observables">
+<h3>Generating the observables<a class="headerlink" href="#Generating-the-observables" title="Link to this heading">¶</a></h3>
+<p>Now we have the galaxies we can generate their observables. We do this by calling the various observable generation methods on the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object. These will automatically use the number of threads we defined when we instantiated the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object, if this was 1 then everything will be done in serial.</p>
+<p>There is a required order to the calling of the observable methods. For instance, you can’t generate photometry without first generating the spectra. Each method knows to check it’s dependencies have been satisfied, if they have not an error will be raised.</p>
+<p>We’ll start with the spectra. If we want fluxes, we’ll need to pass an <code class="docutils literal notranslate"><span class="pre">astropy.cosmology</span></code> object.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">Planck18</span> <span class="k">as</span> <span class="n">cosmo</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">cosmo</span><span class="o">=</span><span class="n">cosmo</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00005.78]: Generating spectra took 5.748 s.
+</pre></div></div>
+</div>
+<p>Next we’ll generate the emission lines. Here we can pass exactly which emission lines we want to generate based on line ID. Here we’ll just generate all lines offered by the <code class="docutils literal notranslate"><span class="pre">Grid</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">get_lines</span><span class="p">(</span><span class="n">line_ids</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">available_lines</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00005.79]: Generating 215 emission lines...
+[00011.86]: Getting emission lines took 6.071 s.
+</pre></div></div>
+</div>
+<p>Next, the photometry. This requires no extra inputs but we have separate methods for luminosities and fluxes (with the latter requiring a <code class="docutils literal notranslate"><span class="pre">astropy.cosmology</span></code> object was based when spectra were generated).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">get_photometry_luminosities</span><span class="p">()</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_photometry_fluxes</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00013.54]: Getting photometric luminosities took 1.670 s.
+[00015.46]: Getting photometric fluxes took 1.923 s.
+</pre></div></div>
+</div>
+<p>Finally, we’ll generate the images. Again, these are split into luminosity and flux flavours. Here we define our field of view and pass that into each method. We are also doing “smoothed” imaging where each particle is smoothed over its SPH kernel. For this style of image generation we need to pass the kernel array, which we’ll extract here.</p>
+<p>Had we defined instruments with PSFs and/or noise we would also call the <code class="docutils literal notranslate"><span class="pre">apply_psfs_luminosity</span></code>/<code class="docutils literal notranslate"><span class="pre">apply_psfs_flux</span></code> and <code class="docutils literal notranslate"><span class="pre">apply_noise_luminosity</span></code>/<code class="docutils literal notranslate"><span class="pre">apply_noise_flux</span></code> methods.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">synthesizer.kernel_functions</span> <span class="kn">import</span> <span class="n">Kernel</span>
+
+<span class="c1"># Get the SPH kernel</span>
+<span class="n">sph_kernel</span> <span class="o">=</span> <span class="n">Kernel</span><span class="p">()</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">sph_kernel</span><span class="o">.</span><span class="n">get_kernel</span><span class="p">()</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_images_luminosity</span><span class="p">(</span><span class="n">fov</span><span class="o">=</span><span class="mi">50</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_images_flux</span><span class="p">(</span><span class="n">fov</span><span class="o">=</span><span class="mi">50</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00019.40]: Getting luminosity images took 3.421 s.
+[00022.77]: Getting flux images took 3.366 s.
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Writing-out-the-data">
+<h2>Writing out the data<a class="headerlink" href="#Writing-out-the-data" title="Link to this heading">¶</a></h2>
+<p>Finally, we write out the data to a HDF5 file. This file will contain all the observables we generated, as well as any additional analysis we ran. This file is structure to mirror the structure of Synthesizer objects, with each galaxy being a group, each component being a subgroup, and each individual observable being a dataset (or set of subgroups with the observables as datasets at their leaves in the case of a dicitonary attribute).</p>
+<p>To write out the data we just pass the path to the file we want to write to to the <code class="docutils literal notranslate"><span class="pre">write</span></code> method.</p>
+<p>Note that we all passing <code class="docutils literal notranslate"><span class="pre">verbose=0</span></code> to silence the dataset timings for these docs. Otherwise, we would get timings for the writing of individual datasets. In the wild these timings are useful but here they’d just bloat the demo.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output.hdf5&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[00022.78]: Stars/HalfMassRadius extra analysis took 3.755 ms.
+[00022.78]: Redshift extra analysis took 0.027 ms.
+[00022.78]: Extra analysis took 3.871 ms.
+[00025.51]: Writing data took 2.728 s.
+[00025.51]: Total synthesis took 25.514 s.
+[00025.51]: Goodbye!
+</pre></div></div>
+</div>
+<p>Below is a view into the HDF5 file produced by the above pipeline (as shown by <a class="reference external" href="https://github.com/WillJRoper/h5forest">H5forest</a>).</p>
+<p><img alt="Pipeline HDF5 Example" src="../_images/Pipeline_outfile.jpeg" /></p>
+</section>
+<section id="Putting-it-all-together">
+<h2>Putting it all together<a class="headerlink" href="#Putting-it-all-together" title="Link to this heading">¶</a></h2>
+<p>Here is what the pipeline would look like without all the descriptive fluff…</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">instruments</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_analysis_func</span><span class="p">(</span>
+    <span class="n">get_stellar_mass_radius</span><span class="p">,</span>
+    <span class="n">result_key</span><span class="o">=</span><span class="s2">&quot;Stars/HalfMassRadius&quot;</span><span class="p">,</span>
+    <span class="n">fracs</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_analysis_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">gal</span><span class="p">:</span> <span class="n">gal</span><span class="o">.</span><span class="n">redshift</span><span class="p">,</span> <span class="n">result_key</span><span class="o">=</span><span class="s2">&quot;Redshift&quot;</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add_galaxies</span><span class="p">(</span><span class="n">galaxies</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_spectra</span><span class="p">(</span><span class="n">cosmo</span><span class="o">=</span><span class="n">cosmo</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_lines</span><span class="p">(</span><span class="n">line_ids</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">available_lines</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_photometry_luminosities</span><span class="p">()</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_photometry_fluxes</span><span class="p">()</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_images_luminosity</span><span class="p">(</span><span class="n">fov</span><span class="o">=</span><span class="mi">50</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">get_images_flux</span><span class="p">(</span><span class="n">fov</span><span class="o">=</span><span class="mi">50</span> <span class="o">*</span> <span class="n">kpc</span><span class="p">,</span> <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">)</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;output.hdf5&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡀⠒⠒⠦⣄⡀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⢀⣤⣶⡾⠿⠿⠿⠿⣿⣿⣶⣦⣄⠙⠷⣤⡀⠀⠀⠀⠀
+                         ⠀⠀⠀⣠⡾⠛⠉⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⣿⣷⣄⠘⢿⡄⠀⠀⠀
+                         ⠀⢀⡾⠋⠀⠀⠀⠀⠀⠀⠀⠀⠐⠂⠠⢄⡀⠈⢿⣿⣧⠈⢿⡄⠀⠀
+                         ⢀⠏⠀⠀⠀⢀⠄⣀⣴⣾⠿⠛⠛⠛⠷⣦⡙⢦⠀⢻⣿⡆⠘⡇⠀⠀
+                         ⠀⠀⠀+-+-+-+-+-+-+-+-+-+-+-+⡇⠀⠀
+                         ⠀⠀⠀|S|Y|N|T|H|E|S|I|Z|E|R|⠃⠀⠀
+                         ⠀⠀⢰+-+-+-+-+-+-+-+-+-+-+-+⠀⠀⠀
+                         ⠀⠀⢸⡇⠸⣿⣷⠀⢳⡈⢿⣦⣀⣀⣀⣠⣴⣾⠟⠁⠀⠀⠀⠀⢀⡎
+                         ⠀⠀⠘⣷⠀⢻⣿⣧⠀⠙⠢⠌⢉⣛⠛⠋⠉⠀⠀⠀⠀⠀⠀⣠⠎⠀
+                         ⠀⠀⠀⠹⣧⡀⠻⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡾⠃⠀⠀
+                         ⠀⠀⠀⠀⠈⠻⣤⡈⠻⢿⣿⣷⣦⣤⣤⣤⣤⣤⣴⡾⠛⠉⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠈⠙⠶⢤⣈⣉⠛⠛⠛⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀
+                         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+
+[00000.00]: Root emission model: intrinsic
+[00000.00]: EmissionModel contains 5 individual models.
+[00000.00]: EmissionModels split by emitter:
+[00000.00]:    - galaxy:     0
+[00000.00]:    - stellar:    5
+[00000.00]:    - blackhole:  0
+[00000.00]: EmissionModels split by operation type:
+[00000.00]:    - extraction:   3
+[00000.00]:    - combination:  2
+[00000.00]:    - attenuating:  0
+[00000.00]:    - generation:   0
+[00000.00]: Using 2 instruments.
+[00000.00]: Instruments have 9 filters in total.
+[00000.00]: Included instruments: JWST, UVJ
+[00000.00]: Instruments split by capability:
+[00000.00]:    - photometry:             2
+[00000.00]:    - spectroscopy:           0
+[00000.00]:    - imaging:                1
+[00000.00]:    - resolved spectroscopy:  0
+[00000.03]: Added analysis function: Stars/HalfMassRadius
+[00000.03]: Added analysis function: Redshift
+[00000.03]: Adding 10 galaxies took 0.003 ms.
+[00005.29]: Generating spectra took 5.259 s.
+[00005.29]: Generating 215 emission lines...
+[00011.19]: Getting emission lines took 5.901 s.
+[00013.10]: Getting photometric luminosities took 1.910 s.
+[00014.99]: Getting photometric fluxes took 1.882 s.
+[00018.38]: Getting luminosity images took 3.393 s.
+[00021.65]: Getting flux images took 3.270 s.
+[00021.65]: Stars/HalfMassRadius extra analysis took 2.869 ms.
+[00021.65]: Redshift extra analysis took 0.019 ms.
+[00021.65]: Extra analysis took 2.943 ms.
+[00024.58]: Writing data took 2.926 s.
+[00024.58]: Total synthesis took 24.586 s.
+[00024.58]: Goodbye!
+</pre></div></div>
+</div>
+</section>
+</section>
+<section id="Hybrid-parallelism-with-MPI">
+<h1>Hybrid parallelism with MPI<a class="headerlink" href="#Hybrid-parallelism-with-MPI" title="Link to this heading">¶</a></h1>
+<p>Above we demonstrated how to run a pipeline using only local shared memory parallelism. We can also use <code class="docutils literal notranslate"><span class="pre">mpi4py</span></code> to not only use the shared memory parallelism but also distribute the analysis across multiple nodes (hence “hybrid parallelism”).</p>
+<section id="Instatiating-a-Pipeline-when-using-MPI">
+<h2>Instatiating a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> when using MPI<a class="headerlink" href="#Instatiating-a-Pipeline-when-using-MPI" title="Link to this heading">¶</a></h2>
+<p>To make use of MPI we only need to make a couple changes to running the pipeline. The first is simply that we need to pass the <code class="docutils literal notranslate"><span class="pre">comm</span></code> object to the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object when we instantiate it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span>
+    <span class="n">gal_loader_func</span><span class="o">=</span><span class="n">galaxy_loader</span><span class="p">,</span>
+    <span class="n">emission_model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">n_galaxies</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">instruments</span><span class="o">=</span><span class="n">instruments</span><span class="p">,</span>
+    <span class="n">nthreads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">comm</span><span class="o">=</span><span class="n">MPI</span><span class="o">.</span><span class="n">COMM_WORLD</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">verbose=1</span></code> will mean only rank 0 will output logging information. If you want all ranks to output logging information you should set <code class="docutils literal notranslate"><span class="pre">verbose=2</span></code>. <code class="docutils literal notranslate"><span class="pre">verbose=0</span></code> will silence all outputs apart from the greeting, total timing and errors as before.</p>
+</section>
+<section id="Adding-galaxies-with-MPI">
+<h2>Adding galaxies with MPI<a class="headerlink" href="#Adding-galaxies-with-MPI" title="Link to this heading">¶</a></h2>
+<p>We also need to partition the galaxies <strong>before</strong> we attach them to a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code>. For now we provide no mechanisms for this, it is entirely up to you how to split galaxies across the ranks. The important thing is that you only pass the galaxies on a rank to <code class="docutils literal notranslate"><span class="pre">add_galaxies</span></code>.</p>
+</section>
+<section id="Writing-out-results-with-MPI">
+<h2>Writing out results with MPI<a class="headerlink" href="#Writing-out-results-with-MPI" title="Link to this heading">¶</a></h2>
+<p>When running a distributed <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> you have several options for writing out the data. Regardless of which approach is used the process to write the outputs is the same as the shared memory version shown above (i.e. we call the <code class="docutils literal notranslate"><span class="pre">write</span></code> method). We detail each of these below.</p>
+<section id="Collective-I/O-[WIP]">
+<h3>Collective I/O [WIP]<a class="headerlink" href="#Collective-I/O-[WIP]" title="Link to this heading">¶</a></h3>
+<p>If you have installed <code class="docutils literal notranslate"><span class="pre">h5py</span></code> with parallel HDF5 its possible to write collectively to a single HDF5 file. A <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> will detect if parallel <code class="docutils literal notranslate"><span class="pre">h5py</span></code> is available and will automatically chose this option if possible.</p>
+</section>
+<section id="Individual-I/O">
+<h3>Individual I/O<a class="headerlink" href="#Individual-I/O" title="Link to this heading">¶</a></h3>
+<p>When collective I/O operations aren’t available we produce a file per MPI rank. This is the most efficient method since communicating the results to a single rank for outputting is not only extremely time consuming but can also lead to communication errors when the outputs are sufficiently large.</p>
+<p>Once the rank files have been written out we provide 2 options for combining them into a single file, note that working with the rank files is entirely possible though.</p>
+<ol class="arabic simple">
+<li><p>Combination into a single physical file: calling <code class="docutils literal notranslate"><span class="pre">combine_files</span></code> will copy all the data across from each rank file into a single file before deleting each individual rank file. This is clean with regard to what is left, but is extremely time consuming.</p></li>
+<li><p>Combination into a single virtual file: calling <code class="docutils literal notranslate"><span class="pre">combine_files_virtual</span></code> will make a single file with symlinks to all the rank data in virtual datasets. This is far more efficient and gives the same interaction behaviour as the copy option (i.e. a single file to interact with) but does mean all the rank files must be kept alongside the virtual file.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../parallelism/openmp.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Parallelism</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../imaging/property_maps.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Property maps</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Chris Lovell, Will Roper, Aswin Vijayan, Stephen Wilkins
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">The Pipeline</a><ul>
+<li><a class="reference internal" href="#Setting-up-a-Pipeline-object">Setting up a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object</a><ul>
+<li><a class="reference internal" href="#Defining-an-emission-model">Defining an emission model</a></li>
+<li><a class="reference internal" href="#Defining-the-instruments">Defining the instruments</a></li>
+<li><a class="reference internal" href="#Loading-galaxies">Loading galaxies</a></li>
+<li><a class="reference internal" href="#Instantiating-the-Pipeline-object">Instantiating the <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> object</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Adding-analysis-functions">Adding analysis functions</a></li>
+<li><a class="reference internal" href="#Running-the-pipeline">Running the pipeline</a><ul>
+<li><a class="reference internal" href="#Loading-the-galaxies">Loading the galaxies</a></li>
+<li><a class="reference internal" href="#Generating-the-observables">Generating the observables</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Writing-out-the-data">Writing out the data</a></li>
+<li><a class="reference internal" href="#Putting-it-all-together">Putting it all together</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Hybrid-parallelism-with-MPI">Hybrid parallelism with MPI</a><ul>
+<li><a class="reference internal" href="#Instatiating-a-Pipeline-when-using-MPI">Instatiating a <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> when using MPI</a></li>
+<li><a class="reference internal" href="#Adding-galaxies-with-MPI">Adding galaxies with MPI</a></li>
+<li><a class="reference internal" href="#Writing-out-results-with-MPI">Writing out results with MPI</a><ul>
+<li><a class="reference internal" href="#Collective-I/O-[WIP]">Collective I/O [WIP]</a></li>
+<li><a class="reference internal" href="#Individual-I/O">Individual I/O</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=9157a36d"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
