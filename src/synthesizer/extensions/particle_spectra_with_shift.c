@@ -20,37 +20,63 @@
 #include "timers.h"
 #include "weights.h"
 
+
+/* Find nearest wavelength bin for a given lambda, in a given wavelength array*/
+int find_nearest_bin(double lambda, double *grid_wavelengths, int nlam) {
+    int nearest_index = 0;
+    for (int ilam = 1; ilam < nlam; ilam++) {
+        if (fabs(grid_wavelengths[ilam] - lambda) < fabs(grid_wavelengths[nearest_index] - lambda)) {
+            nearest_index = ilam;
+        }
+    }
+    return nearest_index;
+}
+
 /**
- * @brief This calculates particle lines using a cloud in cell approach.
+ * @brief This calculates particle spectra using a cloud in cell approach.
  *
  * This is the serial version of the function.
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  */
-static void lines_loop_cic_serial(struct grid *grid, struct particles *parts,
-                                  double *lines_lum, double *lines_cont) {
+static void shifted_spectra_loop_cic_serial(struct grid *grid, struct particles *parts,
+                                    double *spectra, const double c) {
 
   /* Unpack the grid properties. */
+  // double c = 3e8 
   int *dims = grid->dims;
   int ndim = grid->ndim;
+  int nlam = grid->nlam;
+  double *wavelength = grid->lam;
   double **grid_props = grid->props;
-  const double *grid_lines = grid->lines;
-  const double *grid_continuum = grid->continuum;
+  double *grid_spectra = grid->spectra;
+
 
   /* Unpack the particles properties. */
   double *part_masses = parts->mass;
   double **part_props = parts->props;
   double *fesc = parts->fesc;
+  double *velocity = parts->velocities;
   int npart = parts->npart;
+
+  /*Array to hold shifted wavelengths */
+  double shifted_wavelengths[nlam];
 
   /* Loop over particles. */
   for (int p = 0; p < npart; p++) {
 
     /* Get this particle's mass. */
     const double mass = part_masses[p];
+
+    /* Get the particle velocity and shift wl array */
+    double vel = velocity[p];
+    double shift_factor = 1.0 + vel / c;
+    for(int ilam=0; ilam<nlam; ilam++){
+      shifted_wavelengths[ilam] = wavelength[ilam] * shift_factor;
+    }
+    
 
     /* Setup the index and mass fraction arrays. */
     int part_indices[ndim];
@@ -100,12 +126,32 @@ static void lines_loop_cic_serial(struct grid *grid, struct particles *parts,
       /* Define the weight. */
       double weight = frac * mass * (1.0 - fesc[p]);
 
-      /* We have a contribution, get the flattened index into the grid array. */
+      /* TODO: Add your gubbinz here. */
+
+      /* Get the weight's index. */
       const int grid_ind = get_flat_index(frac_ind, dims, ndim);
 
-      /* Add the contribution to this particle. */
-      lines_lum[p] += grid_lines[grid_ind] * weight;
-      lines_cont[p] += grid_continuum[grid_ind] * weight;
+      /* Get the spectra ind. */
+      int unraveled_ind[ndim + 1];
+      get_indices_from_flat(grid_ind, ndim, dims, unraveled_ind);
+      unraveled_ind[ndim] = 0;
+      int spectra_ind = get_flat_index(unraveled_ind, dims, ndim + 1);
+
+      /* Add this grid cell's contribution to the spectra */
+      for (int ilam = 0; ilam < nlam; ilam++) {
+        double shifted_lambda = shifted_wavelengths[ilam];
+      /*Find nearest wavelength bin*/
+        int ilam_shifted = find_nearest_bin(shifted_lambda, wavelength, nlam); 
+        if (ilam_shifted >= nlam - 1 || ilam_shifted < 0) {continue}; // jumps out of the loop if out of bounds
+      // Interpolate contribution between ilam_shifted and ilam_shifted+1
+        double frac_shifted = (shifted_lambda - wavelength[ilam_shifted]) /
+                                  (wavelength[ilam_shifted + 1] - wavelength[ilam_shifted]);
+
+
+        /* Add the contribution to this wavelength. */
+        spectra[p * nlam + ilam_shifted] += grid_spectra[spectra_ind + ilam] * (1.0 - frac_shifted) * weight;
+        spectra[p * nlam + ilam_shifted + 1] += grid_spectra[spectra_ind + ilam] * frac_shifted * weight;
+      }
     }
   }
 }
@@ -118,17 +164,15 @@ static void lines_loop_cic_serial(struct grid *grid, struct particles *parts,
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  * @param nthreads: The number of threads to use.
  */
 #ifdef WITH_OPENMP
-static void lines_loop_cic_omp(struct grid *grid, struct particles *parts,
-                               double *lines_lum, double *lines_cont,
-                               int nthreads) {
+static void spectra_loop_cic_omp(struct grid *grid, struct particles *parts,
+                                 double *spectra, int nthreads) {
 
   /* How many particles should each thread get? */
-  int npart_per_thread = (int)(ceil(parts->npart / nthreads));
+  int npart_per_thread = (parts->npart + nthreads - 1) / nthreads;
 
 #pragma omp parallel num_threads(nthreads)
   {
@@ -136,9 +180,9 @@ static void lines_loop_cic_omp(struct grid *grid, struct particles *parts,
     /* Unpack the grid properties. */
     int *dims = grid->dims;
     int ndim = grid->ndim;
+    int nlam = grid->nlam;
     double **grid_props = grid->props;
-    const double *grid_lines = grid->lines;
-    const double *grid_continuum = grid->continuum;
+    double *grid_spectra = grid->spectra;
 
     /* Unpack the particles properties. */
     double *part_masses = parts->mass;
@@ -219,13 +263,21 @@ static void lines_loop_cic_omp(struct grid *grid, struct particles *parts,
         /* Define the weight. */
         double weight = frac * mass * (1.0 - fesc[p]);
 
-        /* We have a contribution, get the flattened index into the grid array.
-         */
+        /* Get the weight's index. */
         const int grid_ind = get_flat_index(frac_ind, dims, ndim);
 
-        /* Add the contribution to this particle. */
-        lines_lum[p] += grid_lines[grid_ind] * weight;
-        lines_cont[p] += grid_continuum[grid_ind] * weight;
+        /* Get the spectra ind. */
+        int unraveled_ind[ndim + 1];
+        get_indices_from_flat(grid_ind, ndim, dims, unraveled_ind);
+        unraveled_ind[ndim] = 0;
+        int spectra_ind = get_flat_index(unraveled_ind, dims, ndim + 1);
+
+        /* Add this grid cell's contribution to the spectra */
+        for (int ilam = 0; ilam < nlam; ilam++) {
+
+          /* Add the contribution to this wavelength. */
+          spectra[p * nlam + ilam] += grid_spectra[spectra_ind + ilam] * weight;
+        }
       }
     }
   }
@@ -233,19 +285,18 @@ static void lines_loop_cic_omp(struct grid *grid, struct particles *parts,
 #endif
 
 /**
- * @brief This calculates particle lines using a cloud in cell approach.
+ * @brief This calculates particle spectra using a cloud in cell approach.
  *
  * This is a wrapper which calls the correct function based on the number of
  * threads requested and whether OpenMP is available.
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  * @param nthreads: The number of threads to use.
  */
-void lines_loop_cic(struct grid *grid, struct particles *parts,
-                    double *lines_lum, double *lines_cont, const int nthreads) {
+void shifted_spectra_loop_cic(struct grid *grid, struct particles *parts,
+                      double *spectra, const int nthreads) {
 
   double start_time = tic();
 
@@ -255,11 +306,11 @@ void lines_loop_cic(struct grid *grid, struct particles *parts,
 
   /* If we have multiple threads and OpenMP we can parallelise. */
   if (nthreads > 1) {
-    lines_loop_cic_omp(grid, parts, lines_lum, lines_cont, nthreads);
+    spectra_loop_cic_omp(grid, parts, spectra, nthreads);
   }
   /* Otherwise there's no point paying the OpenMP overhead. */
   else {
-    lines_loop_cic_serial(grid, parts, lines_lum, lines_cont);
+    shifted_spectra_loop_cic_serial(grid, parts, spectra);
   }
 
 #else
@@ -267,31 +318,30 @@ void lines_loop_cic(struct grid *grid, struct particles *parts,
   (void)nthreads;
 
   /* We don't have OpenMP, just call the serial version. */
-  lines_loop_cic_serial(grid, parts, lines_lum, lines_cont);
+  shifted_spectra_loop_cic_serial(grid, parts, spectra);
 
 #endif
-  toc("Cloud in Cell particle lines loop", start_time);
+  toc("Cloud in Cell particle spectra loop", start_time);
 }
 
 /**
- * @brief This calculates particle lines using a nearest grid point approach.
+ * @brief This calculates particle spectra using a nearest grid point approach.
  *
  * This is the serial version of the function.
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  */
-static void lines_loop_ngp_serial(struct grid *grid, struct particles *parts,
-                                  double *lines_lum, double *lines_cont) {
+static void spectra_loop_ngp_serial(struct grid *grid, struct particles *parts,
+                                    double *spectra) {
 
   /* Unpack the grid properties. */
   int *dims = grid->dims;
   int ndim = grid->ndim;
+  int nlam = grid->nlam;
   double **grid_props = grid->props;
-  const double *grid_lines = grid->lines;
-  const double *grid_continuum = grid->continuum;
+  double *grid_spectra = grid->spectra;
 
   /* Unpack the particles properties. */
   double *part_masses = parts->mass;
@@ -314,33 +364,40 @@ static void lines_loop_ngp_serial(struct grid *grid, struct particles *parts,
     /* Define the weight. */
     double weight = mass * (1.0 - fesc[p]);
 
-    /* We have a contribution, get the flattened index into the grid array. */
+    /* Get the weight's index. */
     const int grid_ind = get_flat_index(part_indices, dims, ndim);
 
-    /* Add the contribution to this particle. */
-    lines_lum[p] += grid_lines[grid_ind] * weight;
-    lines_cont[p] += grid_continuum[grid_ind] * weight;
+    /* Get the spectra ind. */
+    int unraveled_ind[ndim + 1];
+    get_indices_from_flat(grid_ind, ndim, dims, unraveled_ind);
+    unraveled_ind[ndim] = 0;
+    int spectra_ind = get_flat_index(unraveled_ind, dims, ndim + 1);
+
+    /* Add this grid cell's contribution to the spectra */
+    for (int ilam = 0; ilam < nlam; ilam++) {
+
+      /* Add the contribution to this wavelength. */
+      spectra[p * nlam + ilam] += grid_spectra[spectra_ind + ilam] * weight;
+    }
   }
 }
 
 /**
- * @brief This calculates particle lines using a nearest grid point approach.
+ * @brief This calculates particle spectra using a nearest grid point approach.
  *
  * This is the serial version of the function.
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  * @param nthreads: The number of threads to use.
  */
 #ifdef WITH_OPENMP
-static void lines_loop_ngp_omp(struct grid *grid, struct particles *parts,
-                               double *lines_lum, double *lines_cont,
-                               int nthreads) {
+static void spectra_loop_ngp_omp(struct grid *grid, struct particles *parts,
+                                 double *spectra, int nthreads) {
 
   /* How many particles should each thread get? */
-  int npart_per_thread = (int)(ceil(parts->npart / nthreads));
+  int npart_per_thread = (parts->npart + nthreads - 1) / nthreads;
 
 #pragma omp parallel num_threads(nthreads)
   {
@@ -348,9 +405,9 @@ static void lines_loop_ngp_omp(struct grid *grid, struct particles *parts,
     /* Unpack the grid properties. */
     int *dims = grid->dims;
     int ndim = grid->ndim;
+    int nlam = grid->nlam;
     double **grid_props = grid->props;
-    const double *grid_lines = grid->lines;
-    const double *grid_continuum = grid->continuum;
+    double *grid_spectra = grid->spectra;
 
     /* Unpack the particles properties. */
     double *part_masses = parts->mass;
@@ -393,31 +450,39 @@ static void lines_loop_ngp_omp(struct grid *grid, struct particles *parts,
       /* Define the weight. */
       double weight = mass * (1.0 - fesc[p]);
 
-      /* We have a contribution, get the flattened index into the grid array. */
+      /* Get the weight's index. */
       const int grid_ind = get_flat_index(part_indices, dims, ndim);
 
-      /* Add the contribution to this particle. */
-      lines_lum[p] += grid_lines[grid_ind] * weight;
-      lines_cont[p] += grid_continuum[grid_ind] * weight;
+      /* Get the spectra ind. */
+      int unraveled_ind[ndim + 1];
+      get_indices_from_flat(grid_ind, ndim, dims, unraveled_ind);
+      unraveled_ind[ndim] = 0;
+      int spectra_ind = get_flat_index(unraveled_ind, dims, ndim + 1);
+
+      /* Add this grid cell's contribution to the spectra */
+      for (int ilam = 0; ilam < nlam; ilam++) {
+
+        /* Add the contribution to this wavelength. */
+        spectra[p * nlam + ilam] += grid_spectra[spectra_ind + ilam] * weight;
+      }
     }
   }
 }
 #endif
 
 /**
- * @brief This calculates particle lines using a nearest grid point approach.
+ * @brief This calculates particle spectra using a nearest grid point approach.
  *
  * This is a wrapper which calls the correct function based on the number of
  * threads requested and whether OpenMP is available.
  *
  * @param grid: A struct containing the properties along each grid axis.
  * @param parts: A struct containing the particle properties.
- * @param lines_lum: The output array for the line luminosity.
- * @param lines_cont: The output array for the continuum luminosity.
+ * @param spectra: The output array.
  * @param nthreads: The number of threads to use.
  */
-void lines_loop_ngp(struct grid *grid, struct particles *parts,
-                    double *lines_lum, double *lines_cont, const int nthreads) {
+void spectra_loop_ngp(struct grid *grid, struct particles *parts,
+                      double *spectra, const int nthreads) {
 
   double start_time = tic();
 
@@ -427,11 +492,11 @@ void lines_loop_ngp(struct grid *grid, struct particles *parts,
 
   /* If we have multiple threads and OpenMP we can parallelise. */
   if (nthreads > 1) {
-    lines_loop_ngp_omp(grid, parts, lines_lum, lines_cont, nthreads);
+    spectra_loop_ngp_omp(grid, parts, spectra, nthreads);
   }
   /* Otherwise there's no point paying the OpenMP overhead. */
   else {
-    lines_loop_ngp_serial(grid, parts, lines_lum, lines_cont);
+    spectra_loop_ngp_serial(grid, parts, spectra);
   }
 
 #else
@@ -439,87 +504,87 @@ void lines_loop_ngp(struct grid *grid, struct particles *parts,
   (void)nthreads;
 
   /* We don't have OpenMP, just call the serial version. */
-  lines_loop_ngp_serial(grid, parts, lines_lum, lines_cont);
+  spectra_loop_ngp_serial(grid, parts, spectra);
 
 #endif
-  toc("Nearest Grid Point particle lines loop", start_time);
+  toc("Nearest Grid Point particle spectra loop", start_time);
 }
+
 /**
- * @brief Computes per particle line emission for a collection of particles.
+ * @brief Computes an integrated doppler-shifted SED for a collection of particles with non-zero velocities.
  *
- * @param np_grid_line: The SPS line emission array.
- * @param np_grid_continuum: The SPS continuum emission array.
+ * @param np_grid_spectra: The SPS spectra array.
  * @param grid_tuple: The tuple containing arrays of grid axis properties.
- * @param part_tuple: The tuple of particle property arrays(in the same order
+ * @param part_tuple: The tuple of particle property arrays (in the same order
  *                    as grid_tuple).
  * @param np_part_mass: The particle mass array.
+ * @param np_velocities: The particles velocities array.
  * @param fesc: The escape fraction.
  * @param np_ndims: The size of each grid axis.
  * @param ndim: The number of grid axes.
  * @param npart: The number of particles.
- * @param method: The method to use for assigning weights.
+ * @param nlam: The number of wavelength elements.
  */
-PyObject *compute_particle_line(PyObject *self, PyObject *args) {
+PyObject *compute_particle_seds_shifted(PyObject *self, PyObject *args) {
 
-  double start = tic();
+  double start_time = tic();
   double setup_start = tic();
 
   /* We don't need the self argument but it has to be there. Tell the compiler
    * we don't care. */
   (void)self;
 
-  int ndim, npart, nthreads;
+  int ndim, npart, nlam, nthreads;
   PyObject *grid_tuple, *part_tuple;
-  PyArrayObject *np_grid_lines, *np_grid_continuum;
+  PyArrayObject *np_grid_spectra;
   PyArrayObject *np_fesc;
+  PyArrayObject *np_velocities;
   PyArrayObject *np_part_mass, *np_ndims;
   char *method;
 
-  if (!PyArg_ParseTuple(args, "OOOOOOOiisi", &np_grid_lines, &np_grid_continuum,
-                        &grid_tuple, &part_tuple, &np_part_mass, &np_fesc,
-                        &np_ndims, &ndim, &npart, &method, &nthreads))
+  if (!PyArg_ParseTuple(args, "OOOOOOiiisi", &np_grid_spectra, &grid_tuple,
+                        &part_tuple, &np_part_mass, &np_fesc, &np_velocities, &np_ndims, &ndim,
+                        &npart, &nlam, &method, &nthreads))
     return NULL;
 
   /* Extract the grid struct. */
-  struct grid *grid_props = get_lines_grid_struct(
-      grid_tuple, np_ndims, np_grid_lines, np_grid_continuum, ndim, /*nlam*/ 1);
+  struct grid *grid_props = get_spectra_grid_struct(
+      grid_tuple, np_ndims, np_grid_spectra, ndim, nlam);
   if (grid_props == NULL) {
     return NULL;
   }
 
   /* Extract the particle struct. */
   struct particles *part_props =
-      get_part_struct(part_tuple, np_part_mass, /*np_velocities*/ NULL, np_fesc, npart, ndim);
+      get_part_struct(part_tuple, np_part_mass, np_velocities, np_fesc, npart, ndim);
   if (part_props == NULL) {
     return NULL;
   }
 
-  /* Allocate the lines arrays. */
-  double *lines_lum = calloc(npart, sizeof(double));
-  if (lines_lum == NULL) {
-    PyErr_SetString(PyExc_MemoryError, "Failed to allocate memory for lines.");
-    return NULL;
-  }
-  double *lines_cont = calloc(npart, sizeof(double));
-  if (lines_cont == NULL) {
+  /* Allocate the spectra. */
+  double *spectra = calloc(npart * nlam, sizeof(double));
+  if (spectra == NULL) {
     PyErr_SetString(PyExc_MemoryError,
-                    "Failed to allocate memory for continuum.");
+                    "Could not allocate memory for spectra.");
     return NULL;
   }
 
   toc("Extracting Python data", setup_start);
 
-  /* With everything set up we can compute the weights for each particle using
+  /* With everything set up we can compute the spectra for each particle using
    * the requested method. */
-  /* NOTE: rather than modify the weights function to make the 2 outputs
-   * we'll instead pass an array with line_lum at one end and line_cont at the
-   * other and then just extract the result later. */
   if (strcmp(method, "cic") == 0) {
-    lines_loop_cic(grid_props, part_props, lines_lum, lines_cont, nthreads);
+    shifted_spectra_loop_cic(grid_props, part_props, spectra, nthreads);
   } else if (strcmp(method, "ngp") == 0) {
-    lines_loop_ngp(grid_props, part_props, lines_lum, lines_cont, nthreads);
+    spectra_loop_ngp(grid_props, part_props, spectra, nthreads);
   } else {
     PyErr_SetString(PyExc_ValueError, "Unknown grid assignment method (%s).");
+    return NULL;
+  }
+
+  /* Check we got the spectra sucessfully. (Any error messages will already be
+   * set) */
+  if (spectra == NULL) {
     return NULL;
   }
 
@@ -528,39 +593,38 @@ PyObject *compute_particle_line(PyObject *self, PyObject *args) {
   free(grid_props);
 
   /* Reconstruct the python array to return. */
-  npy_intp np_dims[1] = {
+  npy_intp np_dims[2] = {
       npart,
+      nlam,
   };
-  PyArrayObject *out_line = (PyArrayObject *)PyArray_SimpleNewFromData(
-      1, np_dims, NPY_FLOAT64, lines_lum);
-  PyArrayObject *out_cont = (PyArrayObject *)PyArray_SimpleNewFromData(
-      1, np_dims, NPY_FLOAT64, lines_cont);
+  PyArrayObject *out_spectra = (PyArrayObject *)PyArray_SimpleNewFromData(
+      2, np_dims, NPY_FLOAT64, spectra);
 
-  toc("Computing particles lines", start);
+  toc("Computing particle SEDs", start_time);
 
-  return Py_BuildValue("(OO)", out_line, out_cont);
+  return Py_BuildValue("N", out_spectra);
 }
 
 /* Below is all the gubbins needed to make the module importable in Python. */
-static PyMethodDef LineMethods[] = {
-    {"compute_particle_line", (PyCFunction)compute_particle_line, METH_VARARGS,
-     "Method for calculating particle intrinsic line emission."},
+static PyMethodDef SedMethods[] = {
+    {"compute_particle_seds", (PyCFunction)compute_particle_seds, METH_VARARGS,
+     "Method for calculating particle doppler-shifted spectra."},
     {NULL, NULL, 0, NULL}};
 
 /* Make this importable. */
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
-    "make_particle_line",                           /* m_name */
-    "A module to calculate particle line emission", /* m_doc */
-    -1,                                             /* m_size */
-    LineMethods,                                    /* m_methods */
-    NULL,                                           /* m_reload */
-    NULL,                                           /* m_traverse */
-    NULL,                                           /* m_clear */
-    NULL,                                           /* m_free */
+    "make_particle_shifted_sed",                           /* m_name */
+    "A module to calculate doppler-shifted particle seds", /* m_doc */
+    -1,                                                    /* m_size */
+    SedMethods,                                            /* m_methods */
+    NULL,                                                  /* m_reload */
+    NULL,                                                  /* m_traverse */
+    NULL,                                                  /* m_clear */
+    NULL,                                                  /* m_free */
 };
 
-PyMODINIT_FUNC PyInit_particle_line(void) {
+PyMODINIT_FUNC PyInit_particle_spectra_with_shift(void) {
   PyObject *m = PyModule_Create(&moduledef);
   import_array();
   return m;
