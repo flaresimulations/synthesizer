@@ -817,7 +817,7 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00000.02]: Adding 10 galaxies took 0.002 ms.
+[00000.02]: Adding 10 galaxies took 0.003 ms.
 </pre></div></div>
 </div>
 </section>
@@ -841,7 +841,7 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00005.78]: Generating spectra took 5.748 s.
+[00005.95]: Generating spectra took 5.912 s.
 </pre></div></div>
 </div>
 <p>Next we’ll generate the emission lines. Here we can pass exactly which emission lines we want to generate based on line ID. Here we’ll just generate all lines offered by the <code class="docutils literal notranslate"><span class="pre">Grid</span></code>.</p>
@@ -858,8 +858,8 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00005.79]: Generating 215 emission lines...
-[00011.86]: Getting emission lines took 6.071 s.
+[00005.96]: Generating 215 emission lines...
+[00012.08]: Getting emission lines took 6.125 s.
 </pre></div></div>
 </div>
 <p>Next, the photometry. This requires no extra inputs but we have separate methods for luminosities and fluxes (with the latter requiring a <code class="docutils literal notranslate"><span class="pre">astropy.cosmology</span></code> object was based when spectra were generated).</p>
@@ -877,8 +877,8 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00013.54]: Getting photometric luminosities took 1.670 s.
-[00015.46]: Getting photometric fluxes took 1.923 s.
+[00013.82]: Getting photometric luminosities took 1.733 s.
+[00015.69]: Getting photometric fluxes took 1.868 s.
 </pre></div></div>
 </div>
 <p>Finally, we’ll generate the images. Again, these are split into luminosity and flux flavours. Here we define our field of view and pass that into each method. We are also doing “smoothed” imaging where each particle is smoothed over its SPH kernel. For this style of image generation we need to pass the kernel array, which we’ll extract here.</p>
@@ -903,8 +903,8 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00019.40]: Getting luminosity images took 3.421 s.
-[00022.77]: Getting flux images took 3.366 s.
+[00019.64]: Getting luminosity images took 3.429 s.
+[00023.03]: Getting flux images took 3.390 s.
 </pre></div></div>
 </div>
 </section>
@@ -927,12 +927,12 @@ access to anything derived in previous analysis functions.</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[00022.78]: Stars/HalfMassRadius extra analysis took 3.755 ms.
-[00022.78]: Redshift extra analysis took 0.027 ms.
-[00022.78]: Extra analysis took 3.871 ms.
-[00025.51]: Writing data took 2.728 s.
-[00025.51]: Total synthesis took 25.514 s.
-[00025.51]: Goodbye!
+[00023.04]: Stars/HalfMassRadius extra analysis took 3.742 ms.
+[00023.04]: Redshift extra analysis took 0.025 ms.
+[00023.04]: Extra analysis took 3.856 ms.
+[00025.78]: Writing data took 2.740 s.
+[00025.78]: Total synthesis took 25.782 s.
+[00025.78]: Goodbye!
 </pre></div></div>
 </div>
 <p>Below is a view into the HDF5 file produced by the above pipeline (as shown by <a class="reference external" href="https://github.com/WillJRoper/h5forest">H5forest</a>).</p>
@@ -1007,19 +1007,19 @@ access to anything derived in previous analysis functions.</p>
 [00000.03]: Added analysis function: Stars/HalfMassRadius
 [00000.03]: Added analysis function: Redshift
 [00000.03]: Adding 10 galaxies took 0.003 ms.
-[00005.29]: Generating spectra took 5.259 s.
-[00005.29]: Generating 215 emission lines...
-[00011.19]: Getting emission lines took 5.901 s.
-[00013.10]: Getting photometric luminosities took 1.910 s.
-[00014.99]: Getting photometric fluxes took 1.882 s.
-[00018.38]: Getting luminosity images took 3.393 s.
-[00021.65]: Getting flux images took 3.270 s.
-[00021.65]: Stars/HalfMassRadius extra analysis took 2.869 ms.
-[00021.65]: Redshift extra analysis took 0.019 ms.
-[00021.65]: Extra analysis took 2.943 ms.
-[00024.58]: Writing data took 2.926 s.
-[00024.58]: Total synthesis took 24.586 s.
-[00024.58]: Goodbye!
+[00005.52]: Generating spectra took 5.486 s.
+[00005.52]: Generating 215 emission lines...
+[00011.52]: Getting emission lines took 6.005 s.
+[00013.52]: Getting photometric luminosities took 1.998 s.
+[00015.37]: Getting photometric fluxes took 1.851 s.
+[00018.88]: Getting luminosity images took 3.509 s.
+[00022.25]: Getting flux images took 3.371 s.
+[00022.26]: Stars/HalfMassRadius extra analysis took 2.822 ms.
+[00022.26]: Redshift extra analysis took 0.018 ms.
+[00022.26]: Extra analysis took 2.888 ms.
+[00025.22]: Writing data took 2.959 s.
+[00025.22]: Total synthesis took 25.222 s.
+[00025.22]: Goodbye!
 </pre></div></div>
 </div>
 </section>
@@ -1160,7 +1160,7 @@ access to anything derived in previous analysis functions.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=9157a36d"></script>
+</div><script src="../_static/documentation_options.js?v=07ccead3"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

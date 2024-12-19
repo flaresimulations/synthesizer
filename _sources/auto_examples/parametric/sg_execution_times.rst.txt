@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:15.525** total execution time for 10 files **from auto_examples/parametric**:
+**00:16.861** total execution time for 10 files **from auto_examples/parametric**:
 
 .. container::
 
@@ -33,32 +33,32 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_parametric_plot_observed_sed.py` (``plot_observed_sed.py``)
-     - 00:04.478
+     - 00:05.591
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_sed.py` (``plot_sed.py``)
-     - 00:03.612
+     - 00:03.617
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_equivalent_width.py` (``plot_equivalent_width.py``)
-     - 00:02.492
+     - 00:02.514
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_dense_basis.py` (``plot_dense_basis.py``)
-     - 00:02.065
+     - 00:02.080
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_scale_by_luminosity.py` (``plot_scale_by_luminosity.py``)
-     - 00:01.037
+     - 00:01.199
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_create_image.py` (``plot_create_image.py``)
-     - 00:00.523
+     - 00:00.532
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_compare_sfhs.py` (``plot_compare_sfhs.py``)
-     - 00:00.460
+     - 00:00.462
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_delta_lambda.py` (``plot_delta_lambda.py``)
-     - 00:00.390
+     - 00:00.392
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_generate_lines.py` (``plot_generate_lines.py``)
-     - 00:00.325
+     - 00:00.331
      - 0.0
    * - :ref:`sphx_glr_auto_examples_parametric_plot_morphology.py` (``plot_morphology.py``)
-     - 00:00.143
+     - 00:00.144
      - 0.0

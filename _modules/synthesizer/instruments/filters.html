@@ -1356,9 +1356,7 @@
             <span class="c1"># Are we making an array with a fixed size?</span>
             <span class="k">if</span> <span class="n">lam_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Create wavelength array</span>
-                <span class="n">new_lam</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_lam</span><span class="p">,</span> <span class="n">max_lam</span><span class="p">,</span> <span class="n">lam_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">min_lam</span><span class="o">.</span><span class="n">units</span>
-                <span class="p">)</span>
+                <span class="n">new_lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">min_lam</span><span class="p">,</span> <span class="n">max_lam</span><span class="p">,</span> <span class="n">lam_size</span><span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Ok, we are trying to be clever, merge the filter wavelength</span>
@@ -2657,7 +2655,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=9157a36d"></script>
+</div><script src="../../../_static/documentation_options.js?v=07ccead3"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
