@@ -24,7 +24,7 @@ import os
 import cmasher as cmr
 import matplotlib.pyplot as plt
 import numpy as np
-from unyt import Hz, Mpc, Msun, Myr, angstrom, erg, km, s, yr
+from unyt import Hz, Mpc, Msun, Myr, angstrom, c, erg, km, s, yr
 
 from synthesizer import exceptions
 from synthesizer.components.stellar import StarsComponent
@@ -570,6 +570,7 @@ class Stars(Particles, StarsComponent):
         grid_assignment_method,
         lam_mask,
         nthreads,
+        vel_shift,
     ):
         """
         Prepare the arguments for SED computation with the C functions.
@@ -596,6 +597,9 @@ class Stars(Particles, StarsComponent):
             nthreads (int)
                 The number of threads to use in the C extension. If -1 then
                 all available threads are used.
+            vel_shift (bool)
+                Flags whether to apply doppler shift to the spectra. Defaults
+                to False.
 
         Returns:
             tuple
@@ -627,6 +631,11 @@ class Stars(Particles, StarsComponent):
             self._initial_masses[mask],
             dtype=np.float64,
         )
+        part_vels = np.ascontiguousarray(
+            self._velocities[mask],
+            dtype=np.float64,
+        )
+        vel_units = self.velocities.units
 
         # Make sure we set the number of particles to the size of the mask
         npart = np.int32(np.sum(mask))
@@ -643,6 +652,12 @@ class Stars(Particles, StarsComponent):
         # Apply the wavelength mask
         grid_spectra = np.ascontiguousarray(
             grid_spectra[..., lam_mask],
+            np.float64,
+        )
+
+        # Get the grid wavelength array
+        grid_lam = np.ascontiguousarray(
+            grid._lam[lam_mask],
             np.float64,
         )
 
@@ -666,16 +681,20 @@ class Stars(Particles, StarsComponent):
 
         return (
             grid_spectra,
+            grid_lam,
             grid_props,
             part_props,
             part_mass,
             fesc,
+            part_vels,
             grid_dims,
             len(grid_props),
             npart,
             nlam,
             grid_assignment_method,
             nthreads,
+            vel_shift,
+            c.to(vel_units).value,
         )
 
     def generate_lnu(
@@ -692,6 +711,7 @@ class Stars(Particles, StarsComponent):
         grid_assignment_method="cic",
         aperture=None,
         nthreads=0,
+        vel_shift=False,
     ):
         """
         Generate the integrated rest frame spectra for a given grid key.
@@ -736,6 +756,8 @@ class Stars(Particles, StarsComponent):
             nthreads (int)
                 The number of threads to use in the C extension. If -1 then
                 all available threads are used.
+            vel_shift (bool)
+                Flags whether doppler shift is applied to the spectrum
 
         Returns:
             numpy.ndarray:
@@ -844,6 +866,7 @@ class Stars(Particles, StarsComponent):
         else:
             aperture_mask = np.ones(self.nparticles, dtype=bool)
 
+        from ..extension.particle_spectra import compute_particle_seds
         from ..extensions.integrated_spectra import compute_integrated_sed
 
         # Prepare the arguments for the C function.
@@ -854,11 +877,15 @@ class Stars(Particles, StarsComponent):
             mask=mask & aperture_mask,
             grid_assignment_method=grid_assignment_method.lower(),
             nthreads=nthreads,
+            vel_shift=vel_shift,
             lam_mask=lam_mask,
         )
 
         # Get the integrated spectra in grid units (erg / s / Hz)
-        spec = compute_integrated_sed(*args)
+        if vel_shift:
+            spec = np.sum(compute_particle_seds(*args), axis=0)
+        else:
+            spec = compute_integrated_sed(*args)
 
         # If we had a wavelength mask we need to make sure we return a spectra
         # compatible with the original wavelength array.
@@ -1302,6 +1329,7 @@ class Stars(Particles, StarsComponent):
         lam_mask=None,
         grid_assignment_method="cic",
         nthreads=0,
+        vel_shift=False,
     ):
         """
         Generate the particle rest frame spectra for a given grid key spectra
@@ -1318,6 +1346,10 @@ class Stars(Particles, StarsComponent):
                 or an value per star (defaults to 0.0).
             verbose (bool)
                 Flag for verbose output. By default False.
+            vel_shift (bool)
+                Flags whether to apply doppler shift to the spectrum.
+            c (float)
+                Speed of light, defaults to 2.998e8 m/s
             do_grid_check (bool)
                 Whether to check how many particles lie outside the grid. This
                 is a sanity check that can be used to check the
@@ -1336,6 +1368,8 @@ class Stars(Particles, StarsComponent):
             nthreads (int)
                 The number of threads to use in the C extension. If -1 then
                 all available threads are used.
+            vel_shift (bool)
+                Flags whether doppler shift is applied to the spectrum.
 
         Returns:
             numpy.ndarray:
@@ -1438,6 +1472,7 @@ class Stars(Particles, StarsComponent):
             mask=mask,
             grid_assignment_method=grid_assignment_method.lower(),
             nthreads=nthreads,
+            vel_shift=vel_shift,
             lam_mask=lam_mask,
         )
         toc("Preparing C args", start)
